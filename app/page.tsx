@@ -1,103 +1,333 @@
-import Image from "next/image";
+'use client';
+import React, { useState } from 'react';
+import { Eye, EyeOff, Mail, Lock, User, ArrowRight, AlertCircle, CheckCircle } from 'lucide-react';
+import LoginPage from './components/Auth Pages/LoginPage';
+import SignUpPage from './components/Auth Pages/SignUpPage';
+import ForgotPasswordPage from './components/Auth Pages/ForgotPasswordPage';
+import EmailVerificationPage from './components/Auth Pages/EmailVerificationPage';
+import ResetPasswordPage from './components/Auth Pages/ResetPasswordPage';
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+// TypeScript Interfaces
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'staff' | 'customer';
+  email_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+interface LoginResponse {
+  user: User;
+  token: string;
+  expires_at: string;
+}
+
+interface ActivityLog {
+  id: string;
+  user_id: string;
+  activity_type: string;
+  description: string;
+  ip_address: string;
+  user_agent: string;
+  created_at: string;
+}
+
+// API service for authentication
+class AuthService {
+  private static API_URL = '/api';
+  private static TOKEN_KEY = 'madiavo_auth_token';
+
+  // Method to register a new user
+  static async register(userData: { fullName: string, email: string, password: string }): Promise<User> {
+    try {
+      const response = await fetch(`${this.API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Registration failed');
+      }
+
+      const data = await response.json();
+      return data.user;
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    }
+  }
+
+  // Method to log in a user
+  static async login(credentials: { email: string, password: string }): Promise<LoginResponse> {
+    try {
+      const response = await fetch(`${this.API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
+
+      const data = await response.json();
+      
+      // Save token to localStorage
+      localStorage.setItem(this.TOKEN_KEY, data.token);
+      
+      return data;
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
+  }
+
+  // Method to log out a user
+  static logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    // Optionally, call an API endpoint to invalidate the token on the server
+  }
+
+  // Method to request a password reset
+  static async forgotPassword(email: string): Promise<void> {
+    try {
+      const response = await fetch(`${this.API_URL}/auth/forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Password reset request failed');
+      }
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      throw error;
+    }
+  }
+
+  // Method to reset a password with token
+  static async resetPassword(token: string, password: string): Promise<void> {
+    try {
+      const response = await fetch(`${this.API_URL}/auth/reset-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Password reset failed');
+      }
+    } catch (error) {
+      console.error('Reset password error:', error);
+      throw error;
+    }
+  }
+
+  // Method to verify email
+  static async verifyEmail(token: string): Promise<void> {
+    try {
+      const response = await fetch(`${this.API_URL}/auth/verify-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Email verification failed');
+      }
+    } catch (error) {
+      console.error('Email verification error:', error);
+      throw error;
+    }
+  }
+
+  // Method to get current user
+  static async getCurrentUser(): Promise<User | null> {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    
+    if (!token) {
+      return null;
+    }
+    
+    try {
+      const response = await fetch(`${this.API_URL}/auth/me`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          this.logout();
+          return null;
+        }
+        throw new Error('Failed to get user data');
+      }
+
+      const data = await response.json();
+      return data.user;
+    } catch (error) {
+      console.error('Get current user error:', error);
+      return null;
+    }
+  }
+
+  // Method to get user activity logs
+  static async getActivityLogs(): Promise<ActivityLog[]> {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    
+    if (!token) {
+      throw new Error('Not authenticated');
+    }
+    
+    try {
+      const response = await fetch(`${this.API_URL}/auth/activity-logs`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get activity logs');
+      }
+
+      const data = await response.json();
+      return data.logs;
+    } catch (error) {
+      console.error('Get activity logs error:', error);
+      throw error;
+    }
+  }
+
+  // Method to check if user is authenticated
+  static isAuthenticated(): boolean {
+    return !!localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  // Method to get stored token
+  static getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+}
+
+// Main App component that switches between pages
+export default function AuthPages() {
+  const [currentPage, setCurrentPage] = useState('login');
+  const [emailVerificationSent, setEmailVerificationSent] = useState(false);
+  const [resetPasswordSent, setResetPasswordSent] = useState(false);
+  
+  // Handle page navigation
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'login':
+        return <LoginPage 
+          onSignUpClick={() => setCurrentPage('signup')}
+          onForgotPasswordClick={() => setCurrentPage('forgot-password')}
+        />;
+      case 'signup':
+        return <SignUpPage 
+          onLoginClick={() => setCurrentPage('login')}
+          onSubmitSuccess={() => setEmailVerificationSent(true)}
+        />;
+      case 'forgot-password':
+        return <ForgotPasswordPage 
+          onLoginClick={() => setCurrentPage('login')}
+          onSubmitSuccess={() => setResetPasswordSent(true)}
+        />;
+      case 'email-verification':
+        return <EmailVerificationPage 
+          onBackToLogin={() => setCurrentPage('login')}
+        />;
+      case 'reset-password':
+        return <ResetPasswordPage 
+          onSuccessfulReset={() => setCurrentPage('login')}
+        />;
+      default:
+        return <LoginPage 
+          onSignUpClick={() => setCurrentPage('signup')}
+          onForgotPasswordClick={() => setCurrentPage('forgot-password')}
+        />;
+    }
+  };
+
+  // Render email verification success message
+  if (emailVerificationSent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
+          <div className="text-center">
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+              <CheckCircle className="h-6 w-6 text-green-600" />
+            </div>
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Verify Your Email</h2>
+            <p className="mt-2 text-sm text-gray-600">
+              We've sent a verification email to your inbox. Please check and follow the instructions to verify your account.
+            </p>
+          </div>
+          <div className="mt-6">
+            <button
+              onClick={() => {
+                setEmailVerificationSent(false);
+                setCurrentPage('login');
+              }}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Back to Login
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      </div>
+    );
+  }
+
+  // Render reset password link sent message
+  if (resetPasswordSent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
+          <div className="text-center">
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+              <CheckCircle className="h-6 w-6 text-green-600" />
+            </div>
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Check Your Email</h2>
+            <p className="mt-2 text-sm text-gray-600">
+              We've sent a password reset link to your email address. Please check your inbox and follow the instructions.
+            </p>
+          </div>
+          <div className="mt-6">
+            <button
+              onClick={() => {
+                setResetPasswordSent(false);
+                setCurrentPage('login');
+              }}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Back to Login
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return renderPage();
 }
