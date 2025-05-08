@@ -1,5 +1,6 @@
 'use client';
 import { useState } from "react";
+import { useT } from '../../../i18n/client'
 import { ArrowRight, AlertCircle, Eye, EyeOff, Lock, Mail } from "lucide-react";
 
 interface LoginPageProps {
@@ -13,6 +14,7 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { t } = useT('common')
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,11 +58,11 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
   };
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-6 bg-white p-8 rounded-xl shadow-md">
+    <div className="min-h-screen flex items-center justify-start bg-gray-100 dark:bg-gray-200">
+      <div className="max-w-md w-full h-screen flex flex-col items-center justify-center space-y-6 bg-white dark:bg-gray-900 dark:text-white p-3 rounded-r-2xl dark:rounded-r-lg shadow-r-md">
         <div className="flex flex-col gap-1">
-          <h1 className="text-center text-4xl font-extrabold text-indigo-600">Madiavo.</h1>
-          <h2 className="text-center text-sm text-gray-600">Sign in to your account</h2>
+          <h1 className="text-center text-4xl font-extrabold text-indigo-600 dark:text-white">Madiavo.</h1>
+          <h2 className="text-center text-sm text-gray-600 dark:text-white dark:opacity-70">{t('Sign in to your account')}</h2>
         </div>
         
         {errorMessage && (
@@ -79,7 +81,7 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
         <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <div className="gap-3 flex flex-col">
             <div className="relative">
-              <label htmlFor="email-address" className="sr-only">Email address</label>
+              <label htmlFor="email-address" className="sr-only">{t('email address')}</label>
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Mail className="h-5 w-5 text-gray-400" />
               </div>
@@ -95,11 +97,11 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
                   setErrorMessage('');
                 }}
                 className="appearance-none rounded-md relative block w-full p-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder={t('email address')}
               />
             </div>
             <div className="relative">
-              <label htmlFor="password" className="sr-only">Password</label>
+              <label htmlFor="password" className="sr-only">{t('password')}</label>
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Lock className="h-5 w-5 text-gray-400" />
               </div>
@@ -115,7 +117,7 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
                   setErrorMessage('');
                 }}
                 className="appearance-none rounded-md relative block w-full p-3 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                placeholder={t('password')}
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                 <button
@@ -130,30 +132,30 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
                   )}
                 </button>
               </div>
+              
+              <div className="text-xs pt-1 absolute right-0">
+                <button
+                  type="button"
+                  onClick={onForgotPasswordClick}
+                  className="font-medium cursor-pointer text-indigo-600 hover:text-indigo-500"
+                >
+                  {t('Forgot your password?')}
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-start pt-1">
             <div className="flex items-center">
               <input
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                className="h-4 w-4 cursor-pointer text-indigo-600 dark:text-white focus:ring-indigo-500 border-gray-300 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Remember me
+              <label htmlFor="remember-me" className="ml-2 block text-xs text-gray-900 dark:text-white">
+                {t('Remember me')}
               </label>
-            </div>
-
-            <div className="text-sm">
-              <button
-                type="button"
-                onClick={onForgotPasswordClick}
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Forgot your password?
-              </button>
             </div>
           </div>
 
@@ -173,20 +175,20 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
                 </span>
               ) : (
                 <span className="flex items-center">
-                  Sign in
+                  {t('Sign in')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </span>
               )}
             </button>
           </div>
         </form>
-        <p className="text-center text-sm text-gray-600">
-            Don't have an account?{' '}
+        <p className="text-center text-sm text-gray-600 dark:text-white">
+            {t(`Don't have an account?`)}{' '}
             <button 
               onClick={onSignUpClick} 
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="font-medium text-indigo-600 cursor-pointer hover:text-indigo-500"
             >
-              Register
+              {t('Register')}
             </button>
           </p>
       </div>
