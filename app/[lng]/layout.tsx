@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { languages } from '../i18n/settings'
 import { getT } from '../i18n'
-import LanguageSwitcher from "./components/LanguageSwitcher";
 import  ThemeProvider  from "../context/ThemeContext";
 
 export async function generateStaticParams() {
