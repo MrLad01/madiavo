@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Search, Plus, BarChart3, Check, Clock, Ticket, Megaphone, FileBarChart2, GripVertical, TrendingUp, Expand, BadgeCheck, TriangleAlert } from 'lucide-react'
+import { Search, Plus, BarChart3, Check, Clock, Ticket, Megaphone, FileBarChart2, GripVertical, TrendingUp, Expand, BadgeCheck, TriangleAlert, FileCheck, SlidersHorizontal } from 'lucide-react'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -260,7 +260,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex-1 pl-[22vw] pr-4 pb-10">
+    <div className="flex-1 pl-[20vw] pr-4 pb-16">
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={widgets.map(w => w.id)} strategy={verticalListSortingStrategy}>
           <div className="flex flex-col gap-6">
@@ -272,20 +272,23 @@ export default function DashboardPage() {
                       <MetricCard 
                         icon={<TrendingUp size={18} />} 
                         title="Converted Leads" 
-                        startValue={0}
+                        startValue={20}
                         endValue={100}
+                        color='bg-blue-400'
                       />
                       <MetricCard 
-                        icon={<BarChart3 size={18} />} 
+                        icon={<SlidersHorizontal size={18} />} 
                         title="Projects in Progress" 
-                        startValue={0}
+                        startValue={40}
                         endValue={100}
-                      />
+                        color='bg-orange-500'
+                        />
                       <MetricCard 
-                        icon={<BarChart3 size={18} />} 
+                        icon={<FileCheck size={18} />} 
                         title="Tasks Not Finished" 
-                        startValue={0}
+                        startValue={30}
                         endValue={100}
+                        color='bg-red-500'
                       />
                     </div>
                   </DraggableWidget>
