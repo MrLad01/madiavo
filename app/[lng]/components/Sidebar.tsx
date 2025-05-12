@@ -1,39 +1,68 @@
-import { ChartBarIncreasing, CircleCheck, CircleHelp, CircuitBoard, Crosshair, UserRound } from 'lucide-react'
+'use client'
+import { BarChart, CheckCircle, HelpCircle, Layout, Crosshair, UserRound, LogOut, Settings } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Sidebar() {
+  const menuItems = [
+    { icon: <Layout size={18} />, title: 'Dashboard', href: '/lt/admin' },
+    { icon: <BarChart size={18} />, title: 'Projects', href: '/lt/admin/projects' },
+    { icon: <CheckCircle size={18} />, title: 'Tasks', href: '/lt/admin/tasks' },
+    { icon: <HelpCircle size={18} />, title: 'Support', href: '/lt/admin/support' },
+    { icon: <Crosshair size={18} />, title: 'Leads', href: '/lt/admin/leads' },
+  ];
+
+  const [activeItem, setActiveItem] = useState(0);
+
   return (
-    <div className='h-fit w-[17vw] bg-white text-indigo-600 dark:text-gray-200 dark:bg-gray-800 dark:border dark:border-gray-600 rounded-xl shadow-lg px-2 py-3 flex flex-col gap-3 items-center pb-44 fixed'>
-        <button className='flex items-center bg-gray-100 cursor-pointer w-full p-2.5 rounded-xl dark:bg-gray-700 shadow-sm gap-2 mb-5'>
-            <div className='p-2 rounded-full bg-[#4f39f610] dark:bg-gray-500'>
-                <UserRound size={20} className='text-indigo-600 dark:text-white' />
-            </div>
-            <div className="flex flex-col">
-                <h3 className='text-[12px] font-semibold opacity-80'>Username</h3>
-                <h3 className='text-[12px]'>User gmail</h3>
-            </div>
+    <div className="h-fit w-[17vw] bg-white dark:bg-gray-900 text-indigo-600 dark:text-gray-200 rounded-xl shadow-lg px-4 py-5 flex flex-col gap-5 pb-44 fixed">
+      {/* User Profile */}
+      <div className="flex items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-xl gap-3 mb-2">
+        <div className="p-2 rounded-full bg-indigo-100 dark:bg-indigo-900">
+          <UserRound size={20} className="text-indigo-600 dark:text-indigo-400" />
+        </div>
+        <div className="flex flex-col">
+          <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200">Username</h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400">user@gmail.com</p>
+        </div>
+      </div>
+      
+      {/* Navigation Menu */}
+      <div className="flex flex-col gap-2">        
+        {menuItems.map((item, index) => (
+          <Link 
+            href={item.href} 
+            key={index}
+            onClick={() => setActiveItem(index)} 
+            className={`flex items-center px-4 py-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-gray-800 group transition-all duration-200 ${activeItem === index ? 'bg-indigo-50 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-medium' : 'text-gray-700 dark:text-gray-300'}`}
+          >
+            <span className={`p-2 rounded-lg mr-3 ${activeItem === index ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400'}`}>
+              {item.icon}
+            </span>
+            <span className="text-sm">{item.title}</span>
+            {activeItem === index && (
+              <div className="ml-auto h-6 w-1 rounded-full bg-indigo-500 dark:bg-indigo-400"></div>
+            )}
+          </Link>
+        ))}
+      </div>
+
+      {/* Bottom Actions */}
+      <div className="mt-auto flex flex-col gap-2">
+        <button className="flex items-center px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-300 group">
+          <span className="p-2 rounded-lg mr-3 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 group-hover:text-red-600 dark:group-hover:text-red-400">
+            <LogOut size={18} />
+          </span>
+          <span className="text-sm group-hover:text-red-600 dark:group-hover:text-red-400">Logout</span>
         </button>
-        <Link href={'/lt/admin'} className='flex items-center bg-gray-100 cursor-pointer w-full py-3.5 pl-12 rounded-3xl dark:bg-gray-700 shadow-xs text-sm hover:bg-indigo-600 dark:hover:bg-blue-500 hover:text-white gap-3 border border-[#4f39f620] dark:border-0'>
-            <CircuitBoard size={20} />
-            <span>Dashboard</span>
-        </Link>
-        <Link href={'/lt/admin/projects'} className='flex items-center bg-gray-100 cursor-pointer w-full py-3.5 pl-12 rounded-3xl dark:bg-gray-700 shadow-xs text-sm hover:bg-indigo-600 dark:hover:bg-blue-500 hover:text-white gap-3 border border-[#4f39f620] dark:border-0'>
-            <ChartBarIncreasing  size={20} />
-            <span>Projects</span>
-        </Link>
-        <Link href={'/lt/admin/tasks'} className='flex items-center bg-gray-100 cursor-pointer w-full py-3.5 pl-12 rounded-3xl dark:bg-gray-700 shadow-xs text-sm hover:bg-indigo-600 dark:hover:bg-blue-500 hover:text-white gap-3 border border-[#4f39f620] dark:border-0'>
-            <CircleCheck size={20} />
-            <span>Tasks</span>
-        </Link>
-        <Link href={'/lt/admin/support'} className='flex items-center bg-gray-100 cursor-pointer w-full py-3.5 pl-12 rounded-3xl dark:bg-gray-700 shadow-xs text-sm hover:bg-indigo-600 dark:hover:bg-blue-500 hover:text-white gap-3 border border-[#4f39f620] dark:border-0'>
-            <CircleHelp size={20} />
-            <span>Support</span>
-        </Link>
-        <Link href={'/lt/admin/leads'} className='flex items-center bg-gray-100 cursor-pointer w-full py-3.5 pl-12 rounded-3xl dark:bg-gray-700 shadow-xs text-sm hover:bg-indigo-600 dark:hover:bg-blue-500 hover:text-white gap-3 border border-[#4f39f620] dark:border-0'>
-            <Crosshair size={20} />
-            <span>Leads</span>
-        </Link>
+        
+        {/* <button className="flex items-center px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300">
+          <span className="p-2 rounded-lg mr-3 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+            <Settings size={18} />
+          </span>
+          <span className="text-sm">Settings</span>
+        </button> */}
+      </div>
     </div>
   )
 }
