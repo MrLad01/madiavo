@@ -377,7 +377,7 @@ export default function TaskPage() {
             </thead>
             <tbody>
               {currentTasks.map((task) => (
-                <tr key={task.id} className="border-b border-b-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <tr key={task.id} className="border-b border-b-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-4 py-3">
                     <input type="checkbox" checked={selectedTasks.includes(task.id)} onChange={(e) => handleSelectTask(e, task.id)} className="rounded" />
                   </td>
