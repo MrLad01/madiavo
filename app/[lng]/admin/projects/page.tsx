@@ -368,6 +368,23 @@ export default function Page(): React.ReactElement {
         return 'text-gray-600 dark:text-gray-300';
     };
 
+    const getStatusColor = (status: string): string => {
+        switch (status) {
+            case 'Not Started':
+                return 'text-gray-600 dark:text-gray-300';
+            case 'In Progress':
+                return 'text-purple-600 dark:text-purple-400';
+            case 'On Hold':
+                return 'text-amber-600 dark:text-amber-400';
+            case 'Cancelled':
+                return 'text-red-600 dark:text-red-400';
+            case 'Finished':
+                return 'text-green-600 dark:text-green-400';
+            default:
+                return '';
+        }
+    }
+
     // "No content" display component
     const EmptyStateMessage = (): React.ReactElement => (
         <tr>
@@ -380,10 +397,6 @@ export default function Page(): React.ReactElement {
                     <p className="text-gray-500 text-sm max-w-md">
                         Try adjusting your search or filter criteria, or create a new project to get started.
                     </p>
-                    <button className="mt-2 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors flex items-center gap-2">
-                        <Plus size={16} />
-                        <span>Create Project</span>
-                    </button>
                 </div>
             </td>
         </tr>
@@ -426,16 +439,6 @@ export default function Page(): React.ReactElement {
                     <span className="bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300 px-2 py-0.5 rounded-full text-xs font-medium">
                         {projects.length}
                     </span>
-                </div>
-                <div className="flex items-center gap-3">
-                    <button className='cursor-pointer py-1.5 px-3 rounded-lg bg-white dark:bg-gray-700 shadow-sm text-sm hover:bg-indigo-50 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-200 transition-colors duration-200 border border-gray-200 dark:border-gray-600 flex items-center gap-2'>
-                        <Share size={16} />
-                        <span>Share</span>
-                    </button>
-                    <button className='cursor-pointer py-1.5 px-3 rounded-lg bg-indigo-600 shadow-sm text-sm hover:bg-indigo-700 text-white transition-colors duration-200 flex items-center gap-2'>
-                        <Plus size={16} />
-                        <span>New Project</span>
-                    </button>
                 </div>
             </div>
             
@@ -678,7 +681,7 @@ export default function Page(): React.ReactElement {
                                             {formatDate(project.deadline)}
                                         </td>
                                         <td className="px-4 py-3 text-sm font-medium">{project.members.join(', ')}</td>
-                                        <td className={`px-4 py-3 text-sm font-medium ${getDeadlineStatusColor(project.deadline, project.status)}`}>
+                                        <td className={`px-4 py-3 text-sm font-medium ${getStatusColor(project.status)}`}>
                                             {project.status}
                                         </td>
                                     </tr>
