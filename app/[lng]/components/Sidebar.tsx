@@ -15,7 +15,7 @@ export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(0);
 
   return (
-    <div className="h-fit w-[17vw] bg-white dark:bg-gray-900 text-indigo-600 dark:text-gray-200 rounded-xl shadow-lg px-4 py-5 flex flex-col gap-5 pb-44 fixed">
+    <div className="h-fit w-[17vw] bg-white z-50 dark:bg-gray-900 text-indigo-600 dark:text-gray-200 rounded-xl shadow-lg px-4 py-5 flex flex-col gap-5 pb-44 fixed">
       {/* User Profile */}
       <div className="flex items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-xl gap-3 mb-2">
         <div className="p-2 rounded-full bg-indigo-100 dark:bg-indigo-900">

@@ -148,7 +148,7 @@ export default function Page(): React.ReactElement {
     };
 
     const tableHeaders: TableHeader[] = [
-        { id: 'id', label: '#', icon: <span className="text-xs">#</span> },
+        { id: 'id', label: '#', icon: <span className="text-xs"></span> },
         { id: 'name', label: 'Project Name' },
         { id: 'customer', label: 'Customer', icon: <User size={14} /> },
         { id: 'tags', label: 'Tags', icon: <Tag size={14} /> },
