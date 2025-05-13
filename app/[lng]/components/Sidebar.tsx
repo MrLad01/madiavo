@@ -43,7 +43,7 @@ interface SidebarProps {
   isAdmin?: boolean;
 }
 
-export default function Sidebar({ isAdmin = false }: SidebarProps) {
+export default function Sidebar({ isAdmin = true }: SidebarProps) {
    const { t } = useT('common');
    const lng = useParams()?.lng;
 
@@ -63,10 +63,6 @@ export default function Sidebar({ isAdmin = false }: SidebarProps) {
     // Return empty string if no match found
     return '';
   }
-
-  // Example usage:
-  // Assuming URL is "/fr/admin/projects"
-  const contentPath = getAdminContentPath(); // Returns "projects"
 
   // You can also use it directly in components/functions
   function handleAdminRoute() {
@@ -88,8 +84,44 @@ export default function Sidebar({ isAdmin = false }: SidebarProps) {
     }
   }
 
+  function handleAdminRoute2() {
+    const contentPath = getAdminContentPath();
+    
+    switch (contentPath) {
+      case '':
+        return '0-0';
+      case 'customers':
+        return '0-1';
+      case 'sales':
+        return '0-2';
+      case 'subscriptions':
+        return '0-3';
+      case 'expenses':
+        return '0-4';
+      case 'contracts':
+        return '0-5';
+      case 'projects':
+        return '0-6';
+      case 'tasks':
+        return '0-7';
+      case 'support':
+        return '0-8';
+      case 'leads':
+        return '0-9';
+      case 'estimate-request':
+        return '0-10';
+      case 'knowledge-base':
+        return '0-11';
+      default:
+        return '0-12';
+    }
+  }
+
+  console.log(handleAdminRoute2());
+  
+
   useEffect(() => {
-    setActiveItem(handleAdminRoute())
+    isAdmin ? setActiveItem(handleAdminRoute2()) : setActiveItem(handleAdminRoute())
   }, [])
    
 
@@ -229,11 +261,15 @@ export default function Sidebar({ isAdmin = false }: SidebarProps) {
                 <div className="flex flex-col">
                   {category.items.map((item, index) => {
                     const itemKey = `${catIndex}-${index}`;
+                    
                     return (
                       <Link 
                         href={item.href} 
                         key={itemKey}
-                        onClick={() => setActiveItem(itemKey)} 
+                        onClick={() => { 
+                          setActiveItem(itemKey)
+                          console.log(itemKey);
+                        }} 
                         className={`flex items-center px-4 py-2 hover:bg-indigo-50 dark:hover:bg-gray-800 group transition-all duration-200 ${activeItem === itemKey ? 'bg-indigo-50 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-medium' : 'text-gray-700 dark:text-gray-300'}`}
                       >
                         <span className={`mr-3 text-gray-600 dark:text-gray-400 ${activeItem === itemKey ? 'text-indigo-600 dark:text-indigo-400' : ''}`}>
