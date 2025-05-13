@@ -202,7 +202,7 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
   };
 
   return (
-    <div className={`${isAdmin ? 'min-h-screen pb-44' : 'h-fit pb-44'} w-[22vw] bg-white z-50 dark:bg-gray-900 text-indigo-600 dark:text-gray-200 rounded-xl shadow-lg px-4 py-5 flex flex-col gap-5  ${isAdmin ? 'overflow-y-auto' : ''}`}>
+    <div className={`${isAdmin ? 'min-h-screen pb-44' : 'h-fit pb-44'} w-[22vw] bg-white z-40 dark:bg-gray-900 text-indigo-600 dark:text-gray-200 rounded-xl shadow-lg px-4 py-5 flex flex-col gap-5  ${isAdmin ? 'overflow-y-auto' : ''}`}>
       {/* User Profile */}
       <div className="flex items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-xl gap-3 mb-2">
         <div className="p-2 rounded-full bg-indigo-100 dark:bg-indigo-900">
