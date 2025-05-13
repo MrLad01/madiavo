@@ -21,7 +21,7 @@ interface Lead {
 
 
 // Lead statuses as a union type for better type safety
-type LeadStatus = 'Negotiating' | 'Calculating' | 'Preparing contract' | 'Awaiting response' | 'Lost' | 'Clients';
+type LeadStatus = 'New' | 'Contacted' | 'Qualified' | 'Working' | 'Lost' | 'Clients';
 
 interface SortConfig {
   key: keyof Lead | null;
@@ -38,7 +38,7 @@ const dummyLeads: Lead[] = [
     value: '$5,000',
     tags: ['High Priority', 'Tech'],
     assigned: 'Sarah Johnson',
-    status: 'Negotiating',
+    status: 'New',
     source: 'Website',
     lastContact: '2025-05-10',
     created: '2025-05-01'
@@ -52,7 +52,7 @@ const dummyLeads: Lead[] = [
     value: '$8,500',
     tags: ['Urgent', 'Finance'],
     assigned: 'Mike Chen',
-    status: 'Calculating',
+    status: 'Contacted',
     source: 'Referral',
     lastContact: '2025-05-09',
     created: '2025-04-28'
@@ -66,7 +66,7 @@ const dummyLeads: Lead[] = [
     value: '$12,000',
     tags: ['Enterprise', 'Manufacturing'],
     assigned: 'Jessica Lee',
-    status: 'Preparing contract',
+    status: 'Qualified',
     source: 'Trade Show',
     lastContact: '2025-05-11',
     created: '2025-04-25'
@@ -80,7 +80,7 @@ const dummyLeads: Lead[] = [
     value: '$7,200',
     tags: ['Mid-tier', 'Retail'],
     assigned: 'David Williams',
-    status: 'Awaiting response',
+    status: 'Working',
     source: 'Email Campaign',
     lastContact: '2025-05-08',
     created: '2025-05-03'
@@ -193,7 +193,7 @@ export default function Page(): React.ReactElement {
   // Format status with appropriate color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Negotiating':
+      case 'New':
         return 'text-blue-500';
       case 'Lost':
         return 'text-red-500';
@@ -211,31 +211,31 @@ export default function Page(): React.ReactElement {
       {/* Status filter buttons */}
       <div className='flex items-center gap-2 flex-wrap'>
         <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 p-2 w-[120px] flex items-center justify-center cursor-pointer ${statusFilter === 'Negotiating' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Negotiating')}
+          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 p-2 w-[120px] flex items-center justify-center cursor-pointer ${statusFilter === 'New' ? 'ring-2 ring-blue-500' : ''}`}
+          onClick={() => setStatusFilter('New')}
         >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Negotiating'] || 0} <span className='ml-1.5 text-blue-500'>Negotiating</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['New'] || 0} <span className='ml-1.5 text-blue-500'>New</span></p>
         </div>
         
         <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[120px] flex items-center justify-center cursor-pointer ${statusFilter === 'Calculating' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Calculating')}
+          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[120px] flex items-center justify-center cursor-pointer ${statusFilter === 'Contacted' ? 'ring-2 ring-blue-500' : ''}`}
+          onClick={() => setStatusFilter('Contacted')}
         >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Calculating'] || 0} <span className='ml-1.5 text-gray-500'>Calculating</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Contacted'] || 0} <span className='ml-1.5 text-gray-500'>Contacted</span></p>
         </div>
         
         <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[150px] flex items-center justify-center cursor-pointer ${statusFilter === 'Preparing contract' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Preparing contract')}
+          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[150px] flex items-center justify-center cursor-pointer ${statusFilter === 'Qualified' ? 'ring-2 ring-blue-500' : ''}`}
+          onClick={() => setStatusFilter('Qualified')}
         >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Preparing contract'] || 0} <span className='ml-1.5 text-gray-500'>Preparing contract</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Qualified'] || 0} <span className='ml-1.5 text-gray-500'>Qualified</span></p>
         </div>
         
         <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[150px] flex items-center justify-center cursor-pointer ${statusFilter === 'Awaiting response' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Awaiting response')}
+          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[150px] flex items-center justify-center cursor-pointer ${statusFilter === 'Working' ? 'ring-2 ring-blue-500' : ''}`}
+          onClick={() => setStatusFilter('Working')}
         >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Awaiting response'] || 0} <span className='ml-1.5 text-gray-500'>Awaiting response</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Working'] || 0} <span className='ml-1.5 text-gray-500'>Working</span></p>
         </div>
         
         <div 
@@ -474,10 +474,10 @@ export default function Page(): React.ReactElement {
                   <div className="relative">
                     <select className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white">
                       <option>Darsinama</option>
-                      <option>Negotiating</option>
-                      <option>Calculating</option>
-                      <option>Preparing contract</option>
-                      <option>Awaiting response</option>
+                      <option>New</option>
+                      <option>Contacted</option>
+                      <option>Qualified</option>
+                      <option>Working</option>
                       <option>Clients</option>
                       <option>Lost</option>
                     </select>
