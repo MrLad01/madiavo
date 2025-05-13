@@ -214,56 +214,56 @@ export default function Page(): React.ReactElement {
           className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 p-2 w-[120px] flex items-center justify-center cursor-pointer ${statusFilter === 'Negotiating' ? 'ring-2 ring-blue-500' : ''}`}
           onClick={() => setStatusFilter('Negotiating')}
         >
-          <p className='text-sm dark:text-gray-100 text-gray-500'>{statusCounts['Negotiating'] || 0} <span className='ml-1.5 text-blue-500'>Negotiating</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Negotiating'] || 0} <span className='ml-1.5 text-blue-500'>Negotiating</span></p>
         </div>
         
         <div 
           className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[120px] flex items-center justify-center cursor-pointer ${statusFilter === 'Calculating' ? 'ring-2 ring-blue-500' : ''}`}
           onClick={() => setStatusFilter('Calculating')}
         >
-          <p className='text-sm dark:text-gray-100 text-gray-500'>{statusCounts['Calculating'] || 0} <span className='ml-1.5 text-gray-500'>Calculating</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Calculating'] || 0} <span className='ml-1.5 text-gray-500'>Calculating</span></p>
         </div>
         
         <div 
           className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[150px] flex items-center justify-center cursor-pointer ${statusFilter === 'Preparing contract' ? 'ring-2 ring-blue-500' : ''}`}
           onClick={() => setStatusFilter('Preparing contract')}
         >
-          <p className='text-sm dark:text-gray-100 text-gray-500'>{statusCounts['Preparing contract'] || 0} <span className='ml-1.5 text-gray-500'>Preparing contract</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Preparing contract'] || 0} <span className='ml-1.5 text-gray-500'>Preparing contract</span></p>
         </div>
         
         <div 
           className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[150px] flex items-center justify-center cursor-pointer ${statusFilter === 'Awaiting response' ? 'ring-2 ring-blue-500' : ''}`}
           onClick={() => setStatusFilter('Awaiting response')}
         >
-          <p className='text-sm dark:text-gray-100 text-gray-500'>{statusCounts['Awaiting response'] || 0} <span className='ml-1.5 text-gray-500'>Awaiting response</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Awaiting response'] || 0} <span className='ml-1.5 text-gray-500'>Awaiting response</span></p>
         </div>
         
         <div 
           className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[90px] flex items-center justify-center cursor-pointer ${statusFilter === 'Lost' ? 'ring-2 ring-blue-500' : ''}`}
           onClick={() => setStatusFilter('Lost')}
         >
-          <p className='text-sm dark:text-gray-100 text-gray-500'>{statusCounts['Lost'] || 0} <span className='ml-1.5 text-red-500'>Lost</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Lost'] || 0} <span className='ml-1.5 text-red-500'>Lost</span></p>
         </div>
         
         <div 
           className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[90px] flex items-center justify-center cursor-pointer ${statusFilter === 'Clients' ? 'ring-2 ring-blue-500' : ''}`}
           onClick={() => setStatusFilter('Clients')}
         >
-          <p className='text-sm dark:text-gray-100 text-gray-500'>{statusCounts['Clients'] || 0} <span className='ml-1.5 text-green-500'>Clients</span></p>
+          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Clients'] || 0} <span className='ml-1.5 text-green-500'>Clients</span></p>
         </div>
         
         <div 
           className='rounded-lg bg-white dark:bg-transparent border border-red-400 hover:bg-gray-100 dark:hover:bg-gray-600 p-2 w-[140px] flex items-center justify-center cursor-pointer'
           onClick={() => setStatusFilter('All')}
         >
-          <p className='text-sm text-red-400'>{statusCounts['Lost'] || 0} <span className='text-red-400'>Lost Leads - {lostPercentage}%</span></p>
+          <p className='text-xs text-red-400'>{statusCounts['Lost'] || 0} <span className='text-red-400'>Lost Leads - {lostPercentage}%</span></p>
         </div>
       </div>
       
       {/* Action buttons and search */}
       <div className="flex items-center justify-between mt-4 relative">
         <div className='flex gap-2 items-center'>
-          <button onClick={() => setShowNewLeadModal(true)} className='flex items-center justify-between text-sm px-3 py-2 cursor-pointer rounded-lg bg-blue-500 text-white hover:bg-blue-600'>
+          <button onClick={() => setShowNewLeadModal(true)} className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-blue-500 text-white hover:bg-blue-600'>
             <Plus size={16} className="mr-1"/> <p>New Lead</p>
           </button>
           
@@ -278,17 +278,17 @@ export default function Page(): React.ReactElement {
         </div>
         
         <div className="flex items-center justify-end"> 
-          <button  className="flex items-center justify-center gap-1 py-2 px-3 rounded-lg border border-gray-400 text-gray-500 shadow-sm text-sm dark:text-gray-400 dark:bg-transparent bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200">
+          <button  className="flex items-center justify-center gap-1 py-2 px-3 rounded-lg border border-gray-400 text-gray-500 shadow-sm text-xs dark:text-gray-400 dark:bg-transparent bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200">
             <Filter size={16} />
             Filters
           </button>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 mt-4 overflow-x-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 mt-4 overflow-x-auto relative">
 
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex items-center gap-4 text-xs">
+      <div className="flex items-center fixed bg-white dark:bg-gray-800 w-[76%] justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2 text-xs">
               <select className="border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
                 <option>25</option>
                 <option>50</option>
@@ -306,15 +306,15 @@ export default function Page(): React.ReactElement {
             </div>
             <div className="relative">
               <Search size={12} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" />
-              <input type="text" placeholder="Search..." className="pl-10 pr-4 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300" />
+              <input type="text" placeholder="Search..." className="pl-10 pr-4 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-xs bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300" />
             </div>
           </div>
       
       {/* Table component */}
-        <table className="w-full">
+        <table className="w-full mt-16">
           <thead>
             <tr className="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
-              <th className="w-12 px-3 py-3">
+              <th className="w-12 px-3 py-1">
                 <input 
                   type="checkbox" 
                   className="rounded text-blue-500 focus:ring-blue-500"
@@ -338,7 +338,7 @@ export default function Page(): React.ReactElement {
               ].map(({ key, label, noSort }) => (
                 <th
                   key={key}
-                  className="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600"
+                  className="px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600"
                   onClick={() => !noSort && requestSort(key as any)}
                 >
                   <div className="flex items-center justify-center gap-1">
@@ -357,7 +357,7 @@ export default function Page(): React.ReactElement {
                   key={lead.id} 
                   className="hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
-                  <td className="px-3 py-4 whitespace-nowrap">
+                  <td className="px-3 py-2 whitespace-nowrap">
                     <input 
                       type="checkbox" 
                       className="rounded text-blue-500 focus:ring-blue-500"
@@ -365,25 +365,25 @@ export default function Page(): React.ReactElement {
                       onChange={() => toggleRowSelection(lead.id)}
                     />
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.id}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline">
                     {lead.name}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.company}
                     </td>   
-                      <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                      <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.email}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.phone}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.value}
                   </td>
-                  <td className="px-3 py-4 whitespace-nowrap text-sm">
+                  <td className="px-3 py-4 whitespace-nowrap text-xs">
                     <div className="flex flex-wrap gap-1">
                       {lead.tags.map((tag, index) => (
                         <span key={index} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
@@ -392,21 +392,21 @@ export default function Page(): React.ReactElement {
                       ))}
                     </div>
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.assigned}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs">
                     <span className={`${getStatusColor(lead.status)}`}>
                       {lead.status}
                     </span>
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.source}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {new Date(lead.lastContact).toLocaleDateString()}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {new Date(lead.created).toLocaleDateString()}
                   </td>
                 </tr>
@@ -421,7 +421,7 @@ export default function Page(): React.ReactElement {
                       </svg>
                     </div>
                     <p className="text-lg font-medium">No entries found</p>
-                    <p className="mt-1 text-sm">Try adjusting your filters or search terms</p>
+                    <p className="mt-1 text-xs">Try adjusting your filters or search terms</p>
                   </div>
                 </td>
               </tr>
@@ -432,18 +432,18 @@ export default function Page(): React.ReactElement {
       
       {/* Pagination */}
       <div className="flex items-center justify-between mt-4">
-        <div className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="text-xs text-gray-500 dark:text-gray-400">
           Showing {filteredLeads.length > 0 ? 1 : 0} to {filteredLeads.length} of {filteredLeads.length} entries
         </div>
         
         <div className="flex items-center space-x-2">
-          <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50">
+          <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50">
             Previous
           </button>
-          <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-blue-500 text-white hover:bg-blue-600">
+          <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-blue-500 text-white hover:bg-blue-600">
             1
           </button>
-          <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
             Next
           </button>
         </div>
@@ -465,7 +465,7 @@ export default function Page(): React.ReactElement {
             <form onSubmit={handleAddNewLead}>
               <div className="grid grid-cols-3 gap-4 mb-4">
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     <span className="text-red-500">*</span> Status
                   </label>
                   <div className="relative">
@@ -482,7 +482,7 @@ export default function Page(): React.ReactElement {
                 </div>
                 
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     <span className="text-red-500">*</span> Source
                   </label>
                   <div className="relative">
@@ -498,7 +498,7 @@ export default function Page(): React.ReactElement {
                   </div>
                 </div>
               <div className="mb-4">
-                <label className="block mb-1 text-sm text-gray-400">
+                <label className="block mb-1 text-xs text-gray-400">
                   Assigned
                 </label>
                 <div className="relative">
@@ -515,7 +515,7 @@ export default function Page(): React.ReactElement {
               
               
               <div className="mb-4">
-                <label className=" mb-1 text-sm text-gray-400 flex items-center gap-1.5">
+                <label className=" mb-1 text-xs text-gray-400 flex items-center gap-1.5">
                   <Tag size={14} />
                   Tags
                 </label>
@@ -528,7 +528,7 @@ export default function Page(): React.ReactElement {
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     <span className="text-red-500">*</span> Name
                   </label>
                   <input 
@@ -539,7 +539,7 @@ export default function Page(): React.ReactElement {
                 </div>
                 
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Address
                   </label>
                   <input 
@@ -551,7 +551,7 @@ export default function Page(): React.ReactElement {
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Position
                   </label>
                   <input 
@@ -561,7 +561,7 @@ export default function Page(): React.ReactElement {
                 </div>
                 
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     City
                   </label>
                   <input 
@@ -573,7 +573,7 @@ export default function Page(): React.ReactElement {
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Email Address
                   </label>
                   <input 
@@ -583,7 +583,7 @@ export default function Page(): React.ReactElement {
                 </div>
                 
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     State
                   </label>
                   <input 
@@ -595,7 +595,7 @@ export default function Page(): React.ReactElement {
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Website
                   </label>
                   <input 
@@ -605,7 +605,7 @@ export default function Page(): React.ReactElement {
                 </div>
                 
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Country
                   </label>
                   <div className="relative">
@@ -622,7 +622,7 @@ export default function Page(): React.ReactElement {
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Phone
                   </label>
                   <input 
@@ -632,7 +632,7 @@ export default function Page(): React.ReactElement {
                 </div>
                 
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Zip Code
                   </label>
                   <input 
@@ -644,7 +644,7 @@ export default function Page(): React.ReactElement {
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Lead value
                   </label>
                   <div className="relative">
@@ -657,7 +657,7 @@ export default function Page(): React.ReactElement {
                 </div>
                 
                 <div>
-                  <label className="block mb-1 text-sm text-gray-400">
+                  <label className="block mb-1 text-xs text-gray-400">
                     Default Language
                   </label>
                   <div className="relative">
@@ -673,7 +673,7 @@ export default function Page(): React.ReactElement {
               </div>
               
               <div className="mb-4">
-                <label className="block mb-1 text-sm text-gray-400">
+                <label className="block mb-1 text-xs text-gray-400">
                   Company
                 </label>
                 <input 
@@ -683,7 +683,7 @@ export default function Page(): React.ReactElement {
               </div>
               
               <div className="mb-4">
-                <label className="block mb-1 text-sm text-gray-400">
+                <label className="block mb-1 text-xs text-gray-400">
                   Description
                 </label>
                 <textarea 
