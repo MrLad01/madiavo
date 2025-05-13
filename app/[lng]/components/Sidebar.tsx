@@ -86,7 +86,7 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
 
   function handleAdminRoute2() {
     const contentPath = getAdminContentPath();
-    
+    console.log(contentPath);   
     switch (contentPath) {
       case '':
         return '0-0';
@@ -112,12 +112,43 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
         return '0-10';
       case 'knowledge-base':
         return '0-11';
+      case 'utilities/media':
+        return '1-0';
+      case 'utilities/bulk-pdf-export':
+        return '1-1';
+      case 'utilities/csv-export':
+        return '1-2';
+      case 'utilities/calendar':
+        return '1-3';
+      case 'utilities/announcements':
+        return '1-4';
+      case 'utilities/goals':
+        return '1-5';
+      case 'utilities/activity-log':
+        return '1-6';
+      case 'utilities/surveys':
+        return '1-7';
+      case 'utilities/database-backup':
+        return '1-8';
+      case 'utilities/ticket-pipe-log':
+        return '1-9';
+      case 'reports/sales':
+        return '2-0';
+      case 'reports/customers':
+        return '2-1';
+      case 'reports/projects':
+        return '2-2';
+      case 'setup/general':
+        return '3-0';
+      case 'setup/email':
+        return '3-1';
+      case 'setup/users':
+        return '3-2';
       default:
-        return '0-12';
+        return '0-1';
     }
   }
 
-  console.log(handleAdminRoute2());
   
 
   useEffect(() => {
