@@ -6,13 +6,18 @@ import NavbarLanguageSwitcher from './NavbarLanguageSwitcher'
 import NavbarThemeSwitcher from './NavbarThemeSwitcher'
 import { useT } from '@/app/i18n/client'
 
-export default function Navbar() {
+interface NavbarProps {
+    hideSidebar: boolean;
+    setHideSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Navbar({hideSidebar, setHideSidebar}: NavbarProps) {
   const { t } = useT('common');
 
   return (
     <div className='w-[98vw] max-md:w-[96vw] border px-4 fixed py-1 max-md:py-3 rounded-xl shadow-md bg-white dark:bg-blue-500 dark:border-0 z-50 flex justify-between items-center'>
         <div className="flex items-center gap-3">
-            <button className='cursor-pointer outline-none' title={t('View/Hide Sidebar')}>
+            <button className='cursor-pointer outline-none' title={t('View/Hide Sidebar')} onClick={() => setHideSidebar(!hideSidebar)}>
                 <Menu size={18} className="text-indigo-600 dark:text-white" />
             </button>
             <h1 className="text-center text-[2.3rem] font-extrabold max-md:hidden text-indigo-600 dark:text-white tracking-wide ">Madiavo.</h1>

@@ -279,7 +279,7 @@ export default function TaskPage() {
   );
 
   return (
-    <div className="flex-1 ml-[20vw] pb-16 pr-6 flex flex-col text-indigo-600 dark:text-gray-100 gap-2">
+    <div className="flex-1 pb-16 pr-6 flex flex-col text-indigo-600 dark:text-gray-100 gap-2">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold dark:text-gray-300 text-gray-600">Tasks</h1>

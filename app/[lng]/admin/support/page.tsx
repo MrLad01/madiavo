@@ -464,7 +464,7 @@ export default function Page(): React.ReactElement {
                           sortConfig.key !== '';
 
     return (
-        <div className='flex-1 ml-[20vw] pb-16 pr-6 flex flex-col text-indigo-600 dark:text-gray-100 gap-3'>
+        <div className='flex-1 pb-16 pr-6 flex flex-col text-indigo-600 dark:text-gray-100 gap-3'>
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                     <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Support Tickets</h1>

@@ -205,7 +205,7 @@ export default function Page(): React.ReactElement {
   };
 
   return (
-    <div className='flex-1 ml-[20vw] pb-16 pr-6 flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100 gap-2'>
+    <div className='flex-1 pb-16 pr-6 flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100 gap-2'>
       <h2 className='text-xl font-bold dark:text-gray-100 text-gray-800'>Leads</h2>
       
       {/* Status filter buttons */}
@@ -287,7 +287,7 @@ export default function Page(): React.ReactElement {
 
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 mt-4 overflow-x-auto relative">
 
-      <div className="flex items-center fixed bg-white dark:bg-gray-800 w-[76%] justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex items-center absolute bg-white dark:bg-gray-800 w-full justify-between p-4 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-xs">
               <select className="border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
                 <option>25</option>
@@ -308,9 +308,10 @@ export default function Page(): React.ReactElement {
               <Search size={12} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" />
               <input type="text" placeholder="Search..." className="pl-10 pr-4 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-xs bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300" />
             </div>
-          </div>
-      
-      {/* Table component */}
+      </div>
+
+      <div className="overflow-auto w-full">
+        {/* Table component */}
         <table className="w-full mt-16">
           <thead>
             <tr className="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
@@ -428,6 +429,8 @@ export default function Page(): React.ReactElement {
             )}
           </tbody>
         </table>
+      </div>
+      
       </div>
       
       {/* Pagination */}
