@@ -294,10 +294,10 @@ export default function TaskPage() {
         {Object.entries(taskCounts).map(([status, count]) => (
           <div 
             key={status} 
-            className="flex items-center w-[19%] border border-gray-400 dark:border-gray-50/20 bg-white px-4 rounded-xl dark:bg-gray-800/50 shadow-xs hover:bg-gray-100 dark:hover:bg-gray-400 hover:text-indigo-700 dark:hover:text-blue-200 cursor-pointer"
+            className="flex items-center w-[19%] border border-gray-400 dark:border-gray-50/20 bg-white px-4 rounded-xl dark:bg-gray-800/50 shadow-xs hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-indigo-700 dark:hover:text-blue-200 cursor-pointer"
           >
             <div className="flex flex-col p-2">
-              <h2 className="text-sm text-gray-600 font-medium">
+              <h2 className="text-sm dark:text-gray-300 text-gray-500 font-medium">
                 {count}{' '}
                 <span className={`${statusColors[status as Task['status']]} ml-1.5`}>
                   {status}
