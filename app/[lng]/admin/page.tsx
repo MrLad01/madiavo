@@ -301,27 +301,27 @@ const LeadsOverview: React.FC = () => {
       <div className="flex flex-wrap justify-between gap-2 mb-4">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Derinama</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">Heritage</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-indigo-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Skambinama</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">Calling</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Ruošiama sutartis</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">Preparing the contract</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-gray-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Laukiama atsatymo</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">Waiting for a response</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Prarasta</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">Lost</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Klientas</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">Client</span>
         </div>
       </div>
       
@@ -382,9 +382,9 @@ export default function DashboardPage() {
                     return (
                       <DraggableWidget key={widget.id} id={widget.id} title={widget.title}>
                         <div className="grid grid-cols-3 gap-4">
-                          <MetricCard icon={<FileBarChart2 size={20} />} title="Total Sales" startValue={1200} endValue={1500} color="bg-blue-500" trend={20} trendLabel="from last month" />
-                          <MetricCard icon={<BadgeCheck size={20} />} title="New Customers" startValue={300} endValue={400} color="bg-green-500" trend={15} trendLabel="from last month" />
-                          <MetricCard icon={<TriangleAlert size={20} />} title="Pending Orders" startValue={50} endValue={30} color="bg-red-500" trend={-10} trendLabel="from last month" />
+                          <MetricCard icon={<FileBarChart2 size={20} />} title="Converted Leads" startValue={1200} endValue={1500} color="bg-blue-500" trend={20} trendLabel="from last month" />
+                          <MetricCard icon={<BadgeCheck size={20} />} title="Projects in Progress" startValue={300} endValue={400} color="bg-green-500" trend={15} trendLabel="from last month" />
+                          <MetricCard icon={<TriangleAlert size={20} />} title="Tasks Not Finished" startValue={50} endValue={30} color="bg-red-500" trend={-10} trendLabel="from last month" />
                         </div>
                       </DraggableWidget>
                     )
