@@ -138,6 +138,7 @@ export default function NavbarTimesheet({ isAdmin = false }) {
           <div className={`${timerActive ? 'animate-spin' : ''}`}>
             <Clock4 size={18} className="text-indigo-600 dark:text-white" />
           </div>
+        {timerActive && <div className="absolute -top-1.5 z-30 -right-0.5 p-0.5 w-3 h-3 bg-indigo-600 text-[6px] rounded-full border">1</div>}
         </button>
         
         {isOpen && (
