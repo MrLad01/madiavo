@@ -21,6 +21,7 @@ import {
   ChevronUp
 } from 'lucide-react'
 import Link from 'next/link'
+import { useParams } from 'next/navigation';
 import React, { useState } from 'react'
 
 // Type definitions
@@ -43,66 +44,67 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isAdmin = true }: SidebarProps) {
-   const { t } = useT('common')
+   const { t } = useT('common');
+   const lng = useParams()?.lng
 
   const userMenuItems: MenuItem[] = [
-    { icon: <Layout size={18} />, title: 'Dashboard', href: '/lt/admin' },
-    { icon: <BarChart size={18} />, title: 'Projects', href: '/lt/admin/projects' },
-    { icon: <CheckCircle size={18} />, title: 'Tasks', href: '/lt/admin/tasks' },
-    { icon: <HelpCircle size={18} />, title: 'Support', href: '/lt/admin/support' },
-    { icon: <Crosshair size={18} />, title: 'Leads', href: '/lt/admin/leads' },
+    { icon: <Layout size={18} />, title: 'Dashboard', href: `/${lng}/admin` },
+    { icon: <BarChart size={18} />, title: 'Projects', href: `/${lng}/admin/projects` },
+    { icon: <CheckCircle size={18} />, title: 'Tasks', href: `/${lng}/admin/tasks` },
+    { icon: <HelpCircle size={18} />, title: 'Support', href: `/${lng}/admin/support` },
+    { icon: <Crosshair size={18} />, title: 'Leads', href: `/${lng}/admin/leads` },
   ];
 
   // Admin menu categories and items
   const adminMenuCategories: MenuCategory[] = [
     {
       items: [
-        { icon: <Layout size={18} />, title: 'Dashboard', href: '/lt/admin/' },
-        { icon: <Users size={18} />, title: 'Customers', href: '/lt/admin/customers' },
-        { icon: <ShoppingCart size={18} />, title: 'Sales', href: '/lt/admin/sales' },
-        { icon: <Repeat size={18} />, title: 'Subscriptions', href: '/lt/admin/subscriptions' },
-        { icon: <FileText size={18} />, title: 'Expenses', href: '/lt/admin/expenses' },
-        { icon: <FileText size={18} />, title: 'Contracts', href: '/lt/admin/contracts' },
-        { icon: <BarChart size={18} />, title: 'Projects', href: '/lt/admin/projects' },
-        { icon: <CheckCircle size={18} />, title: 'Tasks', href: '/lt/admin/tasks' },
-        { icon: <HelpCircle size={18} />, title: 'Support', href: '/lt/admin/support' },
-        { icon: <Crosshair size={18} />, title: 'Leads', href: '/lt/admin/leads' },
-        { icon: <FileText size={18} />, title: 'Estimate Request', href: '/lt/admin/estimate-request' },
-        { icon: <Book size={18} />, title: 'Knowledge Base', href: '/lt/admin/knowledge-base' },
+        { icon: <Layout size={18} />, title: 'Dashboard', href: `/${lng}/admin/` },
+        { icon: <Users size={18} />, title: 'Customers', href: `/${lng}/admin/customers` },
+        { icon: <ShoppingCart size={18} />, title: 'Sales', href: `/${lng}/admin/sales` },
+        { icon: <Repeat size={18} />, title: 'Subscriptions', href: `/${lng}/admin/subscriptions` },
+        { icon: <FileText size={18} />, title: 'Expenses', href: `/${lng}/admin/expenses` },
+        { icon: <FileText size={18} />, title: 'Contracts', href: `/${lng}/admin/contracts` },
+        { icon: <BarChart size={18} />, title: 'Projects', href: `/${lng}/admin/projects` },
+        { icon: <CheckCircle size={18} />, title: 'Tasks', href: `/${lng}/admin/tasks` },
+        { icon: <HelpCircle size={18} />, title: 'Support', href: `/${lng}/admin/support` },
+        { icon: <Crosshair size={18} />, title: 'Leads', href: `/${lng}/admin/leads` },
+        { icon: <FileText size={18} />, title: 'Estimate Request', href: `/${lng}/admin/estimate-request` },
+        { icon: <Book size={18} />, title: 'Knowledge Base', href: `/${lng}/admin/knowledge-base` },
       ]
     },
     {
       title: 'Utilities',
       isExpandable: true,
       items: [
-        { icon: <FileText size={18} />, title: 'Media', href: '/lt/admin/utilities/media' },
-        { icon: <FileText size={18} />, title: 'Bulk PDF Export', href: '/lt/admin/utilities/bulk-pdf-export' },
-        { icon: <FileText size={18} />, title: 'CSV Export', href: '/lt/admin/utilities/csv-export' },
-        { icon: <FileText size={18} />, title: 'Calendar', href: '/lt/admin/utilities/calendar' },
-        { icon: <FileText size={18} />, title: 'Announcements', href: '/lt/admin/utilities/announcements' },
-        { icon: <FileText size={18} />, title: 'Goals', href: '/lt/admin/utilities/goals' },
-        { icon: <FileText size={18} />, title: 'Activity Log', href: '/lt/admin/utilities/activity-log' },
-        { icon: <FileText size={18} />, title: 'Surveys', href: '/lt/admin/utilities/surveys' },
-        { icon: <FileText size={18} />, title: 'Database Backup', href: '/lt/admin/utilities/database-backup' },
-        { icon: <FileText size={18} />, title: 'Ticket Pipe Log', href: '/lt/admin/utilities/ticket-pipe-log' },
+        { icon: <FileText size={18} />, title: 'Media', href: `/${lng}/admin/utilities/media` },
+        { icon: <FileText size={18} />, title: 'Bulk PDF Export', href: `/${lng}/admin/utilities/bulk-pdf-export` },
+        { icon: <FileText size={18} />, title: 'CSV Export', href: `/${lng}/admin/utilities/csv-export` },
+        { icon: <FileText size={18} />, title: 'Calendar', href: `/${lng}/admin/utilities/calendar` },
+        { icon: <FileText size={18} />, title: 'Announcements', href: `/${lng}/admin/utilities/announcements` },
+        { icon: <FileText size={18} />, title: 'Goals', href: `/${lng}/admin/utilities/goals` },
+        { icon: <FileText size={18} />, title: 'Activity Log', href: `/${lng}/admin/utilities/activity-log` },
+        { icon: <FileText size={18} />, title: 'Surveys', href: `/${lng}/admin/utilities/surveys` },
+        { icon: <FileText size={18} />, title: 'Database Backup', href: `/${lng}/admin/utilities/database-backup` },
+        { icon: <FileText size={18} />, title: 'Ticket Pipe Log', href: `/${lng}/admin/utilities/ticket-pipe-log` },
       ]
     },
     {
       title: 'Reports',
       isExpandable: true,
       items: [
-        { icon: <PieChart size={18} />, title: 'Sales Reports', href: '/lt/admin/reports/sales' },
-        { icon: <PieChart size={18} />, title: 'Customer Reports', href: '/lt/admin/reports/customers' },
-        { icon: <PieChart size={18} />, title: 'Project Reports', href: '/lt/admin/reports/projects' },
+        { icon: <PieChart size={18} />, title: 'Sales Reports', href: `/${lng}/admin/reports/sales` },
+        { icon: <PieChart size={18} />, title: 'Customer Reports', href: `/${lng}/admin/reports/customers` },
+        { icon: <PieChart size={18} />, title: 'Project Reports', href: `/${lng}/admin/reports/projects` },
       ]
     },
     {
       title: 'Setup',
       isExpandable: true,
       items: [
-        { icon: <Wrench size={18} />, title: 'General Settings', href: '/lt/admin/setup/general' },
-        { icon: <Wrench size={18} />, title: 'Email Templates', href: '/lt/admin/setup/email' },
-        { icon: <Wrench size={18} />, title: 'User Management', href: '/lt/admin/setup/users' },
+        { icon: <Wrench size={18} />, title: 'General Settings', href: `/${lng}/admin/setup/general` },
+        { icon: <Wrench size={18} />, title: 'Email Templates', href: `/${lng}/admin/setup/email` },
+        { icon: <Wrench size={18} />, title: 'User Management', href: `/${lng}/admin/setup/users` },
       ]
     }
   ];
