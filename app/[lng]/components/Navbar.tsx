@@ -1,10 +1,11 @@
 'use client'
 
 import { Bell, Clock4, Hamburger, Menu, PlusIcon, Search, Share2, SquareCheckBig } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import NavbarLanguageSwitcher from './NavbarLanguageSwitcher'
 import NavbarThemeSwitcher from './NavbarThemeSwitcher'
 import { useT } from '@/app/i18n/client'
+import NavbarTimesheet from './NavbarTimesheet'
 
 interface NavbarProps {
     hideSidebar: boolean;
@@ -13,6 +14,7 @@ interface NavbarProps {
 
 export default function Navbar({hideSidebar, setHideSidebar}: NavbarProps) {
   const { t } = useT('common');
+  const [isAdmin, setIsAdmin] = useState(false)
 
   return (
     <div className='w-[98vw] max-md:w-[96vw] border px-4 fixed py-1 max-md:py-3 rounded-xl shadow-md bg-white dark:bg-blue-500 dark:border-0 z-50 flex justify-between items-center'>
@@ -41,9 +43,10 @@ export default function Navbar({hideSidebar, setHideSidebar}: NavbarProps) {
             <button className='cursor-pointer outline-none' title={t('todo items')}>
                 <SquareCheckBig size={18} className='text-indigo-600 dark:text-white' />
             </button>
-            <button className='cursor-pointer outline-none' title={t('My Timesheets')}>
+            {/* <button className='cursor-pointer outline-none' title={t('My Timesheets')}>
                 <Clock4 size={18} className='text-indigo-600 dark:text-white' />
-            </button>
+            </button> */}
+            <NavbarTimesheet isAdmin={isAdmin} />
             <button className='cursor-pointer outline-none' title={t('Notifications')}>
                 <Bell size={18} className='text-indigo-600 dark:text-white' />
             </button>
