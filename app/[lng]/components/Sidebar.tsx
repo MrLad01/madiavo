@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // Type definitions
 interface MenuItem {
@@ -43,9 +43,55 @@ interface SidebarProps {
   isAdmin?: boolean;
 }
 
-export default function Sidebar({ isAdmin = true }: SidebarProps) {
+export default function Sidebar({ isAdmin = false }: SidebarProps) {
    const { t } = useT('common');
-   const lng = useParams()?.lng
+   const lng = useParams()?.lng;
+
+  function getAdminContentPath(): string {
+    const pathname = window.location.pathname;
+    
+    // Regular expression to match any characters, followed by "/admin/", 
+    // then capture everything after that
+    const regex = /^(?:.*?)\/admin\/(.*)$/;
+    const match = pathname.match(regex);
+    
+    // If there's a match and a capture group, return the captured content
+    if (match && match[1]) {
+      return match[1];
+    }
+    
+    // Return empty string if no match found
+    return '';
+  }
+
+  // Example usage:
+  // Assuming URL is "/fr/admin/projects"
+  const contentPath = getAdminContentPath(); // Returns "projects"
+
+  // You can also use it directly in components/functions
+  function handleAdminRoute() {
+    const contentPath = getAdminContentPath();
+    
+    switch (contentPath) {
+      case '':
+        return 0;
+      case 'projects':
+        return 1;
+      case 'tasks':
+        return 2;
+      case 'support':
+        return 3;
+      case 'leads':
+        return 4;
+      default:
+        return 5;
+    }
+  }
+
+  useEffect(() => {
+    setActiveItem(handleAdminRoute())
+  }, [])
+   
 
   const userMenuItems: MenuItem[] = [
     { icon: <Layout size={18} />, title: 'Dashboard', href: `/${lng}/admin` },
