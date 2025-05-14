@@ -9,6 +9,9 @@ import {
   LayoutGrid,
   List,
   User,
+  Plus,
+  Tag,
+  X,
 } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -132,6 +135,7 @@ export default function TaskPage() {
   const [filters, setFilters] = useState<FilterConfig>({});
   const [activeStatusFilter, setActiveStatusFilter] = useState<Task['status'] | null>(null);
   const tasksPerPage = 6;
+  const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
 
   // Unique values for filter dropdowns
   const filterOptions = {
@@ -222,6 +226,12 @@ export default function TaskPage() {
   const handleStatusFilterChange = (status: Task['status'] | null) => {
     setActiveStatusFilter(status === activeStatusFilter ? null : status);
   };
+
+  const handleAddNewTask = (e: React.FormEvent) => {
+      e.preventDefault();
+      // Implementation would go here
+      setShowNewTaskModal(false);
+    };
 
   // Remove GridView as we no longer need it
 
@@ -384,6 +394,10 @@ export default function TaskPage() {
 
       {/* Filters */}
       <div className="flex items-center justify-between mt-4 relative">
+        <div className='flex gap-2 items-center'>
+          <button onClick={() => setShowNewTaskModal(true)} className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-blue-500 text-white hover:bg-blue-600'>
+            <Plus size={16} className="mr-1"/> <p>New Task</p>
+          </button>
         <button 
           onClick={() => setViewMode(viewMode === 'kanban' ? 'list' : 'kanban')} 
           className="flex items-center justify-center gap-2 rounded-md px-3 py-2 border dark:bg-gray-800 bg-gray-100 border-gray-400 dark:hover:bg-gray-700"
@@ -394,6 +408,7 @@ export default function TaskPage() {
             <LayoutGrid size={16} className='dark:text-gray-100 text-gray-700' />
           )}
         </button>
+        </div>
         {viewMode === 'kanban' &&
         <div className="relative mt-2 mb-4">
               <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-100" />
@@ -421,11 +436,11 @@ export default function TaskPage() {
       {/* Search Bar */}
       {viewMode !== 'kanban' &&
       <div className="relative mt-2 mb-4">
-        <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
         <input 
           type="text" 
           placeholder="Search Tasks" 
-          className="w-full pl-10 pr-4 py-2 dark:bg-gray-800 bg-gray-50 border border-gray-700 rounded-lg text-gray-700 dark:text-gray-100  focus:outline-none"
+          className="w-full pl-10 pr-4 py-2 dark:bg-gray-800 bg-gray-50 border border-gray-700 rounded-lg text-gray-700 dark:text-gray-100 text-sm focus:outline-none"
         />
       </div>}
 
@@ -509,6 +524,199 @@ export default function TaskPage() {
       )}
       
       {viewMode === 'kanban' && <KanbanView />}
+
+      {showNewTaskModal &&(
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center bg-blue-400 p-4 border-b border-gray-700">
+          <h2 className="text-lg font-semibold text-white">Add New Task</h2>
+          <button 
+            onClick={() => setShowNewTaskModal(false)} 
+            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            <X size={20} color='#fff' />
+          </button>
+        </div>
+        
+        <div className="p-4">
+          <form onSubmit={handleAddNewTask}>
+            <div className="flex space-x-4 mb-4">
+              <div className="flex items-center">
+                <input 
+                  type="checkbox" 
+                  id="publicCheckbox"
+                  className="mr-2"
+                />
+                <label htmlFor="publicCheckbox" className="text-gray-700 dark:text-gray-300">Public</label>
+              </div>
+              
+              <div className="flex items-center">
+                <input 
+                  type="checkbox" 
+                  id="billableCheckbox"
+                  className="mr-2"
+                  checked
+                />
+                <label htmlFor="billableCheckbox" className="text-gray-700 dark:text-gray-300">Billable</label>
+              </div>
+              
+            </div>
+            
+            <div className="mb-4">
+              <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                <span className="text-red-500">*</span> Subject
+              </label>
+              <input 
+                type="text" 
+                required
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+              />
+            </div>
+            
+            <div className="mb-4">
+              <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                Hourly Rate
+              </label>
+              <input 
+                type="number" 
+                placeholder="0"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                  <span className="text-red-500">*</span> Start Date
+                </label>
+                <div className="flex">
+                  <input 
+                    type="date" 
+                    required
+                    defaultValue="2025-05-14"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                  Due Date
+                </label>
+                <div className="flex">
+                  <input 
+                    type="date" 
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                  Priority
+                </label>
+                <select className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white">
+                  <option>Medium</option>
+                  <option>High</option>
+                  <option>Low</option>
+                  <option>Critical</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                  Repeat every
+                </label>
+                <select className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white">
+                  <option>Nothing selected</option>
+                  <option>Daily</option>
+                  <option>Weekly</option>
+                  <option>Monthly</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="mb-4">
+              <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                Related To
+              </label>
+              <select className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white">
+                <option>Nothing selected</option>
+                <option>Project A</option>
+                <option>Client B</option>
+                <option>Task C</option>
+              </select>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                  Assignees
+                </label>
+                <select className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white">
+                  <option>Rodolfo Baumbach</option>
+                  <option>Sarah Johnson</option>
+                  <option>Mike Chen</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                  Followers
+                </label>
+                <select className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white">
+                  <option>Nothing selected</option>
+                  <option>Team A</option>
+                  <option>Department B</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="mb-4">
+              <label className=" mb-1 text-sm text-gray-700 dark:text-gray-300 flex items-center">
+                <Tag size={16} className="mr-1" />
+                Tags
+              </label>
+              <input 
+                type="text" 
+                placeholder="Tag"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+              />
+            </div>
+            
+            <div className="mb-4">
+              <label className="block mb-1 text-sm text-gray-700 dark:text-gray-300">
+                Task Description
+              </label>
+              <textarea 
+                placeholder="Add Description"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white h-24"
+              />
+            </div>
+            
+            <div className="flex justify-end gap-2 pt-4 dark:border-t dark:border-gray-700">
+              <button 
+                type="button"
+                onClick={() => setShowNewTaskModal(false)} 
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+              >
+                Close
+              </button>
+              <button 
+                type="submit" 
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    )
+  }
     </div>
     
   );

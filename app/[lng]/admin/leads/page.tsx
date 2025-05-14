@@ -472,7 +472,7 @@ export default function Page(): React.ReactElement {
                     <span className="text-red-500">*</span> Status
                   </label>
                   <div className="relative">
-                    <select className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white">
+                    <select className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600">
                       <option>Darsinama</option>
                       <option>New</option>
                       <option>Contacted</option>
@@ -489,7 +489,7 @@ export default function Page(): React.ReactElement {
                     <span className="text-red-500">*</span> Source
                   </label>
                   <div className="relative">
-                    <select className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white">
+                    <select className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600">
                       <option>Google</option>
                       <option>Website</option>
                       <option>Referral</option>
@@ -505,7 +505,7 @@ export default function Page(): React.ReactElement {
                   Assigned
                 </label>
                 <div className="relative">
-                  <select className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white">
+                  <select className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600">
                     <option>Abraham A.</option>
                     <option>Sarah Johnson</option>
                     <option>Mike Chen</option>
@@ -525,7 +525,7 @@ export default function Page(): React.ReactElement {
                 <input 
                   type="text" 
                   placeholder="Tag" 
-                  className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                  className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                 />
               </div>
               
@@ -537,7 +537,7 @@ export default function Page(): React.ReactElement {
                   <input 
                     type="text" 
                     required
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
                 
@@ -547,7 +547,7 @@ export default function Page(): React.ReactElement {
                   </label>
                   <input 
                     type="text" 
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
               </div>
@@ -559,7 +559,7 @@ export default function Page(): React.ReactElement {
                   </label>
                   <input 
                     type="text" 
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
                 
@@ -569,7 +569,7 @@ export default function Page(): React.ReactElement {
                   </label>
                   <input 
                     type="text" 
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
               </div>
@@ -581,7 +581,7 @@ export default function Page(): React.ReactElement {
                   </label>
                   <input 
                     type="email" 
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
                 
@@ -591,7 +591,7 @@ export default function Page(): React.ReactElement {
                   </label>
                   <input 
                     type="text" 
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
               </div>
@@ -603,7 +603,7 @@ export default function Page(): React.ReactElement {
                   </label>
                   <input 
                     type="url" 
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
                 
@@ -612,7 +612,7 @@ export default function Page(): React.ReactElement {
                     Country
                   </label>
                   <div className="relative">
-                    <select className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white">
+                    <select className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600">
                       <option>Lithuania</option>
                       <option>United States</option>
                       <option>Canada</option>
@@ -630,7 +630,7 @@ export default function Page(): React.ReactElement {
                   </label>
                   <input 
                     type="tel" 
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
                 
@@ -640,7 +640,7 @@ export default function Page(): React.ReactElement {
                   </label>
                   <input 
                     type="text" 
-                    className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
               </div>
@@ -653,7 +653,7 @@ export default function Page(): React.ReactElement {
                   <div className="relative">
                     <input 
                       type="text" 
-                      className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 pl-6 text-white"
+                      className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 pl-6 dark:text-white text-gray-600"
                     />
                     <span className="absolute left-3 top-2.5 text-gray-400">$</span>
                   </div>
@@ -664,7 +664,7 @@ export default function Page(): React.ReactElement {
                     Default Language
                   </label>
                   <div className="relative">
-                    <select className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white">
+                    <select className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600">
                       <option>System Default</option>
                       <option>English</option>
                       <option>Lithuanian</option>
@@ -681,7 +681,7 @@ export default function Page(): React.ReactElement {
                 </label>
                 <input 
                   type="text" 
-                  className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white"
+                  className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                 />
               </div>
               
@@ -690,7 +690,7 @@ export default function Page(): React.ReactElement {
                   Description
                 </label>
                 <textarea 
-                  className="w-full dark:bg-gray-700 bg-gray-400 border border-gray-600 rounded p-2 text-white h-24"
+                  className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600 h-24"
                 />
               </div>
               
@@ -701,7 +701,7 @@ export default function Page(): React.ReactElement {
                     id="publicCheckbox"
                     className="mr-2"
                   />
-                  <label htmlFor="publicCheckbox" className="text-gray-300">Public</label>
+                  <label htmlFor="publicCheckbox" className="dark:text-gray-300 text-gray-600">Public</label>
                 </div>
                 
                 <div className="flex items-center">
@@ -711,15 +711,15 @@ export default function Page(): React.ReactElement {
                     className="mr-2"
                     checked
                   />
-                  <label htmlFor="contactedToday" className="text-gray-300">Contacted Today</label>
+                  <label htmlFor="contactedToday" className="dark:text-gray-300 text-gray-600">Contacted Today</label>
                 </div>
               </div>
               
-              <div className="flex justify-end gap-2 border-t border-gray-700 pt-4 mt-4">
+              <div className="flex justify-end gap-2 dark:border-t border-gray-700 pt-4 mt-4">
                 <button 
                   type="button"
                   onClick={() => setShowNewLeadModal(false)} 
-                  className="px-4 py-2 text-gray-300 rounded hover:bg-gray-700 bg-gray-600"
+                  className="px-4 py-2 dark:text-gray-300 text-gray-600 rounded dark:hover:bg-gray-700 dark:bg-gray-600 bg-gray-200"
                 >
                   Close
                 </button>
