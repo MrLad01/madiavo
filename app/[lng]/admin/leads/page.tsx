@@ -1,5 +1,5 @@
 'use client'
-import { ArrowUpDown, Filter, LayoutGrid, List, Plus, RefreshCw, RotateCw, Search, Tag, X } from 'lucide-react'
+import { ArrowUpDown, ChevronDown, Filter, Import, LayoutGrid, List, Menu, MoveDown, Plus, RefreshCw, RotateCw, Search, Tag, Upload, User, X } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 
@@ -115,18 +115,43 @@ const dummyLeads: Lead[] = [
   }
 ];
 
+const statusColorsi: Record<Lead['status'], string> = {
+  'New': 'bg-blue-400',
+  'Qualified': 'bg-gray-500',
+  'Working': 'bg-gray-500',
+  'Contacted': 'bg-gray-500',
+  'Lost': 'bg-red-400',
+  'Clients': 'bg-green-500',
+};
+
 export default function Page(): React.ReactElement {
   const [leads, setLeads] = useState<Lead[]>(dummyLeads);
+  const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
   const [filteredLeads, setFilteredLeads] = useState<Lead[]>(dummyLeads);
-  const [statusFilter, setStatusFilter] = useState<LeadStatus | 'All'>('All');
+  const [statusFilter, setStatusFilter] = useState<string | 'All'>('All');
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: null });
   const [showNewLeadModal, setShowNewLeadModal] = useState<boolean>(false);
 
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [activeStatusForColor, setActiveStatusForColor] = useState<Lead['status'] | null>(null);
+  const [statusColors, setStatusColors] = useState<Record<Lead['status'], string>>(statusColorsi);
+
+
   // Calculate status counts
   const statusCounts = _.countBy(leads, 'status');
   const lostPercentage = leads.length > 0 ? Math.round((statusCounts['Lost'] || 0) / leads.length * 100) : 0;
+
+  const handleStatusColorChange = (status: Lead['status'], color: string) => {
+  setStatusColors({
+    ...statusColors,
+    [status]: color
+  });
+  setShowColorPicker(false);
+  setActiveStatusForColor(null);
+};
+
 
   // Filter leads when status filter changes
   useEffect(() => {
@@ -190,101 +215,202 @@ export default function Page(): React.ReactElement {
     if (sortConfig.key !== key) return null;
   };
 
-  // Format status with appropriate color
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'New':
-        return 'text-blue-500';
-      case 'Lost':
-        return 'text-red-500';
-      case 'Clients':
-        return 'text-green-500';
-      default:
-        return 'text-gray-500';
-    }
-  };
+ const bgToTextColor = (bgColorClass: string): string => {
+  // If no class provided or not a string, return a default text color
+  if (!bgColorClass || typeof bgColorClass !== 'string') {
+    return 'text-gray-500';
+  }
+  
+  // If it already starts with 'text-', just return it
+  if (bgColorClass.startsWith('text-')) {
+    return bgColorClass;
+  }
+  
+  // Replace 'bg-' with 'text-' and return the new class
+  // Example: 'bg-blue-400' becomes 'text-blue-400'
+  return bgColorClass.replace('bg-', 'text-');
+};
+ const borderToTextColor = (bgColorClass: string): string => {
+  // If no class provided or not a string, return a default text color
+  if (!bgColorClass || typeof bgColorClass !== 'string') {
+    return 'ring-gray-500';
+  }
+  
+  // If it already starts with 'text-', just return it
+  if (bgColorClass.startsWith('ring-')) {
+    return bgColorClass;
+  }
+  
+  // Replace 'bg-' with 'text-' and return the new class
+  // Example: 'bg-blue-400' becomes 'text-blue-400'
+  return bgColorClass.replace('bg-', 'ring-');
+};
+
+// Usage in your list view component:
+const getStatusColor = (status: string) => {
+  // Get the background color class for this status  
+  const bgColor = statusColors[status as LeadStatus] || '';
+  
+  // Convert it to a text color
+  return bgToTextColor(bgColor);
+};
+const getStatusColor2 = (status: string) => {
+  // Get the background color class for this status  
+  const bgColor = statusColors[status as LeadStatus] || '';
+  
+  // Convert it to a text color
+  return borderToTextColor(bgColor);
+};
+
+  // Kanban Board View
+    const KanbanView = () => {
+      const statusList: Lead['status'][] = ['New', 'Contacted', 'Qualified', 'Working', 'Lost', 'Clients'];
+      
+      return (
+        <div className="flex gap-2 pb-16 overflow-x-auto">
+          {statusList.map(status => {
+            const statusTasks = dummyLeads.filter(task => task.status === status);
+            
+            return (
+              <div key={status} className="flex flex-col h-full min-w-[22rem]">
+                <div className={`flex justify-between items-center px-2 py-2 text-white  font-medium text-sm rounded-t-lg ${statusColors[status]}`}>
+                  <Menu />
+                <div className=''>
+                  {status} - £0,00 - {statusTasks.length} Leads
+                </div>
+                  <ChevronDown 
+                    size={14} 
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setActiveStatusForColor(status);
+                      console.log(status);
+                      
+                      setShowColorPicker(true);
+                    }}
+                  />
+              </div>
+                
+                <div className="dark:bg-gray-900 bg-gray-100 flex-1 rounded-b-lg p-4 min-h-96">
+                  {statusTasks.length > 0 ? (
+                    <div className="space-y-3">
+                      {statusTasks.map(task => (
+                        <div key={task.id} className="dark:bg-gray-800 bg-white rounded-lg p-3 shadow-sm border dark:border-gray-700 border-gray-100">
+                          <div className='flex justify-between'>
+
+                          <div>
+                          <div className="flex justify-start items-center text-center mb-2 gap-2">
+                            <div className='rounded-2xl w-fit bg-gray-100 dark:bg-gray-400 p-2'>
+                            <User size={18} className='dark:text-gray-300 text-gray-600' />
+                          </div>
+                            <span className="text-sm font-normal mb-2 text-gray-400 dark:text-gray-200 mt-2">{task.id} {task.name}</span>
+                          </div>
+                          <p className=" text-sm text-gray-400 dark:text-gray-200">
+                           Source: {task.source}
+                          </p>
+                          </div>
+
+                          <div className='flex flex-col justify-end items-end'>
+                            <p className='text-xs text-gray-400'> Last Contact: {task.lastContact}</p>
+                            <p className='text-xs text-gray-400'>Created: {task.created}</p>
+                          </div>
+                        </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center h-full">
+                      <div className="text-gray-500 mb-2">
+                        <svg className="w-8 h-8 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" />
+                        </svg>
+                      </div>
+                      <p className="text-gray-500 text-center">No Leads Found</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    };
 
   return (
     <div className='flex-1 pb-16 pr-6 flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100 gap-2'>
       <h2 className='text-xl font-bold dark:text-gray-100 text-gray-800'>Leads</h2>
       
       {/* Status filter buttons */}
+      {viewMode !== 'kanban' &&
       <div className='flex items-center gap-2 flex-wrap'>
-        <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 p-2 w-[120px] flex items-center justify-center cursor-pointer ${statusFilter === 'New' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('New')}
-        >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['New'] || 0} <span className='ml-1.5 text-blue-500'>New</span></p>
-        </div>
-        
-        <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[120px] flex items-center justify-center cursor-pointer ${statusFilter === 'Contacted' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Contacted')}
-        >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Contacted'] || 0} <span className='ml-1.5 text-gray-500'>Contacted</span></p>
-        </div>
-        
-        <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[150px] flex items-center justify-center cursor-pointer ${statusFilter === 'Qualified' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Qualified')}
-        >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Qualified'] || 0} <span className='ml-1.5 text-gray-500'>Qualified</span></p>
-        </div>
-        
-        <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[150px] flex items-center justify-center cursor-pointer ${statusFilter === 'Working' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Working')}
-        >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Working'] || 0} <span className='ml-1.5 text-gray-500'>Working</span></p>
-        </div>
-        
-        <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[90px] flex items-center justify-center cursor-pointer ${statusFilter === 'Lost' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Lost')}
-        >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Lost'] || 0} <span className='ml-1.5 text-red-500'>Lost</span></p>
-        </div>
-        
-        <div 
-          className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-400 p-2 w-[90px] flex items-center justify-center cursor-pointer ${statusFilter === 'Clients' ? 'ring-2 ring-blue-500' : ''}`}
-          onClick={() => setStatusFilter('Clients')}
-        >
-          <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts['Clients'] || 0} <span className='ml-1.5 text-green-500'>Clients</span></p>
-        </div>
+        {Object.keys(statusCounts).map((status, index) => (
+          <div 
+            key={index}
+            className={`rounded-lg bg-white dark:bg-transparent border dark:border-gray-500 
+                     border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 p-2 
+                     ${status === 'New' || status === 'Clients' ? 'w-[120px]' : 
+                       status === 'Lost' ? 'w-[90px]' : 'w-[150px]'} 
+                     flex items-center justify-center cursor-pointer 
+                     ${statusFilter === status ? `ring-2 ${getStatusColor2(status)}` : ''} ${getStatusColor(status)}`}
+            onClick={() => setStatusFilter(status)}
+          >
+            <p className='text-xs dark:text-gray-100 text-gray-500'>{statusCounts[status] || 0} <span className={`ml-1.5 ${getStatusColor(status)}`}>{status}</span></p>
+          </div>
+        ))}
         
         <div 
           className='rounded-lg bg-white dark:bg-transparent border border-red-400 hover:bg-gray-100 dark:hover:bg-gray-600 p-2 w-[140px] flex items-center justify-center cursor-pointer'
           onClick={() => setStatusFilter('All')}
         >
-          <p className='text-xs text-red-400'>{statusCounts['Lost'] || 0} <span className='text-red-400'>Lost Leads - {lostPercentage}%</span></p>
+          <p className='text-xs text-red-400'>
+            {statusCounts['Lost'] || 0} <span className='text-red-400'>Lost Leads - {lostPercentage}%</span>
+          </p>
         </div>
-      </div>
+      </div>}
       
       {/* Action buttons and search */}
-      <div className="flex items-center justify-between mt-4 relative">
+      <div className="flex items-center justify-between mt-2 relative">
         <div className='flex gap-2 items-center'>
           <button onClick={() => setShowNewLeadModal(true)} className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-blue-500 text-white hover:bg-blue-600'>
             <Plus size={16} className="mr-1"/> <p>New Lead</p>
           </button>
           
           <div className="flex border border-gray-400 rounded-md overflow-hidden">
-            <button className="flex items-center justify-center px-2 py-2 shadow-xs bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200 dark:bg-transparent">
-              <LayoutGrid size={16} className='dark:text-gray-100 text-gray-500' />
+            <button
+            onClick={() => setViewMode(viewMode === 'kanban' ? 'list' : 'kanban')}
+             className="flex items-center justify-center px-2 py-2 shadow-xs bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200 dark:bg-transparent">
+               {viewMode === 'kanban' ? (
+                  <List size={16} className='dark:text-gray-100 text-gray-700' />
+              ) : (
+                <LayoutGrid size={16} className='dark:text-gray-100 text-gray-700' />
+              )}
             </button>
-          
+              
           </div>
-          
-          
+          <button onClick={() => setShowNewLeadModal(true)} className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-white dark:bg-transparent dark:text-gray-200 text-gray-600 border border-gray-400 dark:hover:bg-gray-700'>
+          <Upload size={16} className="mr-1"/> <p>Import Lead</p>
+          </button>  
         </div>
+        {viewMode === 'kanban' &&
+            <div className="relative mt-2 mb-4">
+                  <input 
+                    type="text" 
+                    placeholder="Search Leads" 
+                    className="w-full pl-2 pr-4 py-2 border dark:bg-gray-800 bg-gray-50  border-gray-700 rounded-lg text-gray-700 dark:text-gray-100 focus:outline-none"
+                  />
+                </div>
+            }
+          
         
+        {viewMode !== 'kanban' && 
         <div className="flex items-center justify-end"> 
           <button  className="flex items-center justify-center gap-1 py-2 px-3 rounded-lg border border-gray-400 text-gray-500 shadow-sm text-xs dark:text-gray-400 dark:bg-transparent bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200">
             <Filter size={16} />
             Filters
           </button>
-        </div>
+        </div>}
       </div>
-
+        
+      {viewMode === 'list' && (
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 mt-4 overflow-x-auto relative">
 
       <div className="flex items-center absolute bg-white dark:bg-gray-800 w-full justify-between p-4 border-b border-gray-200 dark:border-gray-700">
@@ -431,10 +557,8 @@ export default function Page(): React.ReactElement {
         </table>
       </div>
       
-      </div>
-      
       {/* Pagination */}
-      <div className="flex items-center justify-between mt-4">
+      <div className="flex items-center justify-between mt-4 mb-4">
         <div className="text-xs text-gray-500 dark:text-gray-400">
           Showing {filteredLeads.length > 0 ? 1 : 0} to {filteredLeads.length} of {filteredLeads.length} entries
         </div>
@@ -451,11 +575,15 @@ export default function Page(): React.ReactElement {
           </button>
         </div>
       </div>
+      </div>
+      )}
+
+      {viewMode === 'kanban' && <KanbanView />}
       {showNewLeadModal &&(
       <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
         <div className="dark:bg-gray-800 bg-white border border-gray-700 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
           <div className="flex justify-between items-center bg-blue-400 p-4 border-b border-gray-700">
-            <h2 className="text-lg font-semibold text-white">Add New lead</h2>
+            <h2 className="text-lg font-semibold text-white">Add New Lead</h2>
             <button 
               onClick={() => setShowNewLeadModal(false)} 
               className="text-gray-400 hover:text-white"
@@ -734,8 +862,34 @@ export default function Page(): React.ReactElement {
           </div>
         </div>
       </div>
-    )
-  }
+        )
+      }
+
+      {/* Color picker modal */}
+      {showColorPicker && activeStatusForColor && (
+        <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
+          setShowColorPicker(false)          
+          }}>
+          <div className="dark:bg-gray-800 bg-white border border-gray-700 rounded-xl p-4 w-72" onClick={e => e.stopPropagation()}>
+            <h3 className="text-lg font-semibold mb-3 dark:text-white">Choose Column Color</h3>
+            <div className="grid grid-cols-6 gap-2">
+              {[
+                'bg-red-400', 'bg-orange-400', 'bg-yellow-400', 'bg-green-500', 'bg-blue-400', 'bg-indigo-400',
+                'bg-purple-400', 'bg-gray-500', 'bg-emerald-500', 'bg-cyan-500', 'bg-violet-500'
+              ].map((color, index) => (
+                <div 
+                  key={index}
+                  className={`${color} w-10 h-10 rounded-full cursor-pointer`}
+                  onClick={() => {
+                    handleStatusColorChange(activeStatusForColor, color)
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
 
   )
