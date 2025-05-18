@@ -390,11 +390,12 @@ export default function CustomerManagement() {
               <tr>
                 <td colSpan={13} className="px-3 py-16 text-center text-gray-500 dark:text-gray-400">
                   <div className="flex flex-col items-center justify-center">
-                    <div className="w-16 h-16 mb-4 text-gray-300 dark:text-gray-600">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                      </svg>
-                    </div>
+                    <div className="w-20 h-20 mb-4 text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+                          <path d="M13 8L9 12l4 4" />
+                        </svg>
+                      </div>
                     <p className="text-lg font-medium">No entries found</p>
                     <p className="mt-1 text-xs">Try adjusting your filters or search terms</p>
                   </div>
