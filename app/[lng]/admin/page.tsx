@@ -64,6 +64,7 @@ interface MetricCardProps {
 
 // Metric Card Component
 const MetricCard: React.FC<MetricCardProps> = ({ icon, title, startValue, endValue, color, trend, trendLabel }) => {
+  const { t } = useT('common');
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm rounded-xl p-6 flex flex-col gap-4 transition-all duration-300 hover:shadow-md">
       <div className="flex items-center justify-between">
@@ -83,7 +84,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ icon, title, startValue, endVal
       
       <div className="flex items-end justify-between">
         <div className="text-2xl font-semibold text-gray-800 dark:text-gray-100">{startValue}</div>
-        <div className="text-xs text-gray-500">Target: {endValue}</div>
+        <div className="text-xs text-gray-500">{t('Target')}: {endValue}</div>
       </div>
       
       <div className="w-full h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
@@ -120,7 +121,8 @@ const TodoItem: React.FC<{ status: 'pending' | 'completed'; title: string; date:
 
 // To-Do Section Component
 const TodoSection: React.FC = () => {
-  const [tab, setTab] = useState('pending')
+  const [tab, setTab] = useState('pending');
+  const { t } = useT('common');
   
   return (
     <div className="p-6 flex flex-col w-full">
@@ -132,7 +134,7 @@ const TodoSection: React.FC = () => {
               ? 'text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400' 
               : 'text-gray-500 dark:text-gray-400'}`}
           >
-            Pending
+            {t('Pending')}
           </button>
           <button 
             onClick={() => setTab('completed')}
@@ -140,30 +142,30 @@ const TodoSection: React.FC = () => {
               ? 'text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400' 
               : 'text-gray-500 dark:text-gray-400'}`}
           >
-            Completed
+            {t('Completed')}
           </button>
         </div>
         <button className="flex items-center gap-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900 dark:bg-opacity-30 py-1.5 px-3 rounded-full">
           <Plus size={14} />
-          <span>New Task</span>
+          <span>{t('New Task')}</span>
         </button>
       </div>
       
       {tab === 'pending' ? (
         <div className="space-y-1">
-          <TodoItem status="pending" title="Call with marketing team" date="Today" />
-          <TodoItem status="pending" title="Review project proposal" date="Tomorrow" />
-          <TodoItem status="pending" title="Prepare quarterly report" date="May 15" />
+          <TodoItem status="pending" title={t('Call with marketing team')} date={t('Today')} />
+          <TodoItem status="pending" title={t('Review project proposal')} date={t('Tomorrow')} />
+          <TodoItem status="pending" title={t('Prepare quarterly report')} date="May 15" />
         </div>
       ) : (
         <div className="space-y-1">
-          <TodoItem status="completed" title="Update client database" date="Yesterday" />
-          <TodoItem status="completed" title="Client meeting with ABC Corp" date="May 10" />
+          <TodoItem status="completed" title={t('Update client database')} date={t('Yesterday')} />
+          <TodoItem status="completed" title={t('Client meeting with ABC Corp')} date="May 10" />
         </div>
       )}
       
       <button className="flex items-center justify-center gap-2 text-xs font-medium text-indigo-600 dark:text-indigo-400 py-3 mt-4 hover:bg-indigo-50 dark:hover:bg-indigo-900 dark:hover:bg-opacity-20 rounded-lg transition-colors">
-        <span>View All Tasks</span>
+        <span>{t('View All Tasks')}</span>
         <ChevronRight size={14} />
       </button>
     </div>
@@ -172,7 +174,8 @@ const TodoSection: React.FC = () => {
 
 // Tabbed Section Component
 const TabbedSection: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('tasks')
+  const [activeTab, setActiveTab] = useState('tasks');
+  const { t } = useT('common');
   
   return (
     <div className="p-6 flex flex-col w-full">
@@ -184,7 +187,7 @@ const TabbedSection: React.FC = () => {
           onClick={() => setActiveTab('tasks')}
         >
           <Check size={14} />
-          <span>Tasks</span>
+          <span>{t('Tasks')}</span>
         </button>
         <button 
           className={`flex items-center justify-center gap-2 py-2 px-4 text-xs rounded-md transition-all ${activeTab === 'projects' 
@@ -193,7 +196,7 @@ const TabbedSection: React.FC = () => {
           onClick={() => setActiveTab('projects')}
         >
           <BarChart3 size={14} />
-          <span>Projects</span>
+          <span>{t('Projects')}</span>
         </button>
         <button 
           className={`flex items-center justify-center gap-2 py-2 px-4 text-xs rounded-md transition-all ${activeTab === 'reminders' 
@@ -202,7 +205,7 @@ const TabbedSection: React.FC = () => {
           onClick={() => setActiveTab('reminders')}
         >
           <Clock size={14} />
-          <span>Reminders</span>
+          <span>{t('Reminders')}</span>
         </button>
         <button 
           className={`flex items-center justify-center gap-2 py-2 px-4 text-xs rounded-md transition-all ${activeTab === 'tickets' 
@@ -211,7 +214,7 @@ const TabbedSection: React.FC = () => {
           onClick={() => setActiveTab('tickets')}
         >
           <Ticket size={14} />
-          <span>Tickets</span>
+          <span>{t('Tickets')}</span>
         </button>
       </div>
       
@@ -219,17 +222,17 @@ const TabbedSection: React.FC = () => {
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-2 py-1.5 px-3 text-xs font-medium bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
             <Filter size={14} />
-            <span>Filter</span>
+            <span>{t('Filter')}</span>
           </button>
           <button className="flex items-center gap-2 py-1.5 px-3 text-xs font-medium bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-            Export
+            {t('Export')}
           </button>
         </div>
         <div className="relative">
           <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg pl-9 pr-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-20 transition-all"
-            placeholder="Search..."
+            placeholder={`${t('Search')}...`}
           />
         </div>
       </div>
@@ -238,16 +241,16 @@ const TabbedSection: React.FC = () => {
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-100 dark:border-gray-600">
-              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400">Title</th>
-              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400">Status</th>
-              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400">Due Date</th>
-              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400">Priority</th>
+              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400">{t('Title')}</th>
+              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400">{t('Status')}</th>
+              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400">{t('Due Date')}</th>
+              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400">{t('Priority')}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td colSpan={4} className="text-center py-10 text-sm text-gray-500 dark:text-gray-400">
-                No {activeTab} found
+                {t('No')} {t(`${activeTab}`)} {t('found')}
               </td>
             </tr>
           </tbody>
@@ -259,42 +262,43 @@ const TabbedSection: React.FC = () => {
 
 // Leads Overview Component
 const LeadsOverview: React.FC = () => {
+    const { t } = useT('common');
   return (
     <div className="p-6 flex flex-col w-full">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-base font-medium text-gray-800 dark:text-gray-200">Leads Status</h3>
+        <h3 className="text-base font-medium text-gray-800 dark:text-gray-200">{t('Leads Status')}</h3>
         <select className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-20 transition-all">
-          <option>This Month</option>
-          <option>Last Month</option>
-          <option>Last Quarter</option>
+          <option>{t('This Month')}</option>
+          <option>{t('Last Month')}</option>
+          <option>{t('Last Quarter')}</option>
         </select>
       </div>
       
       <div className="grid grid-cols-3 gap-4 mb-8">
         <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-lg p-4 flex flex-col">
-          <div className="text-sm text-gray-500 dark:text-gray-400">Total Leads</div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">{t('Total Leads')}</div>
           <div className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mt-2">146</div>
           <div className="flex items-center gap-1 text-xs text-green-500 mt-2">
             <ArrowUpRight size={14} />
-            <span>24.5% from last month</span>
+            <span>24.5% {t('from last month')}</span>
           </div>
         </div>
         
         <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-lg p-4 flex flex-col">
-          <div className="text-sm text-gray-500 dark:text-gray-400">Converted</div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">{t('Converted')}</div>
           <div className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mt-2">42</div>
           <div className="flex items-center gap-1 text-xs text-green-500 mt-2">
             <ArrowUpRight size={14} />
-            <span>18.2% from last month</span>
+            <span>18.2% {t('from last month')}</span>
           </div>
         </div>
         
         <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-lg p-4 flex flex-col">
-          <div className="text-sm text-gray-500 dark:text-gray-400">Lost</div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">{t('Lost')}</div>
           <div className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mt-2">28</div>
           <div className="flex items-center gap-1 text-xs text-red-500 mt-2">
             <ArrowUpRight size={14} className="rotate-180" />
-            <span>5.3% from last month</span>
+            <span>5.3% {t('from last month')}</span>
           </div>
         </div>
       </div>
@@ -302,33 +306,33 @@ const LeadsOverview: React.FC = () => {
       <div className="flex flex-wrap justify-between gap-2 mb-4">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Heritage</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">{t('Heritage')}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-indigo-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Calling</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">{t('Calling')}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Preparing the contract</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">{t('Preparing the contract')}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-gray-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Waiting for a response</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">{t('Waiting for a response')}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Lost</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">{t('Lost')}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <span className="text-xs text-gray-600 dark:text-gray-400">Client</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">{t('Client')}</span>
         </div>
       </div>
       
       {/* This is where you would integrate a chart */}
       <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-lg p-6 h-64 flex items-center justify-center text-gray-500 dark:text-gray-400">
-        Chart would be displayed here
+        {t('Chart would be displayed here')}
       </div>
     </div>
   )
@@ -382,29 +386,29 @@ export default function DashboardPage() {
                 switch (widget.type) {
                   case 'metrics':
                     return (
-                      <DraggableWidget key={widget.id} id={widget.id} title={widget.title}>
+                      <DraggableWidget key={widget.id} id={widget.id} title={t(widget.title)}>
                         <div className="grid grid-cols-3 gap-4">
-                          <MetricCard icon={<FileBarChart2 size={20} />} title="Converted Leads" startValue={1200} endValue={1500} color="bg-blue-500" trend={20} trendLabel="from last month" />
-                          <MetricCard icon={<BadgeCheck size={20} />} title="Projects in Progress" startValue={300} endValue={400} color="bg-green-500" trend={15} trendLabel="from last month" />
-                          <MetricCard icon={<TriangleAlert size={20} />} title="Tasks Not Finished" startValue={50} endValue={30} color="bg-red-500" trend={-10} trendLabel="from last month" />
+                          <MetricCard icon={<FileBarChart2 size={20} />} title={t(`Converted Leads`)} startValue={1200} endValue={1500} color="bg-blue-500" trend={20} trendLabel={t('from last month')} />
+                          <MetricCard icon={<BadgeCheck size={20} />} title={t('Projects in Progress')} startValue={300} endValue={400} color="bg-green-500" trend={15} trendLabel={t('from last month')} />
+                          <MetricCard icon={<TriangleAlert size={20} />} title={t('Tasks Not Finished')} startValue={50} endValue={30} color="bg-red-500" trend={-10} trendLabel={t('from last month')} />
                         </div>
                       </DraggableWidget>
                     )
                   case 'todo':
                     return (
-                      <DraggableWidget key={widget.id} id={widget.id} title={widget.title}>
+                      <DraggableWidget key={widget.id} id={widget.id} title={t(widget.title)}>
                         <TodoSection />
                       </DraggableWidget>
                     )
                   case 'tabbed':
                     return (
-                      <DraggableWidget key={widget.id} id={widget.id} title={widget.title}>
+                      <DraggableWidget key={widget.id} id={widget.id} title={t(widget.title)}>
                         <TabbedSection />
                       </DraggableWidget>
                     )
                   case 'leads':
                     return (
-                      <DraggableWidget key={widget.id} id={widget.id} title={widget.title}>
+                      <DraggableWidget key={widget.id} id={widget.id} title={t(widget.title)}>
                         <LeadsOverview />
                       </DraggableWidget>
                     )

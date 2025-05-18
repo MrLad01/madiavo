@@ -349,7 +349,7 @@ export default function TaskPage() {
   );
 
   return (
-    <div className="flex-1 p-6 flex flex-col text-indigo-600 dark:text-gray-100 bg-white gap-2 dark:bg-black min-h-screen">
+    <div className="flex-1 p-6 flex flex-col text-indigo-600 dark:text-gray-100 bg-white gap-2 dark:bg-gray-900 min-h-screen">
       {viewMode !== 'kanban' &&
       <>
       {/* Header */}
@@ -508,7 +508,7 @@ export default function TaskPage() {
 
           {/* Pagination Controls */}
           {currentTasks.length > 0 && (
-            <div className="flex justify-between items-center p-4 dark:border-t border-gray-700 bg-white text-sm text-gray-400">
+            <div className="flex justify-between items-center p-4 dark:border-t border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-400">
               <span className="text-gray-400">Page {currentPage} of {totalPages}</span>
               <div className="flex gap-2">
                 <button onClick={handlePreviousPage} disabled={currentPage === 1} className={`px-3 py-1 rounded ${currentPage === 1 ? 'dark:bg-gray-700 bg-gray-100 cursor-not-allowed' : 'bg-gray-800 hover:bg-gray-700'}`}>
