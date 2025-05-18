@@ -74,5 +74,11 @@
     "Setup":"Nustatyti",
     "General Settings":"Bendra nustatymai",
     "Email Templates":"El. pašto šablonai",
-    "User Management":"Vartotojų valdymas"
+    "User Management":"Vartotojų valdymas",
+    "Proposals":"Pasiūlymai",
+    "Estimates":"Įvertinimai",
+    "Invoices":"Sąskaitos",
+    "Payments":"Mokėjimai",
+    "Credit Notes":"Kredito pastabos",
+    "Items":"Prekės"
 }

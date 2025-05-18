@@ -76,5 +76,11 @@
     "Setup":"Configuration",
     "General Settings":"Paramètres généraux",
     "Email Templates":"Modèles d'e-mail",
-    "User Management":"Gestion des utilisateurs"
+    "User Management":"Gestion des utilisateurs",
+    "Proposals":"Propositions",
+    "Estimates":"Estimations",
+    "Invoices":"Factures",
+    "Payments":"Paiements",
+    "Credit Notes":"Notes de crédit",
+    "Items":"Articles"
 }

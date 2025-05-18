@@ -74,5 +74,11 @@
     "Setup":"Setup",
     "General Settings":"General Settings",
     "Email Templates":"Email Templates",
-    "User Management":"User Management"
+    "User Management":"User Management",
+    "Proposals":"Proposals",
+    "Estimates":"Estimates",
+    "Invoices":"Invoices",
+    "Payments":"Payments",
+    "Credit Notes":"Credit Notes",
+    "Items":"Items"
 }

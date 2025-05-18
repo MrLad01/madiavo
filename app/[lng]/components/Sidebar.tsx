@@ -18,7 +18,8 @@ import {
   Wrench,
   PieChart,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  ArrowBigRight
 } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation';
@@ -31,6 +32,8 @@ interface MenuItem {
   href: string;
   hasSubmenu?: boolean;
   submenu?: MenuItem[];
+  isExpandable?: boolean;
+  items?: MenuItem[];
 }
 
 interface MenuCategory {
@@ -50,8 +53,6 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
   function getAdminContentPath(): string {
     const pathname = window.location.pathname;
     
-    // Regular expression to match any characters, followed by "/admin/", 
-    // then capture everything after that
     const regex = /^(?:.*?)\/admin\/(.*)$/;
     const match = pathname.match(regex);
     
@@ -94,6 +95,18 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
         return '0-1';
       case 'sales':
         return '0-2';
+      case 'sales/proposals':
+        return '0-2-0';
+      case 'sales/estimates':
+        return '0-2-1';
+      case 'sales/invoices':
+        return '0-2-2';
+      case 'sales/payments':
+        return '0-2-3';
+      case 'sales/credit-notes':
+        return '0-2-4';
+      case 'sales/items':
+        return '0-2-5';
       case 'subscriptions':
         return '0-3';
       case 'expenses':
@@ -170,7 +183,21 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
       items: [
         { icon: <Layout size={18} />, title: 'Dashboard', href: `/${lng}/admin/` },
         { icon: <Users size={18} />, title: 'Customers', href: `/${lng}/admin/customers` },
-        { icon: <ShoppingCart size={18} />, title: 'Sales', href: `/${lng}/admin/sales` },
+        // Changed from a regular item to an expandable item with submenu
+        { 
+          icon: <ShoppingCart size={18} />, 
+          title: 'Sales', 
+          href: `/${lng}/admin/sales`,
+          isExpandable: true,
+          items: [
+            { icon: <ArrowBigRight size={18} />, title: 'Proposals', href: `/${lng}/admin/sales/proposals` },
+            { icon: <ArrowBigRight size={18} />, title: 'Estimates', href: `/${lng}/admin/sales/estimates` },
+            { icon: <ArrowBigRight size={18} />, title: 'Invoices', href: `/${lng}/admin/sales/invoices` },
+            { icon: <ArrowBigRight size={18} />, title: 'Payments', href: `/${lng}/admin/sales/payments` },
+            { icon: <ArrowBigRight size={18} />, title: 'Credit Notes', href: `/${lng}/admin/sales/credit-notes` },
+            { icon: <ArrowBigRight size={18} />, title: 'Items', href: `/${lng}/admin/sales/items` },
+          ]
+        },
         { icon: <Repeat size={18} />, title: 'Subscriptions', href: `/${lng}/admin/subscriptions` },
         { icon: <FileText size={18} />, title: 'Expenses', href: `/${lng}/admin/expenses` },
         { icon: <FileText size={18} />, title: 'Contracts', href: `/${lng}/admin/contracts` },
@@ -219,6 +246,8 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
   ];
 
   const [activeItem, setActiveItem] = useState<number | string>(0);
+  // Added state for expanded items
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
     'Utilities': false,
     'Reports': false,
@@ -230,6 +259,95 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
       ...expandedCategories,
       [category]: !expandedCategories[category]
     });
+  };
+
+  // New function to render menu items that can have submenus
+  const renderMenuItem = (item: MenuItem, index: number, catIndex: number) => {
+    const itemKey = `${catIndex}-${index}`;
+    const isItemActive = activeItem === itemKey;
+    
+    // For expandable menu items with submenu
+    if (item.isExpandable && item.items && item.items.length > 0) {
+      const isExpanded = expandedItems[itemKey] || false;
+      
+      return (
+        <div key={itemKey} className="flex flex-col">
+          {/* Main menu item button */}
+          <div 
+            className={`flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-indigo-50 dark:hover:bg-gray-800 ${
+              isItemActive ? 'bg-indigo-50 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-medium' : 'text-gray-700 dark:text-gray-300'
+            }`}
+            onClick={() => {
+              setExpandedItems(prev => ({
+                ...prev,
+                [itemKey]: !isExpanded
+              }));
+            }}
+          >
+            <div className="flex items-center">
+              <span className={`mr-3 text-gray-600 dark:text-gray-400 ${
+                isItemActive ? 'text-indigo-600 dark:text-indigo-400' : ''
+              }`}>
+                {item.icon}
+              </span>
+              <span className="text-sm">{t(item.title)}</span>
+            </div>
+            {item.isExpandable && (
+              isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+            )}
+          </div>
+          
+          {/* Submenu items */}
+          {isExpanded && item.items && (
+            <div className="pl-3 flex flex-col">
+              {item.items.map((subItem, subIndex) => {
+                const subItemKey = `${itemKey}-${subIndex}`;
+                const isSubItemActive = activeItem === subItemKey;
+                
+                return (
+                  <Link 
+                    href={subItem.href} 
+                    key={subItemKey}
+                    onClick={() => setActiveItem(subItemKey)} 
+                    className={`flex items-center px-4 py-2 hover:bg-indigo-50 dark:hover:bg-gray-800 ${
+                      isSubItemActive ? 'text-indigo-600 dark:text-indigo-400 font-medium' : 'text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    <span className={`mr-3 text-gray-600 dark:text-gray-400 ${
+                      isSubItemActive ? 'text-indigo-600 dark:text-indigo-400' : ''
+                    }`}>
+                      {subItem.icon}
+                    </span>
+                    <span className="text-sm">{t(subItem.title)}</span>
+                    {isSubItemActive && (
+                      <div className="ml-auto h-6 w-1 rounded-full bg-indigo-500 dark:bg-indigo-400"></div>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // Regular menu item
+    return (
+      <Link 
+        href={item.href} 
+        key={itemKey}
+        onClick={() => setActiveItem(itemKey)} 
+        className={`flex items-center px-4 py-2 hover:bg-indigo-50 dark:hover:bg-gray-800 group transition-all duration-200 ${activeItem === itemKey ? 'bg-indigo-50 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-medium' : 'text-gray-700 dark:text-gray-300'}`}
+      >
+        <span className={`mr-3 text-gray-600 dark:text-gray-400 ${activeItem === itemKey ? 'text-indigo-600 dark:text-indigo-400' : ''}`}>
+          {item.icon}
+        </span>
+        <span className="text-sm">{t(item.title)}</span>
+        {activeItem === itemKey && (
+          <div className="ml-auto h-6 w-1 rounded-full bg-indigo-500 dark:bg-indigo-400"></div>
+        )}
+      </Link>
+    );
   };
 
   return (
@@ -290,29 +408,10 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
               
               {(!category.isExpandable || (category.title && expandedCategories[category.title])) && (
                 <div className="flex flex-col">
-                  {category.items.map((item, index) => {
-                    const itemKey = `${catIndex}-${index}`;
-                    
-                    return (
-                      <Link 
-                        href={item.href} 
-                        key={itemKey}
-                        onClick={() => { 
-                          setActiveItem(itemKey)
-                          console.log(itemKey);
-                        }} 
-                        className={`flex items-center px-4 py-2 hover:bg-indigo-50 dark:hover:bg-gray-800 group transition-all duration-200 ${activeItem === itemKey ? 'bg-indigo-50 dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-medium' : 'text-gray-700 dark:text-gray-300'}`}
-                      >
-                        <span className={`mr-3 text-gray-600 dark:text-gray-400 ${activeItem === itemKey ? 'text-indigo-600 dark:text-indigo-400' : ''}`}>
-                          {item.icon}
-                        </span>
-                        <span className="text-sm">{t(item.title)}</span>
-                        {activeItem === itemKey && (
-                          <div className="ml-auto h-6 w-1 rounded-full bg-indigo-500 dark:bg-indigo-400"></div>
-                        )}
-                      </Link>
-                    );
-                  })}
+                  {category.items.map((item, index) => (
+                    // Use the new renderMenuItem function here
+                    renderMenuItem(item, index, catIndex)
+                  ))}
                 </div>
               )}
             </div>
