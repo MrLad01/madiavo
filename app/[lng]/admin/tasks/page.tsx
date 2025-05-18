@@ -303,7 +303,7 @@ export default function TaskPage() {
 
   // Filter Dropdown Renderer
   const FilterDropdown = () => (
-    <div className="absolute z-10 right-0 mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg p-4">
+    <div className="absolute z-10 right-0 mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
       <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Filters</h3>
       
       {/* Status Filter */}
@@ -349,12 +349,12 @@ export default function TaskPage() {
   );
 
   return (
-    <div className="flex-1 p-6 flex flex-col text-indigo-600 dark:text-gray-100 bg-white gap-2 dark:bg-gray-900 min-h-screen">
+    <div className="flex-1 p-6 flex flex-col text-indigo-600 dark:text-gray-100  gap-2 dark:bg-gray-900 min-h-screen">
       {viewMode !== 'kanban' &&
       <>
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold dark:text-gray-300 text-gray-600">Tasks</h1>
+        <h1 className="text-2xl font-bold dark:text-gray-300 text-gray-700">Tasks</h1>
         <Link href="/" className="flex items-center gap-2 py-1">
           <p className="text-sm dark:text-gray-300 text-gray-600">Tasks Overview</p>
           <ArrowRight size={16} className='dark:text-gray-300 text-gray-600' />
@@ -371,7 +371,7 @@ export default function TaskPage() {
             <button
               key={status}
               onClick={() => handleStatusFilterChange(statusKey)}
-              className={`flex-1 py-2 px-2 rounded-lg text-left border border-gray-700 dark:text-gray-200 text-gray-600 ${
+              className={`flex-1 py-2 px-2 rounded-lg text-left border dark:border-gray-700 border-gray-300 dark:text-gray-200 text-gray-600 ${
                 isActive 
                   ? `${statusColors[statusKey]} text-sm `
                   : 'dark:bg-gray-800 bg-gray-50 dark:hover:bg-gray-700'
@@ -400,7 +400,7 @@ export default function TaskPage() {
           </button>
         <button 
           onClick={() => setViewMode(viewMode === 'kanban' ? 'list' : 'kanban')} 
-          className="flex items-center justify-center gap-2 rounded-md px-3 py-2 border dark:bg-gray-800 bg-gray-100 border-gray-400 dark:hover:bg-gray-700"
+          className="flex items-center justify-center gap-2 rounded-md px-3 py-2 border dark:bg-gray-800 bg-gray-100 border-gray-300 dark:hover:bg-gray-700"
         >
           {viewMode === 'kanban' ? (
               <List size={16} className='dark:text-gray-100 text-gray-700' />
@@ -415,7 +415,7 @@ export default function TaskPage() {
               <input 
                 type="text" 
                 placeholder="Search Tasks" 
-                className="w-full pl-10 pr-4 py-2 border dark:bg-gray-800 bg-gray-50  border-gray-700 rounded-lg text-gray-700 dark:text-gray-100 focus:outline-none"
+                className="w-full pl-10 pr-4 py-2 border dark:bg-gray-800 bg-gray-50  dark:border-gray-700 border-gray-300 rounded-lg text-gray-700 dark:text-gray-100 focus:outline-none"
               />
             </div>
         }
@@ -424,7 +424,7 @@ export default function TaskPage() {
         <div className="relative">
           <button 
             onClick={() => setFilterOpen(!filterOpen)} 
-            className="flex items-center justify-end gap-2 py-2 rounded-md px-3 dark:bg-gray-800 bg-gray-100 dark:text-gray-100 text-gray-600 border border-gray-400  dark:hover:bg-gray-700 "
+            className="flex items-center justify-end gap-2 py-2 rounded-md px-3 dark:bg-gray-800 bg-gray-100 dark:text-gray-100 text-gray-600 border dark:border-gray-400  border-gray-300 dark:hover:bg-gray-700 cursor-pointer "
           >
             <Filter size={16} />
             Filters
@@ -440,13 +440,13 @@ export default function TaskPage() {
         <input 
           type="text" 
           placeholder="Search Tasks" 
-          className="w-full pl-10 pr-4 py-2 dark:bg-gray-800 bg-gray-50 border border-gray-700 rounded-lg text-gray-700 dark:text-gray-100 text-sm focus:outline-none"
+          className="w-full pl-10 pr-4 py-2 dark:bg-gray-800 bg-gray-50 border dark:border-gray-700 border-gray-300 rounded-lg text-gray-700 dark:text-gray-100 text-sm focus:outline-none"
         />
       </div>}
 
       {/* Tasks Display */}
       {viewMode === 'list' && (
-        <div className="bg-gray-800 rounded-lg mt-4 overflow-hidden">
+        <div className="bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg mt-4 overflow-hidden">
           {/* Table */}
           <table className="w-full">
             <thead className=" dark:border-b border-gray-700 dark:bg-gray-900 bg-gray-200 text-sm ">
@@ -455,8 +455,8 @@ export default function TaskPage() {
                   <input type="checkbox" onChange={handleSelectAll} checked={selectedTasks.length === currentTasks.length} className="rounded bg-gray-700" />
                 </th>
                 {['#', 'name', 'status', 'startDate', 'dueDate', 'assignedTo', 'tags', 'priority'].map((key) => (
-                  <th key={key} className="px-4 py-3 text-left text-sm font-medium dark:text-gray-100 text-gray-600 cursor-pointer" onClick={() => requestSort(key as SortKey)}>
-                    <div className="flex items-center gap-1 capitalize">
+                  <th key={key} className="px-4 py-3 text-left text-xs font-medium dark:text-gray-100 text-gray-600 cursor-pointer" onClick={() => requestSort(key as SortKey)}>
+                    <div className="flex items-center gap-1.5 capitalize">
                       {key}
                       <ArrowUpDown size={14} />
                     </div>
@@ -471,14 +471,14 @@ export default function TaskPage() {
                     <td className="px-4 py-3">
                       <input type="checkbox" checked={selectedTasks.includes(task.id)} onChange={(e) => handleSelectTask(e, task.id)} className="rounded bg-gray-700" />
                     </td>
-                    <td className="px-4 py-3 text-sm dark:text-gray-100 text-gray-600">{task.id}</td>
-                    <td className="px-4 py-3 text-sm font-normal dark:text-gray-100 text-gray-600">{task.name}</td>
+                    <td className="px-4 py-3 text-xs dark:text-gray-100 text-gray-600">{task.id}</td>
+                    <td className="px-4 py-3 text-xs font-normal dark:text-gray-100 text-gray-600">{task.name}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-sm font-normal ${statusTextColors[task.status]}`}>{task.status}</span>
+                      <span className={`text-xs font-normal ${statusTextColors[task.status]}`}>{task.status}</span>
                     </td>
-                    <td className="px-4 py-3 text-sm dark:text-gray-100 text-gray-600">{task.startDate}</td>
-                    <td className="px-4 py-3 text-sm dark:text-gray-100 text-gray-600">{task.dueDate}</td>
-                    <td className="px-4 py-3 text-sm dark:text-gray-100 text-gray-600">{task.assignedTo}</td>
+                    <td className="px-4 py-3 text-xs dark:text-gray-100 text-gray-600">{task.startDate}</td>
+                    <td className="px-4 py-3 text-xs dark:text-gray-100 text-gray-600">{task.dueDate}</td>
+                    <td className="px-4 py-3 text-xs dark:text-gray-100 text-gray-600">{task.assignedTo}</td>
                     <td className="px-4 py-3">
                       <div className="flex gap-1">
                         {task.tags.map((tag, idx) => (
@@ -487,12 +487,12 @@ export default function TaskPage() {
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`text-sm font-medium ${priorityColors[task.priority]}`}>{task.priority}</span>
+                      <span className={`text-xs font-medium ${priorityColors[task.priority]}`}>{task.priority}</span>
                     </td>
                   </tr>
                 ))
               ) : (
-                <tr>
+                <tr className="bg-white dark:bg-gray-800">
                   <td colSpan={9} className="px-4 py-8 text-center text-gray-500">
                     <div className="flex flex-col items-center">
                       <svg className="w-10 h-10 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -508,7 +508,7 @@ export default function TaskPage() {
 
           {/* Pagination Controls */}
           {currentTasks.length > 0 && (
-            <div className="flex justify-between items-center p-4 dark:border-t border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-400">
+            <div className="flex justify-between items-center p-4 dark:border-t border-gray-700 bg-white dark:bg-gray-800 text-xs text-gray-400">
               <span className="text-gray-400">Page {currentPage} of {totalPages}</span>
               <div className="flex gap-2">
                 <button onClick={handlePreviousPage} disabled={currentPage === 1} className={`px-3 py-1 rounded ${currentPage === 1 ? 'dark:bg-gray-700 bg-gray-100 cursor-not-allowed' : 'bg-gray-800 hover:bg-gray-700'}`}>
