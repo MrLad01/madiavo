@@ -5,6 +5,7 @@ import { Search, Plus, BarChart3, Check, Clock, Ticket, Megaphone, FileBarChart2
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useT } from '@/app/i18n/client'
 
 interface DraggableWidgetProps {
   id: string;
@@ -346,6 +347,7 @@ export default function DashboardPage() {
     { id: 'tabbed-section', type: 'tabbed', title: 'My Activities' },
     { id: 'leads-overview', type: 'leads', title: 'Leads Overview' }
   ])
+  const { t } = useT('common');
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event
@@ -364,7 +366,7 @@ export default function DashboardPage() {
     <div className="flex-1 pr-6 py-8 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{t('Dashboard')}</h1>
         </div>
 
         <DndContext
