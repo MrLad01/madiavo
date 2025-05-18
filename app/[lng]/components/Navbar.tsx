@@ -17,7 +17,7 @@ export default function Navbar({hideSidebar, setHideSidebar}: NavbarProps) {
   const [isAdmin, setIsAdmin] = useState(false)
 
   return (
-    <div className='w-[98vw] max-md:w-[96vw] border px-4 fixed py-1 max-md:py-3 rounded-xl shadow-md bg-white dark:bg-blue-500 dark:border-0 z-50 flex justify-between items-center'>
+    <div className='w-[98vw] max-md:w-[96vw] px-4 fixed py-1 max-md:py-3 rounded-xl shadow-md bg-white dark:bg-blue-500 dark:border-0 z-50 flex justify-between items-center'>
         <div className="flex items-center gap-3">
             <button className='cursor-pointer outline-none' title={t('View/Hide Sidebar')} onClick={() => setHideSidebar(!hideSidebar)}>
                 <Menu size={18} className="text-indigo-600 dark:text-white" />
