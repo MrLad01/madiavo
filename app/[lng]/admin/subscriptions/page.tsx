@@ -1,5 +1,5 @@
 'use client'
-import { ArrowRight, ArrowUpDown, ChevronDown, Filter, Info, Plus, RotateCw, Search, Tag, Upload, X } from 'lucide-react'
+import { ArrowRight, ArrowUpDown, ChevronDown, FileQuestion, Filter, Info, Plus, RotateCw, Search, Tag, Upload, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import _ from 'lodash'
 import Link from 'next/link';
@@ -297,9 +297,9 @@ export default function Subscription() {
       {showNewSubscriptionModal &&
       (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-gray-800  border border-gray-700 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-gray-800  border border-gray-700 rounded-lg w-full max-w-[38rem] max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center bg-blue-400 p-4 border-b border-gray-700">
-          <h2 className="text-lg font-semibold text-white">Add New Customer</h2>
+          <h2 className="text-lg font-semibold text-white">Add New Subscription</h2>
           <button 
             onClick={() => setShowNewSubscriptionModal(false)} 
             className="text-gray-400 hover:text-white"
@@ -308,137 +308,148 @@ export default function Subscription() {
           </button>
         </div>
         
-        
-        
         <div className="p-6 dark:bg-gray-800 bg-white">
-          
+          <div className='bg-yellow-200 w-full text-sm p-4 mb-2'>
+            <p className='text-black'>API key not configured, click on the following link to configure API key: <Link href={``} className='text-gray-400'>Stripe Checkout</Link></p>
+          </div>
             <div>
-              <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  Company
+              <div className='flex flex-col gap-2 rounded-md dark:bg-white bg-gray-100 border border-gray-200 p-4 my-4'>
+              <div className="mb-2">
+                <label className="flex mb-1 text-sm text-gray-400">
+                 <span className="text-red-500 mr-1">*</span> Billing Plan
+                </label>
+                <div className="relative">
+                  <select className="w-full text-sm dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 dark:text-white text-gray-400 appearance-none">
+                    <option>Select Stripe plan</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <ChevronDown size={14} className="text-gray-400" />
+                  </div>
+                </div>
+              </div>
+              <div className="mb-2">
+                <label className="flex mb-1 text-sm text-gray-400">
+                  <span className="text-red-500 mr-1">*</span> Quantity
                 </label>
                 <input 
-                  type="text" 
-                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white"
+                  type="number" 
+                  className="w-full text-sm dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 dark:text-white text-gray-400"
                 />
+              </div>
+              <div className="mb-2">
+                <label className="flex mb-1 text-sm text-gray-400">
+                  <span className="text-gray-400 text-xs mr-1">?</span> First Billing Date
+                </label>
+                <input 
+                    type="date" 
+                    required
+                    defaultValue="2025-05-14"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+                  />
+              </div>
               </div>
               
               <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  Phone
-                </label>
-                <input 
-                  type="tel" 
-                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  Website
+                <label className="flex mb-1 text-sm text-gray-400">
+                  <span className="text-red-500 mr-1">*</span> Subscription Name
                 </label>
                 <input 
                   type="url" 
-                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white"
+                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 dark:text-white text-gray-400"
                 />
+              </div>
+
+              <div className="mb-4">
+                <label className="block mb-1 text-sm text-gray-400">
+                  Description
+                </label>
+                <textarea 
+                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 dark:text-white text-gray-400 h-24"
+                />
+              </div>
+
+              <div className="flex items-center mb-4">
+                <input 
+                  type="checkbox" 
+                  id="descriptionCheckbox"
+                  className="mr-2"
+                />
+                <label htmlFor="descriptionCheckbox" className="text-gray-700 text-xs dark:text-gray-300"><span className='text-gray-400'>?</span> Include description in invoice item
+                </label>
               </div>
               
               <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  Groups
+                <label className="flex mb-1 text-sm text-gray-400">
+                 <span className="text-red-500 mr-1">*</span> Customers
                 </label>
                 <div className="relative">
-                  <select className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white appearance-none">
-                    <option>Nothing selected</option>
+                  <select className="w-full dark:bg-gray-700 text-sm bg-white border border-gray-600 rounded p-2 dark:text-white text-gray-500 appearance-none">
+                    <option>Select and begin typing</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                    <ChevronDown size={16} className="text-gray-400" />
+                    <ChevronDown size={12} className="text-gray-400" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="flex mb-1 text-sm text-gray-400">
+                 <span className="text-red-500 mr-1">*</span> Currency
+                </label>
+                <div className="relative">
+                  <select className="w-full dark:bg-gray-700 text-sm  border border-gray-600 bg-gray-400 rounded p-2 dark:text-white text-gray-50 appearance-none">
+                    <option>EUR</option>
+                    <option>USD</option>
+                    <option>GBP</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <ChevronDown size={12} className="dark:text-gray-400 text-gray-50" />
                   </div>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className=" mb-1 text-xs text-gray-400 flex items-center">
-                    <span className="mr-1">$</span> Currency
+                  <label className=" mb-1 text-sm text-gray-400 flex items-center">
+                    Tax 1 (Stripe)
                   </label>
                   <div className="relative">
-                    <select className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white appearance-none">
-                      <option>System Default</option>
+                    <select className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 dark:text-white text-gray-400 appearance-none">
+                      <option>No Tax </option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <ChevronDown size={16} className="text-gray-400" />
+                      <ChevronDown size={12} className="text-gray-400" />
                     </div>
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block mb-1 text-xs text-gray-400">
-                    Default Language
+                  <label className="block mb-1 text-sm text-gray-400">
+                    Tax 2 (Stripe)
                   </label>
                   <div className="relative">
-                    <select className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white appearance-none">
-                      <option>System Default</option>
+                    <select className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 dark:text-white text-gray-400 appearance-none">
+                      <option>No Tax</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <ChevronDown size={16} className="text-gray-400" />
+                      <ChevronDown size={12} className="text-gray-400" />
                     </div>
                   </div>
                 </div>
               </div>
               
+              
+              
               <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  Address
+                <label className="block mb-1 text-sm text-gray-400">
+                  Terms and Condition
                 </label>
-                <textarea 
-                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white h-24"
+                <textarea
+                  placeholder='Enter customer terms and conditions to be displayed to the customer before subscribing'
+                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 dark:text-white text-gray-400"
                 />
               </div>
               
-              <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  City
-                </label>
-                <input 
-                  type="text" 
-                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  State
-                </label>
-                <input 
-                  type="text" 
-                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  Zip Code
-                </label>
-                <input 
-                  type="text" 
-                  className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label className="block mb-1 text-xs text-gray-400">
-                  Country
-                </label>
-                <div className="relative">
-                  <select className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white appearance-none">
-                    <option>Lithuania</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                    <ChevronDown size={16} className="text-gray-400" />
-                  </div>
-                </div>
-              </div>
             </div>            
           
           <div className="flex justify-end gap-2 dark:border-t border-gray-700 pt-4 mt-6">
