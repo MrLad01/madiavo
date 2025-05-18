@@ -386,7 +386,7 @@ const getStatusColor2 = (status: string) => {
             </button>
               
           </div>
-          <button className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-white dark:bg-transparent dark:text-gray-200 text-gray-600 border border-gray-400 dark:hover:bg-gray-700'>
+          <button onClick={() => setShowNewLeadModal(true)} className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-white dark:bg-transparent dark:text-gray-200 text-gray-600 border border-gray-400 dark:hover:bg-gray-700'>
           <Upload size={16} className="mr-1"/> <p>Import Lead</p>
           </button>  
         </div>
