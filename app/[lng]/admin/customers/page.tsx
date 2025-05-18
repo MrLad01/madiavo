@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpDown, ChevronDown, Filter, Info, Plus, RotateCw, Sea
 import { useState, useEffect } from 'react'
 import _ from 'lodash'
 import Link from 'next/link';
+import { useT } from '@/app/i18n/client';
 
 // Define TypeScript interfaces for our data
 interface Customer {
@@ -120,6 +121,7 @@ export default function CustomerManagement() {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [showNewCustomerModal, setShowNewCustomerModal] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState('details');
+  const { t } = useT('common');
 
 
   // Select/deselect all rows
@@ -193,9 +195,9 @@ export default function CustomerManagement() {
     };
 
   return (
-    <div className="flex-1 dark:bg-black bg-white min-h-screen pb-16 pt-6 px-6 flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100">
+    <div className="flex-1 dark:bg-gray-900 bg-transparent min-h-screen pb-16 pt-6 px-6 flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100">
       <div>
-      <h1 className="text-2xl font-bold dark:text-gray-300 text-gray-600">Customers</h1>
+      <h1 className="text-2xl font-bold dark:text-gray-300 text-gray-800">{t('Customers')}</h1>
       <Link href="/" className="flex items-center gap-2 py-1">
           <p className="text-sm dark:text-gray-300 text-gray-600">Contacts</p>
           <ArrowRight size={16} className='dark:text-gray-300 text-gray-600' />
@@ -203,24 +205,24 @@ export default function CustomerManagement() {
       </div>
       
       {/* Stat boxes */}
-      <div className="flex gap-2 mt-4 text-sm">
-        <div className="dark:bg-inherit bg-white border border-gray-500 flex items-center justify-start rounded-md py-2 px-3 min-w-44">
-          <p className="dark:text-white text-gray-600"><span className="font-normal">7</span> Total Customers</p>
+      <div className="flex gap-2 mt-4 text-xs">
+        <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
+          <p className="dark:text-white text-gray-600"><span className="font-normal mr-1">7</span> Total Customers</p>
         </div>
-        <div className="dark:bg-inherit bg-white border border-gray-500 flex items-center justify-start rounded-md py-2 px-3 min-w-44">
-          <p><span className="dark:text-white text-gray-600 ">7</span> <span className="text-green-500 font-extralight">Active Customers</span></p>
+        <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
+          <p><span className="dark:text-white text-gray-600 mr-1 ">7</span> <span className="text-green-500 font-extralight">Active Customers</span></p>
         </div>
-        <div className="dark:bg-inherit bg-white border border-gray-500 flex items-center justify-start rounded-md py-2 px-3 min-w-44">
-          <p><span className="dark:text-white text-gray-600">0</span> <span className="text-red-500 font-extralight">Inactive Customers</span></p>
+        <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
+          <p><span className="dark:text-white text-gray-600 mr-1">0</span> <span className="text-red-500 font-extralight">Inactive Customers</span></p>
         </div>
-        <div className="dark:bg-inherit bg-white border border-gray-500 flex items-center justify-start rounded-md py-2 px-3 min-w-44">
-          <p><span className="dark:text-white text-gray-600">0</span> <span className="text-blue-500 font-extralight">Active Contacts</span></p>
+        <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
+          <p><span className="dark:text-white text-gray-600 mr-1">0</span> <span className="text-blue-500 font-extralight">Active Contacts</span></p>
         </div>
-        <div className="dark:bg-inherit bg-white border border-gray-500 flex items-center justify-start rounded-md py-2 px-3 min-w-44">
-          <p><span className="dark:text-white text-gray-600">0</span> <span className="text-red-500 font-extralight">Inactive Contacts</span></p>
+        <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
+          <p><span className="dark:text-white text-gray-600 mr-1">0</span> <span className="text-red-500 font-extralight">Inactive Contacts</span></p>
         </div>
-        <div className="dark:bg-inherit bg-white border border-gray-500 flex items-center justify-start rounded-md py-2 px-3 min-w-44">
-          <p className=" text-gray-400"><span className="dark:text-white text-gray-600">0</span> Contacts Logged In Today</p>
+        <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
+          <p className=" text-gray-400"><span className="dark:text-white text-gray-600 mr-1">0</span> Contacts Logged In Today</p>
         </div>
       </div>
       
@@ -243,18 +245,18 @@ export default function CustomerManagement() {
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 mt-4 overflow-x-auto relative">
         <div className="flex justify-between p-4 border-b bg-white dark:bg-transparent border-gray-200 dark:border-gray-700 text-sm">
           <div className="flex items-center gap-2">
-            <select className="border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+            <select className="border border-gray-200  rounded-md px-2 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
               <option>25</option>
               <option>50</option>
               <option>100</option>
             </select>
-            <button className="px-4 py-1 border cursor-pointer border-gray-400 text-xs rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
+            <button className="px-4 py-1 border cursor-pointer border-gray-300 text-xs rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
               Export
             </button>
-            <button className="px-4 py-1 border rounded-md cursor-pointer text-gray-700 text-xs dark:text-gray-300 bg-white dark:bg-gray-800">
+            <button className="px-4 py-1 border border-gray-300  rounded-md cursor-pointer text-gray-700 text-xs dark:text-gray-300 bg-white dark:bg-gray-800">
               Bulk Actions
             </button>
-            <button className="p-1 border rounded-md cursor-pointer text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
+            <button className="p-1 border rounded-md cursor-pointer text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border-gray-300 ">
               <RotateCw size={12} />
             </button>
           </div>
@@ -269,11 +271,11 @@ export default function CustomerManagement() {
         </div>
         
         {/* Table */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto pb-5">
           <table className="w-full text-left ">
             <thead>
               <tr className="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 py-1">
-                <th className="p-4 w-10">
+                <th className="p-1.5 w-10">
                   <input
                     type="checkbox"
                     checked={selectAll}
@@ -281,57 +283,57 @@ export default function CustomerManagement() {
                     className="rounded"
                   />
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-12 cursor-pointer" onClick={() => requestSort('id')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-12 cursor-pointer" onClick={() => requestSort('id')}>
                   <div className="flex items-center">
                     # <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('company')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('company')}>
                   <div className="flex items-center">
                     Company <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-40 cursor-pointer" onClick={() => requestSort('primaryContact')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-40 cursor-pointer" onClick={() => requestSort('primaryContact')}>
                   <div className="flex items-center">
                     Primary Contact <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-40 cursor-pointer" onClick={() => requestSort('primaryEmail')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-40 cursor-pointer" onClick={() => requestSort('primaryEmail')}>
                   <div className="flex items-center">
                     Primary Email <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('phone')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('phone')}>
                   <div className="flex items-center">
                     Phone <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-24 cursor-pointer" onClick={() => requestSort('active')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-24 cursor-pointer" onClick={() => requestSort('active')}>
                   <div className="flex items-center">
                     Active <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-24 cursor-pointer" onClick={() => requestSort('groups')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-24 cursor-pointer" onClick={() => requestSort('groups')}>
                   <div className="flex items-center">
                     Groups <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-36 cursor-pointer" onClick={() => requestSort('dateCreated')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-36 cursor-pointer" onClick={() => requestSort('dateCreated')}>
                   <div className="flex items-center">
                     Date Created <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('CompanyCode')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('CompanyCode')}>
                   <div className="flex items-center">
                     Company Code <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('address')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('address')}>
                   <div className="flex items-center">
                     Address <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
-                <th className="p-4 text-sm font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('VATcode')}>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-32 cursor-pointer" onClick={() => requestSort('VATcode')}>
                   <div className="flex items-center">
                     VAT <ArrowUpDown size={12} className="ml-1" />
                   </div>
@@ -343,11 +345,11 @@ export default function CustomerManagement() {
               filteredCustomers.map((customer) => (
                 <tr 
                   key={customer.id} 
-                  className="border-b  border-gray-500  dark:hover:bg-gray-800 py-1" 
+                  className="border-b  dark:border-gray-500 border-gray-300  dark:hover:bg-gray-800 py-1" 
                   onMouseEnter={() => setHoveredRow(customer.id)}
                   onMouseLeave={() => setHoveredRow(null)}
                 >
-                  <td className="p-4">
+                  <td className="p-1.5">
                     <input
                       type="checkbox"
                       checked={selectedRows.includes(customer.id)}
@@ -356,13 +358,13 @@ export default function CustomerManagement() {
                     />
                   </td>
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">{customer.id}</td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300 relative">
                     {customer.company}
                     {hoveredRow === customer.id && (
-                      <div className="absolute top-12 right-2 flex gap-1">
-                        <button className=" text-gray-400 text-xs px-2 py-1 cursor-pointer rounded">View</button>
-                        <button className=" text-gray-400 text-xs px-2 py-1 cursor-pointer rounded">Edit</button>
-                        <button className=" text-gray-400 text-xs px-2 py-1 cursor-pointer rounded">Delete</button>
+                      <div className="absolute bottom-1 -left-0.5 flex gap-1">
+                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
+                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Edit |</button>
+                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Delete</button>
                       </div>
                     )}
                   </td>
@@ -371,9 +373,9 @@ export default function CustomerManagement() {
                   </td>
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">{customer.primaryEmail}</td>
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">{customer.phone}</td>
-                  <td className="p-4">
+                  <td className="p-1.5">
                     <div 
-                      className={`w-12 h-6 rounded-full ${customer.active ? 'bg-green-500' : 'bg-gray-700'}  p-1 cursor-pointer`}
+                      className={`w-12 h-6 rounded-full ${customer.active ? 'bg-green-500' : 'dark:bg-gray-700 bg-gray-300'}  p-1 cursor-pointer`}
                       onClick={() => toggleStatus(customer.id)}
                     >
                       <div className={`w-4 h-4 rounded-full transition-transform  ${customer.active ? 'bg-white transform translate-x-6' : 'bg-white'}`}></div>
