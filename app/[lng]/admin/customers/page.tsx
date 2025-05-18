@@ -375,7 +375,7 @@ export default function CustomerManagement() {
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">{customer.phone}</td>
                   <td className="p-1.5">
                     <div 
-                      className={`w-12 h-6 rounded-full ${customer.active ? 'bg-green-500' : 'bg-gray-700'}  p-1 cursor-pointer`}
+                      className={`w-12 h-6 rounded-full ${customer.active ? 'bg-green-500' : 'dark:bg-gray-700 bg-gray-300'}  p-1 cursor-pointer`}
                       onClick={() => toggleStatus(customer.id)}
                     >
                       <div className={`w-4 h-4 rounded-full transition-transform  ${customer.active ? 'bg-white transform translate-x-6' : 'bg-white'}`}></div>
