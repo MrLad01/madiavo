@@ -319,9 +319,10 @@ const getStatusColor2 = (status: string) => {
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full">
-                      <div className="text-gray-500 mb-2">
-                        <svg className="w-8 h-8 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <circle cx="12" cy="12" r="10" />
+                      <div className="w-20 h-20 mb-4 text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+                          <path d="M13 8L9 12l4 4" />
                         </svg>
                       </div>
                       <p className="text-gray-500 text-center">No Leads Found</p>

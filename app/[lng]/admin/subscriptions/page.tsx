@@ -120,81 +120,81 @@ export default function Subscription() {
       </div>
       
       {/* Main content area */}
-      <div className="mx-6 bg-gray-900 dark:bg-gray-900 rounded-lg border border-gray-700 mb-6 overflow-hidden">
+      <div className="mx-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 mb-6 overflow-hidden">
         {/* Stripe Subscriptions Summary */}
-        <div className="p-6 border-b border-gray-800">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-800">
           <div className="flex items-center">
-            <div className="text-xs text-gray-400 mr-2">stripe</div>
-            <h2 className="text-xl font-semibold text-white">Subscriptions Summary</h2>
+            <div className="text-xs text-gray-400 font-semibold mr-1 ">stripe</div>
+            <h2 className="text-xl font-semibold text-gray-700 dark:text-white">Subscriptions Summary</h2>
           </div>
           
           {/* Status counters row */}
-          <div className="flex flex-wrap mt-4 gap-4 justify-between">
-            <div className="flex items-center">
-              <div className="text-3xl font-bold mr-2 text-white">0</div>
-              <div className="text-blue-500">Not Subscribed</div>
-            </div>
-            <div className="flex items-center">
-              <div className="text-3xl font-bold mr-2 text-white">0</div>
-              <div className="text-green-500">Active</div>
-            </div>
-            <div className="flex items-center">
-              <div className="text-3xl font-bold mr-2 text-white">0</div>
-              <div className="text-lime-500">Future</div>
-            </div>
-            <div className="flex items-center">
-              <div className="text-3xl font-bold mr-2 text-white">0</div>
-              <div className="text-orange-500">Past Due</div>
-            </div>
-            <div className="flex items-center">
-              <div className="text-3xl font-bold mr-2 text-white">0</div>
-              <div className="text-red-500">Unpaid</div>
-            </div>
-            <div className="flex items-center">
-              <div className="text-3xl font-bold mr-2 text-white">0</div>
-              <div className="text-amber-500">Incomplete</div>
-            </div>
-            <div className="flex items-center">
-              <div className="text-3xl font-bold mr-2 text-white">0</div>
-              <div className="text-gray-400">Canceled</div>
-            </div>
-            <div className="flex items-center">
-              <div className="text-3xl font-bold mr-2 text-white">0</div>
-              <div className="text-teal-500">Incomplete<br />Expired</div>
-            </div>
+        <div className="flex mt-4 gap-4 justify-start  overflow-x-auto">
+          <div className="flex items-center text-start border-r-2 border-gray-400 pr-2 w-full">
+            <span className="text-sm font-normal mr-2 text-gray-500 dark:text-white">0</span>
+            <span className="text-blue-500 text-sm">Not Subscribed</span>
           </div>
+          <div className="flex items-center text-start border-r-2 border-gray-400 pr-4 w-full">
+            <span className="text-sm font-normal mr-2 text-gray-500 dark:text-white">0</span>
+            <span className="text-green-500 text-sm font-normal">Active</span>
+          </div>
+          <div className="flex items-center text-start border-r-2 border-gray-400 pr-4 w-full">
+            <span className="text-sm font-normal mr-2 text-gray-500 dark:text-white">0</span>
+            <span className="text-lime-500 text-sm font-normal">Future</span>
+          </div>
+          <div className="flex items-center text-start border-r-2 border-gray-400 pr-4 w-full">
+            <span className="text-sm font-normal mr-2 text-gray-500 dark:text-white">0</span>
+            <span className="text-orange-500 text-sm font-normal">Past Due</span>
+          </div>
+          <div className="flex items-center text-start border-r-2 border-gray-400 pr-4 w-full">
+            <span className="text-sm font-normal mr-2 text-gray-500 dark:text-white">0</span>
+            <span className="text-red-500 text-sm font-normal">Unpaid</span>
+          </div>
+          <div className="flex items-center text-start border-r-2 border-gray-400 pr-4 w-full">
+            <span className="text-sm font-normal mr-2 text-gray-500 dark:text-white">0</span>
+            <span className="text-amber-500 text-sm font-normal">Incomplete</span>
+          </div>
+          <div className="flex items-center text-start border-r-2 border-gray-400 pr-4 w-full">
+            <span className="text-sm font-normal mr-2 text-gray-500 dark:text-white">0</span>
+            <span className="text-gray-400 text-sm font-normal">Canceled</span>
+          </div>
+          <div className="flex items-start text-start">
+            <span className="text-sm font-normal mr-2 text-gray-500 dark:text-white">0</span>
+            <span className="text-teal-500 text-sm font-normal">Incomplete<br />Expired</span>
+          </div>
+        </div>
         </div>
         
         {/* Table controls */}
-        <div className="flex justify-between p-4 border-b border-gray-800 text-sm bg-gray-900">
+        <div className="flex justify-between p-4 border-b border-gray-200 dark:border-gray-800 text-sm bg-white dark:bg-gray-900">
           <div className="flex items-center gap-2">
-            <select className="border border-gray-600 rounded-md px-2 py-1 bg-gray-800 text-gray-300 text-sm">
+            <select className="border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
               <option>25</option>
               <option>50</option>
               <option>100</option>
             </select>
-            <button className="px-4 py-1 border cursor-pointer border-gray-600 rounded-md text-gray-300 bg-gray-800 text-sm hover:bg-gray-700">
+            <button className="px-4 py-1 border cursor-pointer border-gray-400 text-xs rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
               Export
             </button>
-            <button className="p-2 border rounded-md cursor-pointer text-gray-300 bg-gray-800 hover:bg-gray-700">
-              <RotateCw size={16} />
+            <button className="p-1 border rounded-md cursor-pointer text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
+              <RotateCw size={12} />
             </button>
           </div>
           <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search size={12} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             <input
               type="text"
               placeholder="Search..."
-              className="pl-10 pr-4 py-2 border border-gray-600 rounded-md bg-gray-800 text-gray-300"
+              className="pl-10 pr-4 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-xs bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
             />
           </div>
         </div>
         
         {/* Table */}
-        <div className="overflow-x-auto bg-gray-900">
+        <div className="overflow-x-auto bg-white dark:bg-gray-900">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-gray-800">
+              <tr className="border-b border-gray-200 dark:border-gray-800">
                 <th className="p-4 w-10">
                   <input
                     type="checkbox"
@@ -273,7 +273,7 @@ export default function Subscription() {
                 <tr>
                   <td colSpan={9} className="px-4 py-16 text-center">
                     <div className="flex flex-col items-center justify-center">
-                      <div className="w-24 h-24 mb-4 text-blue-500">
+                      <div className="w-20 h-20 mb-4 text-blue-500">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
                           <path d="M13 8L9 12l4 4" />
@@ -281,9 +281,9 @@ export default function Subscription() {
                       </div>
                       <p className="text-lg font-medium text-gray-300">No entries found</p>
                       <div className="mt-4 w-full max-w-md">
-                        <div className="h-2 bg-gray-800 rounded mb-2"></div>
-                        <div className="h-2 bg-gray-800 rounded mb-2 w-5/6 mx-auto"></div>
-                        <div className="h-2 bg-gray-800 rounded w-4/6 mx-auto"></div>
+                        <div className="h-2 bg-gray-500 rounded mb-2"></div>
+                        <div className="h-2 bg-gray-500 rounded mb-2 w-5/6 mx-auto"></div>
+                        <div className="h-2 bg-gray-500 rounded w-4/6 mx-auto"></div>
                       </div>
                     </div>
                   </td>
