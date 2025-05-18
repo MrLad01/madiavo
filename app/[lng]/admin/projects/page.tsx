@@ -1,5 +1,6 @@
 'use client'
 
+import { useT } from '@/app/i18n/client';
 import { 
   BarChart3, 
   Filter, 
@@ -60,6 +61,7 @@ export default function Page(): React.ReactElement {
     const [listNo, setListNo] = useState<number | string>(10);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: '', direction: '' });
+    const { t } = useT('common');
     const [filterConfig, setFilterConfig] = useState<FilterConfig>({
       status: [],
       search: '',
@@ -206,7 +208,7 @@ export default function Page(): React.ReactElement {
                     {count}
                 </span>
                 <span className={`font-medium ${isSelected ? color : 'text-gray-700 dark:text-gray-300'}`}>
-                    {status}
+                    {t(`${status}`)}
                 </span>
                 {isSelected && (
                     <X size={14} className={`ml-1 ${color}`} />
@@ -435,7 +437,7 @@ export default function Page(): React.ReactElement {
         <div className='flex-1 pb-16 pr-6 flex flex-col text-indigo-600 dark:text-gray-100 gap-3'>
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                    <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Projects</h1>
+                    <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100">{t('Projects')}</h1>
                     <span className="bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300 px-2 py-0.5 rounded-full text-xs font-medium">
                         {projects.length}
                     </span>
@@ -497,7 +499,7 @@ export default function Page(): React.ReactElement {
                     >
                         <Filter size={16} className={hasActiveFilters ? 'text-indigo-600 dark:text-indigo-300' : ''} />
                         <span className="font-medium">
-                            {hasActiveFilters ? 'Filters Active' : 'Filters'}
+                            {hasActiveFilters ? `${t('Filters Active')}` : `${t('Filters')}`}
                         </span>
                         {hasActiveFilters && (
                             <span className="bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-300 rounded-full w-5 h-5 flex items-center justify-center text-xs">
@@ -509,18 +511,18 @@ export default function Page(): React.ReactElement {
                     {isFilterOpen && (
                         <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 py-3 z-10">
                             <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-600 flex justify-between items-center">
-                                <h3 className="font-medium text-gray-700 dark:text-gray-200">Filters</h3>
+                                <h3 className="font-medium text-gray-700 dark:text-gray-200">{t('Filters')}</h3>
                                 {hasActiveFilters && (
                                     <button 
                                         onClick={clearAllFilters}
                                         className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
                                     >
-                                        Clear All
+                                        {t('Clear All')}
                                     </button>
                                 )}
                             </div>
                             <div className="px-4 py-3">
-                                <h4 className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">Tags</h4>
+                                <h4 className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">{t('Tags')}</h4>
                                 <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto">
                                     {allTags.map((tag, index) => (
                                         <button
@@ -682,7 +684,7 @@ export default function Page(): React.ReactElement {
                                         </td>
                                         <td className="px-4 py-3 text-sm font-medium">{project.members.join(', ')}</td>
                                         <td className={`px-4 py-3 text-sm font-medium ${getStatusColor(project.status)}`}>
-                                            {project.status}
+                                            {t(`${project.status}`)}
                                         </td>
                                     </tr>
                                 ))

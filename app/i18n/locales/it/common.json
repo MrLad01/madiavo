@@ -129,5 +129,15 @@
     "Preparing the contract": "Preparare il contratto",
     "Waiting for a response": "Aspettando una risposta",
     "Client": "Cliente",
-    "Chart would be displayed here": "Il grafico verrebbe visualizzato qui"
+    "Chart would be displayed here": "Il grafico verrebbe visualizzato qui",
+    "Not found": "Non trovato",
+    "Not Started": "Non Iniziato",
+    "In Progress": "In Corso",
+    "On Hold": "In Attesa",
+    "Cancelled": "Annullato",
+    "Finished": "Finito",
+    "Filters": "Filtri",
+    "Filters Active": "Filtri Attivi",
+    "Clear All": "Pulisci Tutto",
+    "Tags": "Etichette"
 }

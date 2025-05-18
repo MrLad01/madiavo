@@ -124,5 +124,15 @@
     "Preparing the contract": "Preparing the contract",
     "Waiting for a response": "Waiting for a response",
     "Client": "Client",
-    "Chart would be displayed here": "Chart would be displayed here"
+    "Chart would be displayed here": "Chart would be displayed here",
+    "Not found": "Not found",
+    "Not Started": "Not Started",
+    "In Progress": "In Progress",
+    "On Hold": "On Hold",
+    "Cancelled": "Cancelled",
+    "Finished": "Finished",
+    "Filters": "Filters",
+    "Filters Active": "Filters Active",
+    "Clear All": "Clear All",
+    "Tags": "Tags"
 }

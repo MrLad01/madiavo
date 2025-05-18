@@ -124,5 +124,15 @@
     "Preparing the contract": "Ruošiant sutartį",
     "Waiting for a response": "Laukiu atsakymo",
     "Client": "Klientas",
-    "Chart would be displayed here": "Diagramą būtų galima rodyti čia"
+    "Chart would be displayed here": "Diagramą būtų galima rodyti čia",
+    "Not found": "Nerasta",
+    "Not Started": "Nepasiruošta",
+    "In Progress": "Vyksta",
+    "On Hold": "Laikoma",
+    "Cancelled": "Atšaukta",
+    "Finished": "Pabaigta",
+    "Filters": "Filtro",
+    "Filters Active": "Filtrai Aktyvūs",
+    "Clear All": "Išvalyti Viską",
+    "Tags": "Žymės"
 }

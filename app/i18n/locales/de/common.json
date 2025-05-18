@@ -124,5 +124,15 @@
     "Preparing the contract": "Den Vertrag vorbereiten",
     "Waiting for a response": "Warten auf eine Antwort",
     "Client": "Kunde",
-    "Chart would be displayed here": "Das Diagramm würde hier angezeigt werden."
+    "Chart would be displayed here": "Das Diagramm würde hier angezeigt werden.",
+    "Not found": "Nicht gefunden",
+    "Not Started": "Nicht Begonnen",
+    "In Progress": "In Arbeit",
+    "On Hold": "In der Warteschleife",
+    "Cancelled": "Storniert",
+    "Finished": "Fertig",
+    "Filters": "Filter",
+    "Filters Active": "Filter Aktiv",
+    "Clear All": "Alles Löschen",
+    "Tags": "Tags"
 }
