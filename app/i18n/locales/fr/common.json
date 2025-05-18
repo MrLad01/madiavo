@@ -136,5 +136,21 @@
     "Filters": "Filtres",
     "Filters Active": "Filtres actifs",
     "Clear All": "Effacer Tout",
-    "Tags": "Étiquettes"
+    "Tags": "Étiquettes",
+    "Sort By": "Trier par",
+    "Show": "Montrer",
+    "per page": "par page",
+    "Clear Projects": "Projets Clairs",
+    "Search projects": "Rechercher des projets",
+    "Project Name": "Nom du projet",
+    "Customer": "Client",
+    "Start Date": "Date de début",
+    "Deadline": "Date Limite",
+    "Team": "Équipe",
+    "Showing": "Montrant",
+    "to": "à",
+    "of": "de",
+    "entries": "entrées",
+    "Previous": "Précédent",
+    "Next": "Suivant"
 }

@@ -541,7 +541,7 @@ export default function Page(): React.ReactElement {
                                     ))}
                                 </div>
                                 
-                                <h4 className="text-sm font-medium text-gray-600 dark:text-gray-300 mt-4 mb-2">Sort By</h4>
+                                <h4 className="text-sm font-medium text-gray-600 dark:text-gray-300 mt-4 mb-2">{t('Sort By')}</h4>
                                 <div className="grid grid-cols-2 gap-2">
                                     {['name', 'deadline', 'startDate', 'status'].map((field) => (
                                         <button
@@ -577,7 +577,7 @@ export default function Page(): React.ReactElement {
                                 className="flex items-center cursor-pointer pl-4 pr-2 py-1.5 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 rounded-md gap-2 text-sm border border-gray-200 dark:border-gray-600 font-medium outline-0 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" 
                                 title={'List Number'}
                                 >
-                                    <span>Show:</span> {listNumber[listNo]}
+                                    <span>{t('Show')}:</span> {listNumber[listNo]}
                                     <svg 
                                         className="h-4 w-4" 
                                         fill="none" 
@@ -609,7 +609,7 @@ export default function Page(): React.ReactElement {
                                             : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
                                         }`}
                                     >
-                                        {name} per page
+                                        {name} {t('per page')}
                                     </button>
                                     ))}
                                 </div>
@@ -619,7 +619,7 @@ export default function Page(): React.ReactElement {
                         <div className="flex">
                             <button className='cursor-pointer py-1.5 px-3 rounded-s-lg bg-white dark:bg-gray-700 shadow-sm text-sm hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-colors duration-200 gap-2 border border-gray-200 dark:border-gray-600 flex items-center' title='Export'>
                                 <Download size={16} />
-                                <span>Export</span>
+                                <span>{t('Export')}</span>
                             </button>
                             <button className='cursor-pointer py-1.5 px-3 rounded-e-lg bg-white dark:bg-gray-700 shadow-sm text-sm hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-colors duration-200 border-t border-r border-b border-gray-200 dark:border-gray-600' title='Refresh'>
                                 <RefreshCw size={16} />
@@ -631,7 +631,7 @@ export default function Page(): React.ReactElement {
                             onClick={clearProjects}
                             className="ml-2 py-1.5 px-3 text-xs bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800 rounded-md border border-red-200 dark:border-red-700 transition-colors duration-200"
                         >
-                            Clear Projects
+                            {t('Clear Projects')}
                         </button>
                     </div>
                     <div className="flex relative">
@@ -639,7 +639,7 @@ export default function Page(): React.ReactElement {
                             type="text" 
                             value={filterConfig.search}
                             onChange={handleSearch}
-                            placeholder='Search projects...' 
+                            placeholder={`${t('Search projects')}...`} 
                             className='border border-gray-200 dark:border-gray-600 pl-9 pr-4 py-2 text-sm rounded-lg w-64 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-colors duration-200'
                         />
                         <span className="absolute left-3 top-2 text-gray-400">
@@ -660,7 +660,7 @@ export default function Page(): React.ReactElement {
                                             className={`flex items-center gap-2 cursor-pointer ${header.icon ? 'justify-between' : 'justify-start'}`}
                                             onClick={() => handleSort(header.id)}
                                         >
-                                            {header.label}
+                                            {t(`${header.label}`)}
                                             {header.icon}
                                             {getSortDirectionIcon(header.id)}
                                         </div>
@@ -697,7 +697,7 @@ export default function Page(): React.ReactElement {
                 {getPaginatedData().length > 0 && (
                     <div className="flex justify-between items-center px-4 py-3">
                         <div className="text-sm text-gray-500 dark:text-gray-400">
-                            Showing {((currentPage - 1) * Number(listNo)) + 1} to {Math.min(currentPage * Number(listNo), getSortedData().length)} of {getSortedData().length} entries
+                            {t('Showing')} {((currentPage - 1) * Number(listNo)) + 1} {t('to')} {Math.min(currentPage * Number(listNo), getSortedData().length)} {t('of')} {getSortedData().length}{t('entries')}
                         </div>
                         <div className="flex items-center gap-2">
                             <button 
@@ -705,7 +705,7 @@ export default function Page(): React.ReactElement {
                                 disabled={currentPage === 1}
                                 className={`px-3 py-1.5 rounded-md text-sm font-medium ${currentPage === 1 ? 'bg-gray-200 dark:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 text-white'}`}
                             >
-                                Previous
+                                {t('Previous')}
                             </button>
                             <span className="text-sm text-gray-500 dark:text-gray-400">{currentPage} / {totalPages()}</span>
                             <button 
@@ -713,7 +713,7 @@ export default function Page(): React.ReactElement {
                                 disabled={currentPage === totalPages()}
                                 className={`px-3 py-1.5 rounded-md text-sm font-medium ${currentPage === totalPages() ? 'bg-gray-200 dark:bg-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 text-white'}`}
                             >
-                                Next
+                                {t('Next')}
                             </button>
                         </div>
                     </div>
