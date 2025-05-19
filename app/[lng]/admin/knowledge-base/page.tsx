@@ -91,7 +91,7 @@ export default function Knowledgebase() {
     };
 
   return (
-    <div className="flex-1 dark:bg-black bg-white min-h-screen flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100">  
+    <div className="flex-1 dark:bg-gray-900  min-h-screen flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100">  
       <div className='px-4 mt-2'>
         <h1 className="text-2xl font-bold dark:text-gray-300 text-gray-700">Knowledge Base</h1>
         <div className="flex items-center gap-2 py-1">

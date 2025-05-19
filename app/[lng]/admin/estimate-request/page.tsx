@@ -88,7 +88,7 @@ export default function EstimateRequest() {
     };
 
   return (
-    <div className="flex-1 dark:bg-black bg-white min-h-screen flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100">
+    <div className="flex-1 dark:bg-gray-900 bg-white min-h-screen flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100">
       
       {/* Action buttons */}
       <div className="flex justify-between p-6 pb-4">
