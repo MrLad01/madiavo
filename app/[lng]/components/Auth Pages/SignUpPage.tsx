@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useT } from '../../../i18n/client'
 import { ArrowRight, AlertCircle, Eye, EyeOff, Lock, User, Mail } from "lucide-react";
+import { useAuth } from "@/app/context/AuthContext";
 
 interface SignUpPageProps {
   onLoginClick: () => void;
@@ -17,9 +18,9 @@ export default function SignUpPage({ onLoginClick, onSubmitSuccess }: SignUpPage
     confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { t } = useT('common')
+  const { t } = useT('common');
+  const { signup, isLoading } = useAuth();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -51,36 +52,21 @@ export default function SignUpPage({ onLoginClick, onSubmitSuccess }: SignUpPage
       return;
     }
     
-    setIsLoading(true);
-    
     try {
-      // Simulate API call with timeout
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const success = await signup(formData.fullName, formData.email, formData.password);
       
-      // Here you would make an actual API call to your backend
-      // const response = await fetch('/api/auth/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData),
-      // });
-      
-      // For demo purposes, let's show an error for a specific email
-      if (formData.email === 'taken@example.com') {
-        throw new Error('Email address is already in use');
+      if (success) {
+        // Call the success callback provided by parent
+        onSubmitSuccess();
+      } else {
+        setErrorMessage('Registration failed. Please try again.');
       }
-      
-      // Handle successful registration
-      console.log('Registration successful');
-      onSubmitSuccess();
-      
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message || 'Registration failed. Please try again.');
       } else {
         setErrorMessage('Registration failed. Please try again.');
       }
-    } finally {
-      setIsLoading(false);
     }
   };
   

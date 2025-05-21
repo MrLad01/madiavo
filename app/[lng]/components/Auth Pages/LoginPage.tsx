@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useT } from '../../../i18n/client'
 import { ArrowRight, AlertCircle, Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
 
 interface LoginPageProps {
   onSignUpClick: () => void;
@@ -12,9 +14,10 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { t } = useT('common')
+  const { t } = useT('common');
+  const { login, isLoading } = useAuth();
+  const router = useRouter();
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,32 +31,17 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
       return;
     }
     
-    setIsLoading(true);
-    
     try {
-      // Simulate API call with timeout
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const success = await login(email, password);
       
-      // Here you would make an actual API call to your backend
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password }),
-      // });
-      
-      // For demo purposes, let's show an error
-      if (email === 'error@example.com') {
-        throw new Error('Invalid credentials');
+      if (success) {
+        // Redirect based on user role (will be handled by your protected routes)
+        router.push('/lt/admin');
+      } else {
+        setErrorMessage('Login failed. Please check your credentials.');
       }
-      
-      // Handle response and redirect
-      console.log('Login successful');
-      // window.location.href = '/dashboard';
-      
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Login failed. Please try again.');
-    } finally {
-      setIsLoading(false);
     }
   };
   

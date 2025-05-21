@@ -4,6 +4,7 @@ import "./globals.css";
 import { languages } from '../i18n/settings'
 import { getT } from '../i18n'
 import  ThemeProvider  from "../context/ThemeContext";
+import { AuthProvider } from "../context/AuthContext";
 
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
@@ -48,9 +49,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <AuthProvider>
           <main>
             {children}
           </main>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
