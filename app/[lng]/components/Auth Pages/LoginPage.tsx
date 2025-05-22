@@ -84,7 +84,7 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
                   setEmail(e.target.value)
                   setErrorMessage('');
                 }}
-                className="appearance-none rounded-md relative block w-full p-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-md relative block w-full p-3 pl-10 border dark:text-gray-300 border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder={t('email address')}
               />
             </div>
@@ -104,7 +104,7 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
                   setPassword(e.target.value)
                   setErrorMessage('');
                 }}
-                className="appearance-none rounded-md relative block w-full p-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-md relative block w-full p-3 pl-10 border dark:text-gray-300 border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder={t('password')}
               />
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
