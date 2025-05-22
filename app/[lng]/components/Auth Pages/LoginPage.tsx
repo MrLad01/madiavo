@@ -33,8 +33,6 @@ export default function LoginPage({ onSignUpClick, onForgotPasswordClick }: Logi
     
     try {
       const success = await login(email, password);
-      console.log(success);
-      return;
       
       if (success) {
         // Redirect based on user role (will be handled by your protected routes)

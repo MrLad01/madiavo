@@ -41,59 +41,7 @@ interface ActivityLog {
 class AuthService {
   private static API_URL = '/api';
   private static TOKEN_KEY = 'madiavo_auth_token';
-
-  // Method to register a new user
-  static async register(userData: { fullName: string, email: string, password: string }): Promise<User> {
-    try {
-      const response = await fetch(`${this.API_URL}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Registration failed');
-      }
-
-      const data = await response.json();
-      return data.user;
-    } catch (error) {
-      console.error('Registration error:', error);
-      throw error;
-    }
-  }
-
-  // Method to log in a user
-  static async login(credentials: { email: string, password: string }): Promise<LoginResponse> {
-    try {
-      const response = await fetch(`${this.API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
-      }
-
-      const data = await response.json();
-      
-      // Save token to localStorage
-      localStorage.setItem(this.TOKEN_KEY, data.token);
-      
-      return data;
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
-    }
-  }
-
+  
   // Method to log out a user
   static logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
