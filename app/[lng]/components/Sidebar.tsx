@@ -73,9 +73,7 @@ export default function Sidebar({ isAdmin: admin }: SidebarProps) {
     }
   }, [])
 
-  console.log(isAdmin);
-  
-  console.log(user);
+
 
   function getAdminContentPath(): string {
     const pathname = window.location.pathname;
@@ -83,16 +81,13 @@ export default function Sidebar({ isAdmin: admin }: SidebarProps) {
     const regex = /^(?:.*?)\/admin\/(.*)$/;
     const match = pathname.match(regex);
     
-    // If there's a match and a capture group, return the captured content
     if (match && match[1]) {
       return match[1];
     }
     
-    // Return empty string if no match found
     return '';
   }
 
-  // You can also use it directly in components/functions
   function handleAdminRoute() {
     const contentPath = getAdminContentPath();
     
