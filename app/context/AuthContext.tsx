@@ -56,29 +56,40 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsLoading(true);
     
     try {
-      // This is a mock implementation. In a real app, you'd call your API
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock error case for demo purposes
-      if (email === 'error@example.com') {
-        throw new Error('Invalid credentials');
+
+      const login = await fetch(`${process.env.BACKEND_API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      console.log(login);
+
+      if (!login.ok) {
+        throw new Error('Login failed');
       }
       
-      // Determine role based on email (in a real app, this would come from your API)
-      const role: UserRole = email.includes('admin') ? 'admin' : 'user';
+      if (login.status === 401 || login.status === 422) {
+        throw new Error('Email or password is incorrect');
+      }
+
+      const data = await login.json();
       
-      const mockUser: AuthUser = {
-        id: '123456',
-        email,
-        name: email.split('@')[0],
+      const role: UserRole = data.user.role;
+      
+      const user: AuthUser = {
+        id: data.user.user_id,
+        email: data.user.email,
+        name: `${data.user.first_name} ${data.user.last_name}`,
         role
       };
       
       // Save to localStorage for persistence
-      localStorage.setItem('authUser', JSON.stringify(mockUser));
+      localStorage.setItem('authUser', JSON.stringify(user));
       
-      setUser(mockUser);
+      setUser(user);
       return true;
     } catch (error) {
       console.error('Login failed:', error);
@@ -101,7 +112,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
       
       // In a real app, you'd create the user via API
-      const mockUser: AuthUser = {
+      const user: AuthUser = {
         id: '123456',
         email,
         name,
@@ -109,9 +120,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       };
       
       // Save to localStorage for persistence
-      localStorage.setItem('authUser', JSON.stringify(mockUser));
+      localStorage.setItem('authUser', JSON.stringify(user));
       
-      setUser(mockUser);
+      setUser(user);
       return true;
     } catch (error) {
       console.error('Signup failed:', error);
