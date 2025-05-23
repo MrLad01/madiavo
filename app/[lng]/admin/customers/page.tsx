@@ -25,6 +25,19 @@ interface SortConfig {
   direction: 'ascending' | 'descending' | null;
 }
 
+interface Country {
+  id: number;
+  iso2: string;
+  shortName: string;
+}
+
+interface Currency {
+  id: number;
+  name: string;
+  code: string;
+  symbol: string;
+}
+
 const dummyCustomers: Customer[] = [
   {
     id: 17,
@@ -108,6 +121,8 @@ const dummyCustomers: Customer[] = [
 
 export default function CustomerManagement() {
   const [customers, setCustomers] = useState<Customer[]>(dummyCustomers);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>(dummyCustomers);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -150,6 +165,7 @@ export default function CustomerManagement() {
     setCustomers(updatedCustomers);
     setFilteredCustomers(updatedCustomers);
   };
+  
 
   // Handle column sorting
   const requestSort = (key: keyof Customer | null) => {
@@ -193,6 +209,31 @@ export default function CustomerManagement() {
       // Implementation would go here
       setShowNewCustomerModal(false);
     };
+
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const response = await fetch('/api/country', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const responseData = await response.json();
+          
+
+          setCountries({
+            id: responseData.data.id,
+            iso2: responseData.data.iso2,
+            shortName: responseData.data.name,
+      
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
+    }, []);
 
   return (
     <div className="flex-1 dark:bg-gray-900 bg-transparent min-h-screen pb-16 pt-6 px-6 flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100">
@@ -578,7 +619,11 @@ export default function CustomerManagement() {
                 </label>
                 <div className="relative">
                   <select className="w-full dark:bg-gray-700 bg-white border border-gray-600 rounded p-2 text-white appearance-none">
-                    <option>Lithuania</option>
+                    {countries.map((country) => (
+                      <option key={country.id} value={country.id}>
+                        {country.shortName}
+                      </option>
+                    ))}
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     <ChevronDown size={16} className="text-gray-400" />
