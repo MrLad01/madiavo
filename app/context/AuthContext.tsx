@@ -56,7 +56,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsLoading(true);
     
     try {
-
       const login = await fetch(`${process.env.BACKEND_API_URL}/auth/login`, {
         method: 'POST',
         headers: {
