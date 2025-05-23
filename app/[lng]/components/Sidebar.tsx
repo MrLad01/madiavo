@@ -46,9 +46,34 @@ interface SidebarProps {
   isAdmin?: boolean;
 }
 
-export default function Sidebar({ isAdmin = true }: SidebarProps) {
-   const { t } = useT('common');
-   const lng = useParams()?.lng;
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
+
+
+export default function Sidebar({ isAdmin: admin }: SidebarProps) {
+  const { t } = useT('common');
+  const lng = useParams()?.lng;
+  
+  const [isAdmin, setIsAdmin] = useState(admin);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem('authUser');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      if(parsedUser.role === 'admin') {
+        setIsAdmin(true);
+      }
+      setUser(parsedUser);
+    }
+  }, [])
+
+
 
   function getAdminContentPath(): string {
     const pathname = window.location.pathname;
@@ -56,16 +81,13 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
     const regex = /^(?:.*?)\/admin\/(.*)$/;
     const match = pathname.match(regex);
     
-    // If there's a match and a capture group, return the captured content
     if (match && match[1]) {
       return match[1];
     }
     
-    // Return empty string if no match found
     return '';
   }
 
-  // You can also use it directly in components/functions
   function handleAdminRoute() {
     const contentPath = getAdminContentPath();
     
@@ -359,10 +381,10 @@ export default function Sidebar({ isAdmin = true }: SidebarProps) {
         </div>
         <div className="flex flex-col">
           <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200">
-            {isAdmin ? "Santos Hirthe" : "Username"}
+            {isAdmin ? user?.name : "Username"}
           </h3>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            {isAdmin ? "admin@test.com" : "user@gmail.com"}
+            {isAdmin ? user?.email : "user@gmail.com"}
           </p>
         </div>
       </div>

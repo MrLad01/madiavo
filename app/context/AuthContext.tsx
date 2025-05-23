@@ -17,8 +17,8 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  signup: (name: string, email: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  // signup: (name: string, email: string, password: string) => Promise<boolean>;
+  // logout: () => void;
   isAdmin: boolean;
 }
 
@@ -52,97 +52,90 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     checkAuth();
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
-    setIsLoading(true);
-    
-    try {
-      const login = await fetch(`${process.env.BACKEND_API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+const login = async (email: string, password: string): Promise<boolean> => {
+  setIsLoading(true);
 
-      console.log(login);
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+      credentials: 'include', // include cookies if your backend sets them
+    });
 
-      if (!login.ok) {
-        throw new Error('Login failed');
-      }
-      
-      if (login.status === 401 || login.status === 422) {
-        throw new Error('Email or password is incorrect');
-      }
-
-      const data = await login.json();
-      
-      const role: UserRole = data.user.role;
-      
-      const user: AuthUser = {
-        id: data.user.user_id,
-        email: data.user.email,
-        name: `${data.user.first_name} ${data.user.last_name}`,
-        role
-      };
-      
-      // Save to localStorage for persistence
-      localStorage.setItem('authUser', JSON.stringify(user));
-      
-      setUser(user);
-      return true;
-    } catch (error) {
-      console.error('Login failed:', error);
-      return false;
-    } finally {
-      setIsLoading(false);
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || 'Login failed');
     }
-  };
 
-  const signup = async (name: string, email: string, password: string): Promise<boolean> => {
-    setIsLoading(true);
+    const responseData = await res.json();
+
+    const data = responseData.data
+
+    const user: AuthUser = {
+      id: data.user.user_id,
+      email: data.user.email,
+      name: `${data.user.first_name} ${data.user.last_name}`,
+      role: data.user.role,
+    };
+
+    localStorage.setItem('authUser', JSON.stringify(user));
+    setUser(user);
+    return true;
+  } catch (error) {
+    console.error('Login failed:', error);
+    return false;
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+  // const signup = async (name: string, email: string, password: string): Promise<boolean> => {
+  //   setIsLoading(true);
     
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+  //   try {
+  //     // Simulate API call
+  //     await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Mock error case for demo purposes
-      if (email === 'taken@example.com') {
-        throw new Error('Email address is already in use');
-      }
+  //     // Mock error case for demo purposes
+  //     if (email === 'taken@example.com') {
+  //       throw new Error('Email address is already in use');
+  //     }
       
-      // In a real app, you'd create the user via API
-      const user: AuthUser = {
-        id: '123456',
-        email,
-        name,
-        role: 'user' // Default role for new signups
-      };
+  //     // In a real app, you'd create the user via API
+  //     const user: AuthUser = {
+  //       id: '123456',
+  //       email,
+  //       name,
+  //       role: 'user' // Default role for new signups
+  //     };
       
-      // Save to localStorage for persistence
-      localStorage.setItem('authUser', JSON.stringify(user));
+  //     // Save to localStorage for persistence
+  //     localStorage.setItem('authUser', JSON.stringify(user));
       
-      setUser(user);
-      return true;
-    } catch (error) {
-      console.error('Signup failed:', error);
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     setUser(user);
+  //     return true;
+  //   } catch (error) {
+  //     console.error('Signup failed:', error);
+  //     return false;
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const logout = () => {
-    localStorage.removeItem('authUser');
-    setUser(null);
-  };
+  // const logout = () => {
+  //   localStorage.removeItem('authUser');
+  //   setUser(null);
+  // };
 
   const value = {
     user,
     isLoading,
     isAuthenticated: !!user,
     login,
-    signup,
-    logout,
+    // signup,
+    // logout,
     isAdmin: user?.role === 'admin'
   };
 
