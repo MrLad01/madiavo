@@ -1,5 +1,5 @@
 'use client'
-import { ArrowUpDown, BarChart3, ChevronDown, Filter, List, Menu, Users, Eye, Edit, Trash2, Plus } from 'lucide-react'
+import { BarChart3, Filter, List, Users, Eye, Edit, Trash2, Plus } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 
@@ -127,7 +127,7 @@ const stageColors: Record<UpsellStage, string> = {
 export default function UpsellDashboard(): React.ReactElement {
   const [activeTab, setActiveTab] = useState<'sales_funnel' | 'regular_client'>('regular_client');
   const [viewMode, setViewMode] = useState<'stages' | 'clients'>('stages');
-  const [clients, setClients] = useState<Client[]>(dummyClients);
+  const [clients] = useState<Client[]>(dummyClients);
   const [filteredClients, setFilteredClients] = useState<Client[]>([]);
   const [selectedStage, setSelectedStage] = useState<UpsellStage | 'All'>('All');
 

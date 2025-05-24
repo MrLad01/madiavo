@@ -21,11 +21,11 @@ interface User {
   updated_at: string;
 }
 
-interface LoginResponse {
-  user: User;
-  token: string;
-  expires_at: string;
-}
+// interface LoginResponse {
+//   user: User;
+//   token: string;
+//   expires_at: string;
+// }
 
 interface ActivityLog {
   id: string;
@@ -38,147 +38,147 @@ interface ActivityLog {
 }
 
 // API service for authentication
-class AuthService {
-  private static API_URL = '/api';
-  private static TOKEN_KEY = 'madiavo_auth_token';
+// class AuthService {
+//   private static API_URL = '/api';
+//   private static TOKEN_KEY = 'madiavo_auth_token';
   
-  // Method to log out a user
-  static logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    // Optionally, call an API endpoint to invalidate the token on the server
-  }
+//   // Method to log out a user
+//   static logout(): void {
+//     localStorage.removeItem(this.TOKEN_KEY);
+//     // Optionally, call an API endpoint to invalidate the token on the server
+//   }
 
-  // Method to request a password reset
-  static async forgotPassword(email: string): Promise<void> {
-    try {
-      const response = await fetch(`${this.API_URL}/auth/forgot-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email }),
-      });
+//   // Method to request a password reset
+//   static async forgotPassword(email: string): Promise<void> {
+//     try {
+//       const response = await fetch(`${this.API_URL}/auth/forgot-password`, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ email }),
+//       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Password reset request failed');
-      }
-    } catch (error) {
-      console.error('Forgot password error:', error);
-      throw error;
-    }
-  }
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.message || 'Password reset request failed');
+//       }
+//     } catch (error) {
+//       console.error('Forgot password error:', error);
+//       throw error;
+//     }
+//   }
 
-  // Method to reset a password with token
-  static async resetPassword(token: string, password: string): Promise<void> {
-    try {
-      const response = await fetch(`${this.API_URL}/auth/reset-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token, password }),
-      });
+//   // Method to reset a password with token
+//   static async resetPassword(token: string, password: string): Promise<void> {
+//     try {
+//       const response = await fetch(`${this.API_URL}/auth/reset-password`, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ token, password }),
+//       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Password reset failed');
-      }
-    } catch (error) {
-      console.error('Reset password error:', error);
-      throw error;
-    }
-  }
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.message || 'Password reset failed');
+//       }
+//     } catch (error) {
+//       console.error('Reset password error:', error);
+//       throw error;
+//     }
+//   }
 
-  // Method to verify email
-  static async verifyEmail(token: string): Promise<void> {
-    try {
-      const response = await fetch(`${this.API_URL}/auth/verify-email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token }),
-      });
+//   // Method to verify email
+//   static async verifyEmail(token: string): Promise<void> {
+//     try {
+//       const response = await fetch(`${this.API_URL}/auth/verify-email`, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ token }),
+//       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Email verification failed');
-      }
-    } catch (error) {
-      console.error('Email verification error:', error);
-      throw error;
-    }
-  }
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.message || 'Email verification failed');
+//       }
+//     } catch (error) {
+//       console.error('Email verification error:', error);
+//       throw error;
+//     }
+//   }
 
-  // Method to get current user
-  static async getCurrentUser(): Promise<User | null> {
-    const token = localStorage.getItem(this.TOKEN_KEY);
+//   // Method to get current user
+//   static async getCurrentUser(): Promise<User | null> {
+//     const token = localStorage.getItem(this.TOKEN_KEY);
     
-    if (!token) {
-      return null;
-    }
+//     if (!token) {
+//       return null;
+//     }
     
-    try {
-      const response = await fetch(`${this.API_URL}/auth/me`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+//     try {
+//       const response = await fetch(`${this.API_URL}/auth/me`, {
+//         headers: {
+//           'Authorization': `Bearer ${token}`
+//         }
+//       });
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          this.logout();
-          return null;
-        }
-        throw new Error('Failed to get user data');
-      }
+//       if (!response.ok) {
+//         if (response.status === 401) {
+//           this.logout();
+//           return null;
+//         }
+//         throw new Error('Failed to get user data');
+//       }
 
-      const data = await response.json();
-      return data.user;
-    } catch (error) {
-      console.error('Get current user error:', error);
-      return null;
-    }
-  }
+//       const data = await response.json();
+//       return data.user;
+//     } catch (error) {
+//       console.error('Get current user error:', error);
+//       return null;
+//     }
+//   }
 
-  // Method to get user activity logs
-  static async getActivityLogs(): Promise<ActivityLog[]> {
-    const token = localStorage.getItem(this.TOKEN_KEY);
+//   // Method to get user activity logs
+//   static async getActivityLogs(): Promise<ActivityLog[]> {
+//     const token = localStorage.getItem(this.TOKEN_KEY);
     
-    if (!token) {
-      throw new Error('Not authenticated');
-    }
+//     if (!token) {
+//       throw new Error('Not authenticated');
+//     }
     
-    try {
-      const response = await fetch(`${this.API_URL}/auth/activity-logs`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+//     try {
+//       const response = await fetch(`${this.API_URL}/auth/activity-logs`, {
+//         headers: {
+//           'Authorization': `Bearer ${token}`
+//         }
+//       });
 
-      if (!response.ok) {
-        throw new Error('Failed to get activity logs');
-      }
+//       if (!response.ok) {
+//         throw new Error('Failed to get activity logs');
+//       }
 
-      const data = await response.json();
-      return data.logs;
-    } catch (error) {
-      console.error('Get activity logs error:', error);
-      throw error;
-    }
-  }
+//       const data = await response.json();
+//       return data.logs;
+//     } catch (error) {
+//       console.error('Get activity logs error:', error);
+//       throw error;
+//     }
+//   }
 
-  // Method to check if user is authenticated
-  static isAuthenticated(): boolean {
-    return !!localStorage.getItem(this.TOKEN_KEY);
-  }
+//   // Method to check if user is authenticated
+//   static isAuthenticated(): boolean {
+//     return !!localStorage.getItem(this.TOKEN_KEY);
+//   }
 
-  // Method to get stored token
-  static getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
-}
+//   // Method to get stored token
+//   static getToken(): string | null {
+//     return localStorage.getItem(this.TOKEN_KEY);
+//   }
+// }
 
 // Main App component that switches between pages
 export default function AuthPages() {
