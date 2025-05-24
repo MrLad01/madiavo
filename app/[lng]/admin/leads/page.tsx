@@ -2,6 +2,7 @@
 import { ArrowUpDown, ChevronDown, Filter, Import, LayoutGrid, List, Menu, MoveDown, Plus, RefreshCw, RotateCw, Search, Tag, Upload, User, X } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
+import LeadModal from '../../components/LeadModal';
 
 // Define TypeScript interfaces for our data
 interface Lead {
@@ -133,6 +134,7 @@ export default function Page(): React.ReactElement {
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: null });
   const [showNewLeadModal, setShowNewLeadModal] = useState<boolean>(false);
+  const [showLeadModal, setShowLeadModal] = useState<boolean>(false);
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [activeStatusForColor, setActiveStatusForColor] = useState<Lead['status'] | null>(null);
@@ -498,13 +500,13 @@ const getStatusColor2 = (status: string) => {
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.id}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline">
+                  <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline relative">
                     {lead.name}
                     {hoveredRow === lead.id && (
-                      <div className="absolute top-80 -left-0.5 flex gap-1">
-                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
+                      <div className="absolute bottom-1 -left-0.5 flex gap-1">
+                        <button onClick={() => setShowLeadModal(true)} className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
                         <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Edit |</button>
-                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Delete</button>
+                        <button className=" text-red-500 text-[10px] cursor-pointer rounded">X Delete</button>
                       </div>
                     )}
                   </td>
@@ -587,6 +589,7 @@ const getStatusColor2 = (status: string) => {
       </div>
       </div>
       )}
+
 
       {viewMode === 'kanban' && <KanbanView />}
       {showNewLeadModal &&(
@@ -872,6 +875,14 @@ const getStatusColor2 = (status: string) => {
           </div>
         </div>
       </div>
+        )
+      }
+
+      {showLeadModal &&(
+      <LeadModal 
+      showLeadModal={showLeadModal} 
+      setShowLeadModal={setShowLeadModal} 
+      />
         )
       }
 

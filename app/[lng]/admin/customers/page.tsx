@@ -408,7 +408,7 @@ export default function CustomerManagement() {
                       <div className="absolute bottom-1 -left-0.5 flex gap-1">
                         <button className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
                         <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Edit |</button>
-                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Delete</button>
+                        <button className=" text-red-500 text-[10px] cursor-pointer rounded">X Delete</button>
                       </div>
                     )}
                   </td>
