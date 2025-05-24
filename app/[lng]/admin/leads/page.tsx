@@ -135,6 +135,7 @@ export default function Page(): React.ReactElement {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: null });
   const [showNewLeadModal, setShowNewLeadModal] = useState<boolean>(false);
   const [showLeadModal, setShowLeadModal] = useState<boolean>(false);
+  const [showLeadEditModal, setShowLeadEditModal] = useState<boolean>(false);
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [activeStatusForColor, setActiveStatusForColor] = useState<Lead['status'] | null>(null);
@@ -503,10 +504,15 @@ const getStatusColor2 = (status: string) => {
                   <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline relative">
                     {lead.name}
                     {hoveredRow === lead.id && (
-                      <div className="absolute bottom-1 -left-0.5 flex gap-1">
+                      <div className="absolute bottom-1 flex gap-1">
                         <button onClick={() => setShowLeadModal(true)} className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
-                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Edit |</button>
-                        <button className=" text-red-500 text-[10px] cursor-pointer rounded">X Delete</button>
+                        <button 
+                          className=" text-gray-400 text-[10px] cursor-pointer rounded"
+                          onClick={() => {
+                            setShowLeadEditModal(true)
+                          }} 
+                        >Edit |</button>
+                        <button className=" text-red-500 text-[10px] cursor-pointer rounded">Delete</button>
                       </div>
                     )}
                   </td>
@@ -525,7 +531,7 @@ const getStatusColor2 = (status: string) => {
                   <td className="px-3 py-4 whitespace-nowrap text-xs">
                     <div className="flex flex-wrap gap-1">
                       {lead.tags.map((tag, index) => (
-                        <span key={index} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                        <span key={index} className="px-2 py-1 text-[10px] rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
                           {tag}
                         </span>
                       ))}
@@ -879,10 +885,19 @@ const getStatusColor2 = (status: string) => {
       }
 
       {showLeadModal &&(
-      <LeadModal 
-      showLeadModal={showLeadModal} 
-      setShowLeadModal={setShowLeadModal} 
-      />
+          <LeadModal 
+            showLeadModal={showLeadModal} 
+            setShowLeadModal={setShowLeadModal} 
+            mode='view'
+          />
+        )
+      }
+      {showLeadEditModal &&(
+          <LeadModal 
+            showLeadModal={showLeadEditModal} 
+            setShowLeadModal={setShowLeadEditModal} 
+            mode='edit'
+          />
         )
       }
 

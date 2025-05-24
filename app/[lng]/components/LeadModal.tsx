@@ -4,14 +4,15 @@ import { X, User, FileText, CheckSquare, Paperclip, Bell, Activity, Printer, Edi
 interface LeadModalProps {
   showLeadModal: boolean;
   setShowLeadModal: (show: boolean) => void;
+  mode: 'view' | 'edit'
 }
 
-const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal }) => {
+const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, mode }) => {
   const [activeTab, setActiveTab] = useState('profile');
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [modalMode, setModalMode] = useState<'view' | 'edit'>('view');
+  const [modalMode, setModalMode] = useState<'view' | 'edit'>(mode);
   const handleAddNewLead = (e: React.FormEvent) => {
       e.preventDefault();
       // Implementation would go here
