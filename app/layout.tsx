@@ -1,10 +1,10 @@
 // import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
-import { languages } from '../i18n/settings'
-import { getT } from '../i18n'
-import  ThemeProvider  from "../context/ThemeContext";
-import { AuthProvider } from "../context/AuthContext";
+import "./globals.css";
+import { languages } from './i18n/settings'
+import { getT } from './i18n'
+import  ThemeProvider  from "./context/ThemeContext";
+import { AuthProvider } from "./context/AuthContext";
 
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
