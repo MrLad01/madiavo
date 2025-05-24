@@ -639,7 +639,7 @@ export default function CustomerManagement() {
                                 e.stopPropagation();
                                 removeAttributeFromCustomer(customer.id, attribute.id);
                               }}
-                              className="opacity-0 group-hover:opacity-100 transition-opacity ml-1 hover:bg-white hover:bg-opacity-20 rounded-full p-0.5"
+                              className="opacity-0 group-hover:opacity-100 transition-opacity ml-1 hover:border-white hover:bg-opacity-20 rounded-full p-0.5"
                             >
                               <X size={10} />
                             </button>
