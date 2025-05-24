@@ -91,7 +91,7 @@ const login = async (email: string, password: string): Promise<boolean> => {
 };
 
 
-  const signup = async (name: string, email: string, password: string): Promise<boolean> => {
+  const signup = async (name: string, email: string,): Promise<boolean> => {
     setIsLoading(true);
     
     try {
@@ -124,10 +124,10 @@ const login = async (email: string, password: string): Promise<boolean> => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('authUser');
-    setUser(null);
-  };
+  // const logout = () => {
+  //   localStorage.removeItem('authUser');
+  //   setUser(null);
+  // };
 
   const value = {
     user,
