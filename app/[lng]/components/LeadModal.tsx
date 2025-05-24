@@ -1014,20 +1014,21 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
                 
                 <div className="mb-4">
                   <label className="block mb-1 text-xs text-gray-400">
-                    * First Name
+                    <span className="text-red-500">*</span> First Name
                   </label>
                   <input 
                     type="text" 
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
+                    required
                     className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
                   />
                 </div>
 
                 <div className="mb-4">
                   <label className="block mb-1 text-xs text-gray-400">
-                    * Last Name
+                     Last Name
                   </label>
                   <input 
                     type="text" 
@@ -1053,7 +1054,7 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
 
                 <div className="mb-4">
                   <label className="block mb-1 text-xs text-gray-400">
-                    * Email
+                     Email
                   </label>
                   <input 
                     type="email" 
@@ -1175,7 +1176,7 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
 
                 <div className="mb-4">
                   <label className="block mb-1 text-xs text-gray-400">
-                    * Password
+                    Password
                   </label>
                   <div className="relative">
                     <input 
