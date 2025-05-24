@@ -222,12 +222,15 @@ export default function CustomerManagement() {
           const responseData = await response.json();
           
 
-          setCountries({
-            id: responseData.data.id,
-            iso2: responseData.data.iso2,
-            shortName: responseData.data.name,
-      
-          });
+          setCountries(
+            Array.isArray(responseData.data)
+              ? responseData.data.map((country: any) => ({
+                  id: country.id,
+                  iso2: country.iso2,
+                  shortName: country.name,
+                }))
+              : []
+          );
         } catch (error) {
           console.log(error);
         }

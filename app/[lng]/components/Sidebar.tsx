@@ -22,7 +22,7 @@ import {
   ArrowBigRight
 } from 'lucide-react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
 // Type definitions
@@ -58,6 +58,7 @@ interface User {
 export default function Sidebar({ isAdmin: admin }: SidebarProps) {
   const { t } = useT('common');
   const lng = useParams()?.lng;
+  const router = useRouter();
   
   const [isAdmin, setIsAdmin] = useState(admin);
   const [user, setUser] = useState<User | null>(null);
@@ -72,8 +73,14 @@ export default function Sidebar({ isAdmin: admin }: SidebarProps) {
       setUser(parsedUser);
     }
   }, [])
+ 
 
-
+  const logout = () => {
+    console.log('working');
+    
+    localStorage.clear();
+    router.push('/')
+  }
 
   function getAdminContentPath(): string {
     const pathname = window.location.pathname;
@@ -444,7 +451,7 @@ export default function Sidebar({ isAdmin: admin }: SidebarProps) {
       {/* Bottom Actions (only for user view) */}
       {!isAdmin && (
         <div className="mt-auto flex flex-col gap-2">
-          <button className="flex items-center px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-300 group">
+          <button className="flex items-center px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-gray-300 group" onClick={logout}>
             <span className="p-2 rounded-lg mr-3 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 group-hover:text-red-600 dark:group-hover:text-red-400">
               <LogOut size={18} />
             </span>
