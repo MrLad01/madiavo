@@ -1,8 +1,9 @@
 'use client'
-import { ArrowUpDown, ChevronDown, Filter, Import, LayoutGrid, List, Menu, MoveDown, Plus, RefreshCw, RotateCw, Search, Tag, Upload, User, X } from 'lucide-react'
+import { ArrowBigUp, ArrowUpDown, ChevronDown, Filter, Import, LayoutGrid, List, Menu, MoveDown, Plus, RefreshCw, RotateCw, Search, Tag, Upload, User, X } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import LeadModal from '../../components/LeadModal';
+import UpsellDashboard from '../../components/UpsellingComponent';
 
 // Define TypeScript interfaces for our data
 interface Lead {
@@ -140,6 +141,7 @@ export default function Page(): React.ReactElement {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [activeStatusForColor, setActiveStatusForColor] = useState<Lead['status'] | null>(null);
   const [statusColors, setStatusColors] = useState<Record<Lead['status'], string>>(statusColorsi);
+  const [ upsellPage, setUpsellPage ] = useState<boolean>(false);
 
 
   // Calculate status counts
@@ -391,7 +393,10 @@ const getStatusColor2 = (status: string) => {
               
           </div>
           <button onClick={() => setShowNewLeadModal(true)} className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-white dark:bg-transparent dark:text-gray-200 text-gray-600 border border-gray-400 dark:hover:bg-gray-700'>
-          <Upload size={16} className="mr-1"/> <p>Import Lead</p>
+            <Upload size={16} className="mr-1"/> <p>Import Lead</p>
+          </button>  
+          <button onClick={() => setUpsellPage(!upsellPage)} className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-white dark:bg-transparent dark:text-gray-200 text-gray-600 border border-gray-400 dark:hover:bg-gray-700'>
+            <ArrowBigUp size={16} className="mr-1"/> <p>Upsell</p>
           </button>  
         </div>
         {viewMode === 'kanban' &&
@@ -414,187 +419,193 @@ const getStatusColor2 = (status: string) => {
         </div>}
       </div>
         
-      {viewMode === 'list' && (
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 mt-4 overflow-x-auto relative">
+      {viewMode === 'list' && !upsellPage && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 mt-4 overflow-x-auto relative">
 
-      <div className="flex items-center absolute bg-white dark:bg-gray-800 w-full justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex items-center gap-2 text-xs">
-              <select className="border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
-                <option>25</option>
-                <option>50</option>
-                <option>100</option>
-              </select>
-              <button className="px-4 py-1 border cursor-pointer border-gray-400 text-xs rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
-                Export
-              </button>
-              <button className="px-4 py-1 border cursor-pointer border-gray-400 text-xs rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
-                Bulk Actions
-              </button>
-              <button className="p-1 border rounded-md cursor-pointer text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
-                <RotateCw size={12} />
-              </button>
-            </div>
-            <div className="relative">
-              <Search size={12} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" />
-              <input type="text" placeholder="Search..." className="pl-10 pr-4 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-xs bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300" />
-            </div>
-      </div>
+        <div className="flex items-center absolute bg-white dark:bg-gray-800 w-full justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2 text-xs">
+                <select className="border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                  <option>25</option>
+                  <option>50</option>
+                  <option>100</option>
+                </select>
+                <button className="px-4 py-1 border cursor-pointer border-gray-400 text-xs rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
+                  Export
+                </button>
+                <button className="px-4 py-1 border cursor-pointer border-gray-400 text-xs rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
+                  Bulk Actions
+                </button>
+                <button className="p-1 border rounded-md cursor-pointer text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
+                  <RotateCw size={12} />
+                </button>
+              </div>
+              <div className="relative">
+                <Search size={12} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" />
+                <input type="text" placeholder="Search..." className="pl-10 pr-4 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-xs bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300" />
+              </div>
+        </div>
 
-      <div className="overflow-auto w-full">
-        {/* Table component */}
-        <table className="w-full mt-16">
-          <thead>
-            <tr className="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
-              <th className="w-12 px-3 py-1">
-                <input 
-                  type="checkbox" 
-                  className="rounded text-blue-500 focus:ring-blue-500"
-                  checked={selectAll}
-                  onChange={() => setSelectAll(!selectAll)}
-                />
-              </th>
-              {[
-                { key: 'id', label: '#' },
-                { key: 'name', label: 'Name' },
-                { key: 'company', label: 'Company' },
-                { key: 'email', label: 'Email' },
-                { key: 'phone', label: 'Phone' },
-                { key: 'value', label: 'Value' },
-                { key: 'tags', label: 'Tags', noSort: true },
-                { key: 'assigned', label: 'Assigned' },
-                { key: 'status', label: 'Status' },
-                { key: 'source', label: 'Source' },
-                { key: 'lastContact', label: 'Last Contact' },
-                { key: 'created', label: 'Created' },
-              ].map(({ key, label, noSort }) => (
-                <th
-                  key={key}
-                  className="px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600"
-                  onClick={() => !noSort && requestSort(key as any)}
-                >
-                  <div className="flex items-center justify-center gap-1">
-                    <span>{label}</span>
-                    {getSortIndicator(key)} {!noSort && <ArrowUpDown size={12} />}
-                  </div>
+        <div className="overflow-auto w-full">
+          {/* Table component */}
+          <table className="w-full mt-16">
+            <thead>
+              <tr className="bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
+                <th className="w-12 px-3 py-1">
+                  <input 
+                    type="checkbox" 
+                    className="rounded text-blue-500 focus:ring-blue-500"
+                    checked={selectAll}
+                    onChange={() => setSelectAll(!selectAll)}
+                  />
                 </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-            {filteredLeads.length > 0 ? (
-              filteredLeads.map((lead) => (
-                <tr 
-                  key={lead.id} 
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
-                  onMouseEnter={() => setHoveredRow(lead.id)}
-                  onMouseLeave={() => setHoveredRow(null)}
-                >
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    <input 
-                      type="checkbox" 
-                      className="rounded text-blue-500 focus:ring-blue-500"
-                      checked={selectedRows.includes(lead.id)}
-                      onChange={() => toggleRowSelection(lead.id)}
-                    />
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {lead.id}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline relative">
-                    {lead.name}
-                    {hoveredRow === lead.id && (
-                      <div className="absolute bottom-1 flex gap-1">
-                        <button onClick={() => setShowLeadModal(true)} className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
-                        <button 
-                          className=" text-gray-400 text-[10px] cursor-pointer rounded"
-                          onClick={() => {
-                            setShowLeadEditModal(true)
-                          }} 
-                        >Edit |</button>
-                        <button className=" text-red-500 text-[10px] cursor-pointer rounded">Delete</button>
-                      </div>
-                    )}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {lead.company}
-                    </td>   
-                      <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {lead.email}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {lead.phone}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {lead.value}
-                  </td>
-                  <td className="px-3 py-4 whitespace-nowrap text-xs">
-                    <div className="flex flex-wrap gap-1">
-                      {lead.tags.map((tag, index) => (
-                        <span key={index} className="px-2 py-1 text-[10px] rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
-                          {tag}
-                        </span>
-                      ))}
+                {[
+                  { key: 'id', label: '#' },
+                  { key: 'name', label: 'Name' },
+                  { key: 'company', label: 'Company' },
+                  { key: 'email', label: 'Email' },
+                  { key: 'phone', label: 'Phone' },
+                  { key: 'value', label: 'Value' },
+                  { key: 'tags', label: 'Tags', noSort: true },
+                  { key: 'assigned', label: 'Assigned' },
+                  { key: 'status', label: 'Status' },
+                  { key: 'source', label: 'Source' },
+                  { key: 'lastContact', label: 'Last Contact' },
+                  { key: 'created', label: 'Created' },
+                ].map(({ key, label, noSort }) => (
+                  <th
+                    key={key}
+                    className="px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600"
+                    onClick={() => !noSort && requestSort(key as any)}
+                  >
+                    <div className="flex items-center justify-center gap-1">
+                      <span>{label}</span>
+                      {getSortIndicator(key)} {!noSort && <ArrowUpDown size={12} />}
                     </div>
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {lead.assigned}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs">
-                    <span className={`${getStatusColor(lead.status)}`}>
-                      {lead.status}
-                    </span>
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {lead.source}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {new Date(lead.lastContact).toLocaleDateString()}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
-                    {new Date(lead.created).toLocaleDateString()}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+              {filteredLeads.length > 0 ? (
+                filteredLeads.map((lead) => (
+                  <tr 
+                    key={lead.id} 
+                    className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                    onMouseEnter={() => setHoveredRow(lead.id)}
+                    onMouseLeave={() => setHoveredRow(null)}
+                  >
+                    <td className="px-3 py-2 whitespace-nowrap">
+                      <input 
+                        type="checkbox" 
+                        className="rounded text-blue-500 focus:ring-blue-500"
+                        checked={selectedRows.includes(lead.id)}
+                        onChange={() => toggleRowSelection(lead.id)}
+                      />
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {lead.id}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline relative">
+                      {lead.name}
+                      {hoveredRow === lead.id && (
+                        <div className="absolute bottom-1 flex gap-1">
+                          <button onClick={() => setShowLeadModal(true)} className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
+                          <button 
+                            className=" text-gray-400 text-[10px] cursor-pointer rounded"
+                            onClick={() => {
+                              setShowLeadEditModal(true)
+                            }} 
+                          >Edit |</button>
+                          <button className=" text-red-500 text-[10px] cursor-pointer rounded">Delete</button>
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {lead.company}
+                      </td>   
+                        <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {lead.email}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {lead.phone}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {lead.value}
+                    </td>
+                    <td className="px-3 py-4 whitespace-nowrap text-xs">
+                      <div className="flex flex-wrap gap-1">
+                        {lead.tags.map((tag, index) => (
+                          <span key={index} className="px-2 py-1 text-[10px] rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {lead.assigned}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs">
+                      <span className={`${getStatusColor(lead.status)}`}>
+                        {lead.status}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {lead.source}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {new Date(lead.lastContact).toLocaleDateString()}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
+                      {new Date(lead.created).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={13} className="px-3 py-16 text-center text-gray-500 dark:text-gray-400">
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="w-16 h-16 mb-4 text-gray-300 dark:text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                        </svg>
+                      </div>
+                      <p className="text-lg font-medium">No entries found</p>
+                      <p className="mt-1 text-xs">Try adjusting your filters or search terms</p>
+                    </div>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={13} className="px-3 py-16 text-center text-gray-500 dark:text-gray-400">
-                  <div className="flex flex-col items-center justify-center">
-                    <div className="w-16 h-16 mb-4 text-gray-300 dark:text-gray-600">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                      </svg>
-                    </div>
-                    <p className="text-lg font-medium">No entries found</p>
-                    <p className="mt-1 text-xs">Try adjusting your filters or search terms</p>
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      
-      {/* Pagination */}
-      <div className="flex items-center justify-between mt-4 mb-4">
-        <div className="text-xs text-gray-500 dark:text-gray-400">
-          Showing {filteredLeads.length > 0 ? 1 : 0} to {filteredLeads.length} of {filteredLeads.length} entries
+              )}
+            </tbody>
+          </table>
         </div>
         
-        <div className="flex items-center space-x-2">
-          <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50">
-            Previous
-          </button>
-          <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-blue-500 text-white hover:bg-blue-600">
-            1
-          </button>
-          <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
-            Next
-          </button>
+        {/* Pagination */}
+        <div className="flex items-center justify-between mt-4 mb-4">
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            Showing {filteredLeads.length > 0 ? 1 : 0} to {filteredLeads.length} of {filteredLeads.length} entries
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50">
+              Previous
+            </button>
+            <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-blue-500 text-white hover:bg-blue-600">
+              1
+            </button>
+            <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
+              Next
+            </button>
+          </div>
         </div>
-      </div>
-      </div>
+        </div>
       )}
+
+      {
+        upsellPage && (
+          <UpsellDashboard />
+        )
+      }
 
 
       {viewMode === 'kanban' && <KanbanView />}
