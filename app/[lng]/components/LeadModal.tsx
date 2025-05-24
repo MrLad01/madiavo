@@ -4,9 +4,10 @@ import { X, User, FileText, CheckSquare, Paperclip, Bell, Activity, Printer, Edi
 interface LeadModalProps {
   showLeadModal: boolean;
   setShowLeadModal: (show: boolean) => void;
+  mode: 'view' | 'edit'
 }
 
-const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal }) => {
+const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, mode }) => {
 
     const countries = [
   "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
@@ -37,24 +38,6 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal }
   const [showPassword, setShowPassword] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [modalMode, setModalMode] = useState<'view' | 'edit'>('view');
-   const [formData, setFormData] = useState({
-    firstName: 'Test',
-    lastName: '',
-    position: '',
-    email: '',
-    company: '',
-    phone: '',
-    website: '',
-    address: '',
-    city: '',
-    state: '',
-    country: 'Lithuania',
-    zipCode: '',
-    password: '',
-    sendSetPasswordEmail: false,
-    doNotSendWelcomeEmail: true
-  });
-
   const handleAddNewLead = (e: React.FormEvent) => {
       e.preventDefault();
       // Implementation would go here
