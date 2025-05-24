@@ -501,7 +501,7 @@ const getStatusColor2 = (status: string) => {
                   <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline">
                     {lead.name}
                     {hoveredRow === lead.id && (
-                      <div className="absolute bottom-1 -left-0.5 flex gap-1">
+                      <div className="absolute top-80 -left-0.5 flex gap-1">
                         <button className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
                         <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Edit |</button>
                         <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Delete</button>
