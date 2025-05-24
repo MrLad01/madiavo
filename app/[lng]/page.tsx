@@ -246,7 +246,7 @@ export default function AuthPages() {
               </div>
               <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Verify Your Email</h2>
               <p className="mt-2 text-sm text-gray-600">
-                We've sent a verification email to your inbox. Please check and follow the instructions to verify your account.
+                We&apos;ve sent a verification email to your inbox. Please check and follow the instructions to verify your account.
               </p>
             </div>
             <div className="mt-6">
@@ -271,7 +271,7 @@ export default function AuthPages() {
               </div>
               <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Check Your Email</h2>
               <p className="mt-2 text-sm text-gray-600">
-                We've sent a password reset link to your email address. Please check your inbox and follow the instructions.
+                We&apos;ve sent a password reset link to your email address. Please check your inbox and follow the instructions.
               </p>
             </div>
             <div className="mt-6">

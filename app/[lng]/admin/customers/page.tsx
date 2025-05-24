@@ -457,7 +457,7 @@ export default function CustomerManagement() {
           })}
           {searchTerm && (
             <div className="flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">
-              Search: "{searchTerm}"
+              Search: &quot;{searchTerm}&quot;
               <button 
                 onClick={() => setSearchTerm('')}
                 className="ml-1 text-green-600 hover:text-green-800 dark:text-green-300 dark:hover:text-green-100"
