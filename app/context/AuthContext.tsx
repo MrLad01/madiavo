@@ -17,7 +17,7 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  // signup: (name: string, email: string, password: string) => Promise<boolean>;
+  signup: (name: string, email: string, password: string) => Promise<boolean>;
   // logout: () => void;
   isAdmin: boolean;
 }
@@ -91,50 +91,50 @@ const login = async (email: string, password: string): Promise<boolean> => {
 };
 
 
-  // const signup = async (name: string, email: string, password: string): Promise<boolean> => {
-  //   setIsLoading(true);
+  const signup = async (name: string, email: string, password: string): Promise<boolean> => {
+    setIsLoading(true);
     
-  //   try {
-  //     // Simulate API call
-  //     await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-  //     // Mock error case for demo purposes
-  //     if (email === 'taken@example.com') {
-  //       throw new Error('Email address is already in use');
-  //     }
+      // Mock error case for demo purposes
+      if (email === 'taken@example.com') {
+        throw new Error('Email address is already in use');
+      }
       
-  //     // In a real app, you'd create the user via API
-  //     const user: AuthUser = {
-  //       id: '123456',
-  //       email,
-  //       name,
-  //       role: 'user' // Default role for new signups
-  //     };
+      // In a real app, you'd create the user via API
+      const user: AuthUser = {
+        id: '123456',
+        email,
+        name,
+        role: 'user' // Default role for new signups
+      };
       
-  //     // Save to localStorage for persistence
-  //     localStorage.setItem('authUser', JSON.stringify(user));
+      // Save to localStorage for persistence
+      localStorage.setItem('authUser', JSON.stringify(user));
       
-  //     setUser(user);
-  //     return true;
-  //   } catch (error) {
-  //     console.error('Signup failed:', error);
-  //     return false;
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+      setUser(user);
+      return true;
+    } catch (error) {
+      console.error('Signup failed:', error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  // const logout = () => {
-  //   localStorage.removeItem('authUser');
-  //   setUser(null);
-  // };
+  const logout = () => {
+    localStorage.removeItem('authUser');
+    setUser(null);
+  };
 
   const value = {
     user,
     isLoading,
     isAuthenticated: !!user,
     login,
-    // signup,
+    signup,
     // logout,
     isAdmin: user?.role === 'admin'
   };

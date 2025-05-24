@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Clock4,  Trash2 } from 'lucide-react'
+import { Clock4, Trash2 } from 'lucide-react'
 import { formatTime } from './utils'
 
 export default function TimesheetDropdown({ isAdmin = false }) {
@@ -22,6 +22,8 @@ export default function TimesheetDropdown({ isAdmin = false }) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false)
       }
+      console.log(currentTime);
+      
     }
     
     document.addEventListener('mousedown', handleClickOutside)

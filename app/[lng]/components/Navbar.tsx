@@ -102,10 +102,9 @@ interface NavbarProps {
 }
 
 export default function Navbar({hideSidebar, setHideSidebar}: NavbarProps) {
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [isAdmin] = useState(false)
   const [showEmployeeInfo, setShowEmployeeInfo] = useState(false)
 
-  console.log(setIsAdmin);
 
   // Mock translation function
   const translations = {

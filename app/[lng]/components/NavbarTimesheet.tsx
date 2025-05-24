@@ -38,6 +38,8 @@ export default function NavbarTimesheet({ isAdmin = false }) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false)
       }
+      console.log(currentTime);
+      
     }
     
     document.addEventListener('mousedown', handleClickOutside)
