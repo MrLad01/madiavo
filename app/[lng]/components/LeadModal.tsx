@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, User, FileText, CheckSquare, Paperclip, Bell, Activity, Printer, Edit, MoreVertical, Check, Trash2, ChevronDown, Tag } from 'lucide-react';
+import { X, User, FileText, CheckSquare, Paperclip, Bell, Activity, Printer, Edit, MoreVertical, Check, Trash2, ChevronDown, Tag, EyeOff, Eye } from 'lucide-react';
 
 interface LeadModalProps {
   showLeadModal: boolean;
@@ -8,15 +8,66 @@ interface LeadModalProps {
 }
 
 const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, mode }) => {
+
+    const countries = [
+  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
+  "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
+  "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia",
+  "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica",
+  "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt",
+  "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon",
+  "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+  "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel",
+  "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos",
+  "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi",
+  "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova",
+  "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands",
+  "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau",
+  "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania",
+  "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal",
+  "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea",
+  "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan",
+  "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+  "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela",
+  "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+];
   const [activeTab, setActiveTab] = useState('profile');
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [toCustomerModal, setToCustomerModal] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [showPassword, setShowPassword] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [modalMode, setModalMode] = useState<'view' | 'edit'>(mode);
+  const [modalMode, setModalMode] = useState<'view' | 'edit'>('view');
+   const [formData, setFormData] = useState({
+    firstName: 'Test',
+    lastName: '',
+    position: '',
+    email: '',
+    company: '',
+    phone: '',
+    website: '',
+    address: '',
+    city: '',
+    state: '',
+    country: 'Lithuania',
+    zipCode: '',
+    password: '',
+    sendSetPasswordEmail: false,
+    doNotSendWelcomeEmail: true
+  });
+
   const handleAddNewLead = (e: React.FormEvent) => {
       e.preventDefault();
       // Implementation would go here
     };
+
+     const handleInputChange = (e: any) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
 
   const tabs = [
     { id: 'profile', label: 'Profile', icon: User },
@@ -52,6 +103,7 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
     }
 
   return (
+    <>
     <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
       <div className="dark:bg-gray-800 bg-white border border-gray-700 rounded-xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
@@ -106,7 +158,7 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
         {/* Action Buttons */}
         <div className="flex justify-end gap-2 mb-6">
           <button 
-            onClick={handleConvertToCustomer}
+            onClick={() => setToCustomerModal(true)}
             className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
           >
             <User size={16} />
@@ -271,7 +323,7 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
           {/* Header with Save and Cancel buttons */}
             <div className="flex justify-end gap-2 mb-6">
           <button 
-            onClick={handleConvertToCustomer}
+            onClick={() => setToCustomerModal(true)}
             className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
           >
             <User size={16} />
@@ -943,8 +995,258 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
           )}
         </div>
       </div>
-
     </div>
+      {toCustomerModal && (
+        <div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="dark:bg-gray-800 bg-white border border-gray-700 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center bg-blue-400 p-4 border-b border-gray-700">
+              <h2 className="text-lg font-semibold text-white">Convert to customer</h2>
+              <button 
+                onClick={() => setToCustomerModal(false)} 
+                className="text-gray-400 hover:text-white"
+              >
+                <X size={20} color='#fff' />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <form onSubmit={handleAddNewLead}>
+                
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    * First Name
+                  </label>
+                  <input 
+                    type="text" 
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    * Last Name
+                  </label>
+                  <input 
+                    type="text" 
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    Position
+                  </label>
+                  <input 
+                    type="text" 
+                    name="position"
+                    value={formData.position}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    * Email
+                  </label>
+                  <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    Company
+                  </label>
+                  <input 
+                    type="text" 
+                    name="company"
+                    value={formData.company}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    Phone
+                  </label>
+                  <input 
+                    type="text" 
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    Website
+                  </label>
+                  <input 
+                    type="text" 
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    Address
+                  </label>
+                  <textarea 
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    rows={3}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600 resize-none"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    City
+                  </label>
+                  <input 
+                    type="text" 
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    State
+                  </label>
+                  <input 
+                    type="text" 
+                    name="state"
+                    value={formData.state}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    Country
+                  </label>
+                  <select 
+                    name="country"
+                    value={formData.country}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  >
+                    {countries.map((country) => (
+                      <option key={country} value={country}>
+                        {country}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    Zip Code
+                  </label>
+                  <input 
+                    type="text" 
+                    name="zipCode"
+                    value={formData.zipCode}
+                    onChange={handleInputChange}
+                    className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 dark:text-white text-gray-600"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-1 text-xs text-gray-400">
+                    * Password
+                  </label>
+                  <div className="relative">
+                    <input 
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className="w-full dark:bg-gray-700 bg-gray-100 border border-gray-600 rounded p-2 pr-10 dark:text-white text-gray-600"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                    >
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col gap-3 mb-6">
+                  <div className="flex items-center">
+                    <input 
+                      type="checkbox" 
+                      id="sendSetPasswordEmail"
+                      name="sendSetPasswordEmail"
+                      checked={formData.sendSetPasswordEmail}
+                      onChange={handleInputChange}
+                      className="mr-2"
+                    />
+                    <label htmlFor="sendSetPasswordEmail" className="dark:text-gray-300 text-gray-600 text-sm">
+                      Send SET password email
+                    </label>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <input 
+                      type="checkbox" 
+                      id="doNotSendWelcomeEmail"
+                      name="doNotSendWelcomeEmail"
+                      checked={formData.doNotSendWelcomeEmail}
+                      onChange={handleInputChange}
+                      className="mr-2"
+                    />
+                    <label htmlFor="doNotSendWelcomeEmail" className="dark:text-gray-300 text-gray-600 text-sm">
+                      Do not send welcome email
+                    </label>
+                  </div>
+                </div>
+                
+                <div className="flex justify-end gap-2 dark:border-t border-gray-700 pt-4 mt-4">
+                  <button 
+                    type="button"
+                    onClick={() => setToCustomerModal(false)} 
+                    className="px-4 py-2 dark:text-gray-300 text-gray-600 rounded dark:hover:bg-gray-700 dark:bg-gray-600 bg-gray-200"
+                  >
+                    Back to lead
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </>
   );
 };
 
