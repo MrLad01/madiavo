@@ -18,6 +18,14 @@ interface Customer {
   CompanyCode: string;
   address: string;
   VATcode: string;
+  attributes: CustomerAttribute[]
+}
+
+interface CustomerAttribute {
+  id: number;
+  name: string;
+  color: string;
+  description?: string;
 }
 
 interface SortConfig {
@@ -38,6 +46,17 @@ interface Currency {
   symbol: string;
 }
 
+const availableAttributes: CustomerAttribute[] = [
+  { id: 1, name: 'High Value', color: 'bg-green-500', description: 'High-value customer' },
+  { id: 2, name: 'VIP', color: 'bg-purple-500', description: 'VIP customer' },
+  { id: 3, name: 'New Client', color: 'bg-blue-500', description: 'Recently acquired customer' },
+  { id: 4, name: 'At Risk', color: 'bg-red-500', description: 'Customer at risk of churning' },
+  { id: 5, name: 'Upsell Ready', color: 'bg-orange-500', description: 'Ready for upselling' },
+  { id: 6, name: 'Long Term', color: 'bg-indigo-500', description: 'Long-term customer' },
+  { id: 7, name: 'Price Sensitive', color: 'bg-yellow-500', description: 'Price-sensitive customer' },
+  { id: 8, name: 'Strategic', color: 'bg-pink-500', description: 'Strategic partnership' },
+];
+
 const dummyCustomers: Customer[] = [
   {
     id: 17,
@@ -50,7 +69,8 @@ const dummyCustomers: Customer[] = [
     dateCreated: '2025-05-15 19:34:33',
     CompanyCode: 'a',
     address: 'a',
-    VATcode: ''
+    VATcode: '',
+    attributes: [availableAttributes[0], availableAttributes[2]]
   },
   {
     id: 22,
@@ -63,7 +83,8 @@ const dummyCustomers: Customer[] = [
     dateCreated: '2025-05-15 19:37:25',
     CompanyCode: 'a',
     address: 'a',
-    VATcode: ''
+    VATcode: '',
+    attributes: [availableAttributes[1], availableAttributes[4]]
   },
   {
     id: 21,
@@ -76,7 +97,8 @@ const dummyCustomers: Customer[] = [
     dateCreated: '2025-05-15 19:37:00',
     CompanyCode: 'a',
     address: 'a',
-    VATcode: ''
+    VATcode: '',
+    attributes: [availableAttributes[3]]
   },
   {
     id: 19,
@@ -89,7 +111,8 @@ const dummyCustomers: Customer[] = [
     dateCreated: '2025-05-15 19:36:25',
     CompanyCode: 'a',
     address: 'a',
-    VATcode: ''
+    VATcode: '',
+    attributes: [availableAttributes[5], availableAttributes[7]]
   },
   {
     id: 20,
@@ -102,7 +125,8 @@ const dummyCustomers: Customer[] = [
     dateCreated: '2025-05-15 19:36:41',
     CompanyCode: 'a',
     address: 'a',
-    VATcode: ''
+    VATcode: '',
+    attributes: [availableAttributes[6]]
   },
   {
     id: 23,
@@ -115,7 +139,8 @@ const dummyCustomers: Customer[] = [
     dateCreated: '2025-05-15 19:37:37',
     CompanyCode: 'a',
     address: 'a',
-    VATcode: ''
+    VATcode: '',
+    attributes: [availableAttributes[0], availableAttributes[1]]
   }
 ];
 
@@ -136,8 +161,38 @@ export default function CustomerManagement() {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [showNewCustomerModal, setShowNewCustomerModal] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState('details');
+
+  const [selectedAttributeFilters, setSelectedAttributeFilters] = useState<number[]>([]);
+  const [showAttributeFilter, setShowAttributeFilter] = useState(false);
+  const [showAttributeModal, setShowAttributeModal] = useState(false);
+  const [editingCustomerId, setEditingCustomerId] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
   const { t } = useT('common');
 
+
+  useEffect(() => {
+    let filtered = customers;
+
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(customer =>
+        customer.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        customer.primaryContact.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        customer.primaryEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        customer.CompanyCode.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Apply attribute filters
+    if (selectedAttributeFilters.length > 0) {
+      filtered = filtered.filter(customer =>
+        customer.attributes.some(attr => selectedAttributeFilters.includes(attr.id))
+      );
+    }
+
+    setFilteredCustomers(filtered);
+  }, [customers, searchTerm, selectedAttributeFilters]);
 
   // Select/deselect all rows
   useEffect(() => {
@@ -165,7 +220,41 @@ export default function CustomerManagement() {
     setCustomers(updatedCustomers);
     setFilteredCustomers(updatedCustomers);
   };
-  
+
+   const toggleAttributeFilter = (attributeId: number) => {
+    if (selectedAttributeFilters.includes(attributeId)) {
+      setSelectedAttributeFilters(selectedAttributeFilters.filter(id => id !== attributeId));
+    } else {
+      setSelectedAttributeFilters([...selectedAttributeFilters, attributeId]);
+    }
+  };
+
+  // Add attribute to customer
+  const addAttributeToCustomer = (customerId: number, attributeId: number) => {
+    const attribute = availableAttributes.find(attr => attr.id === attributeId);
+    if (!attribute) return;
+
+    const updatedCustomers = customers.map(customer => {
+      if (customer.id === customerId) {
+        const hasAttribute = customer.attributes.some(attr => attr.id === attributeId);
+        if (!hasAttribute) {
+          return { ...customer, attributes: [...customer.attributes, attribute] };
+        }
+      }
+      return customer;
+    });
+    setCustomers(updatedCustomers);
+  };
+
+  // Remove attribute from customer
+  const removeAttributeFromCustomer = (customerId: number, attributeId: number) => {
+    const updatedCustomers = customers.map(customer =>
+      customer.id === customerId
+        ? { ...customer, attributes: customer.attributes.filter(attr => attr.id !== attributeId) }
+        : customer
+    );
+    setCustomers(updatedCustomers);
+  };
 
   // Handle column sorting
   const requestSort = (key: keyof Customer | null) => {
@@ -208,35 +297,41 @@ export default function CustomerManagement() {
       e.preventDefault();
       // Implementation would go here
       setShowNewCustomerModal(false);
-    };
+  };
 
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const response = await fetch('/api/country', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          const responseData = await response.json();
-          
+  // Clear all filters
+  const clearAllFilters = () => {
+    setSelectedAttributeFilters([]);
+    setSearchTerm('');
+  };
 
-          setCountries(
-            Array.isArray(responseData.data)
-              ? responseData.data.map((country: any) => ({
-                  id: country.id,
-                  iso2: country.iso2,
-                  shortName: country.name,
-                }))
-              : []
-          );
-        } catch (error) {
-          console.log(error);
-        }
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('/api/country', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const responseData = await response.json();
+        
+
+        setCountries(
+          Array.isArray(responseData.data)
+            ? responseData.data.map((country: any) => ({
+                id: country.id,
+                iso2: country.iso2,
+                shortName: country.name,
+              }))
+            : []
+        );
+      } catch (error) {
+        console.log(error);
       }
-      fetchData();
-    }, []);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="flex-1 dark:bg-gray-900 bg-transparent min-h-screen pb-16 pt-6 px-6 flex flex-col text-indigo-600 overflow-x-hidden dark:text-gray-100">
@@ -251,13 +346,13 @@ export default function CustomerManagement() {
       {/* Stat boxes */}
       <div className="flex gap-2 mt-4 text-xs">
         <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
-          <p className="dark:text-white text-gray-600"><span className="font-normal mr-1">7</span> Total Customers</p>
+          <p className="dark:text-white text-gray-600"><span className="font-normal mr-1">{customers.length}</span> Total Customers</p>
         </div>
         <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
-          <p><span className="dark:text-white text-gray-600 mr-1 ">7</span> <span className="text-green-500 font-extralight">Active Customers</span></p>
+          <p><span className="dark:text-white text-gray-600 mr-1 ">{customers.filter(c => c.active).length}</span> <span className="text-green-500 font-extralight">Active Customers</span></p>
         </div>
         <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
-          <p><span className="dark:text-white text-gray-600 mr-1">0</span> <span className="text-red-500 font-extralight">Inactive Customers</span></p>
+          <p><span className="dark:text-white text-gray-600 mr-1">{customers.filter(c => !c.active).length}</span> <span className="text-red-500 font-extralight">Inactive Customers</span></p>
         </div>
         <div className="dark:bg-inherit bg-white shadow-sm dark:border dark:border-gray-500  flex items-center justify-start rounded-md py-2 px-3">
           <p><span className="dark:text-white text-gray-600 mr-1">0</span> <span className="text-blue-500 font-extralight">Active Contacts</span></p>
@@ -280,10 +375,105 @@ export default function CustomerManagement() {
             <Upload size={16} className="mr-2" /> Import Customers
           </button>
         </div>
-        <button className="flex items-center justify-center gap-1 py-2 px-3 rounded-lg border border-gray-400 text-gray-500 shadow-sm text-xs dark:text-gray-200 dark:bg-transparent bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200">
+        {/* <button className="flex items-center justify-center gap-1 py-2 px-3 rounded-lg border border-gray-400 text-gray-500 shadow-sm text-xs dark:text-gray-200 dark:bg-transparent bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200">
           <Filter size={16} className="mr-2" /> Filters
-        </button>
+        </button> */}
+        <div className="flex gap-2">
+          <div className="relative">
+            <button 
+              onClick={() => setShowAttributeFilter(!showAttributeFilter)}
+              className="flex items-center justify-center gap-1 py-2 px-3 rounded-lg border border-gray-400 text-gray-500 shadow-sm text-xs dark:text-gray-200 dark:bg-transparent bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200"
+            >
+              <Tag size={16} className="mr-1" /> Attributes
+              {selectedAttributeFilters.length > 0 && (
+                <span className="ml-1 px-1.5 py-0.5 bg-blue-500 text-white rounded-full text-xs">
+                  {selectedAttributeFilters.length}
+                </span>
+              )}
+            </button>
+              
+              {/* Attribute Filter Dropdown */}
+              {showAttributeFilter && (
+                <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg z-10">
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-600">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-medium text-sm dark:text-white text-gray-800">Filter by Attributes</h3>
+                      {selectedAttributeFilters.length > 0 && (
+                        <button 
+                          onClick={clearAllFilters}
+                          className="text-xs text-blue-500 hover:text-blue-600"
+                        >
+                          Clear All
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="p-2 max-h-64 overflow-y-auto">
+                    {availableAttributes.map(attribute => (
+                      <label key={attribute.id} className="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedAttributeFilters.includes(attribute.id)}
+                          onChange={() => toggleAttributeFilter(attribute.id)}
+                          className="mr-2"
+                        />
+                        <div className={`w-3 h-3 rounded-full ${attribute.color} mr-2`}></div>
+                        <div className="flex-1">
+                          <div className="text-sm dark:text-white text-gray-800">{attribute.name}</div>
+                          {attribute.description && (
+                            <div className="text-xs text-gray-500 dark:text-gray-400">{attribute.description}</div>
+                          )}
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <button className="flex items-center justify-center gap-1 py-2 px-3 rounded-lg border border-gray-400 text-gray-500 shadow-sm text-xs dark:text-gray-200 dark:bg-transparent bg-white hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-blue-200">
+              <Filter size={16} className="mr-2" /> Filters
+            </button>
+        </div>
       </div>
+
+          {(selectedAttributeFilters.length > 0 || searchTerm) && (
+        <div className="mt-3 flex items-center gap-2 flex-wrap">
+          <span className="text-xs text-gray-500 dark:text-gray-400">Active filters:</span>
+          {selectedAttributeFilters.map(filterId => {
+            const attribute = availableAttributes.find(attr => attr.id === filterId);
+            return attribute ? (
+              <div key={filterId} className="flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">
+                <div className={`w-2 h-2 rounded-full ${attribute.color}`}></div>
+                {attribute.name}
+                <button 
+                  onClick={() => toggleAttributeFilter(filterId)}
+                  className="ml-1 text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-100"
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            ) : null;
+          })}
+          {searchTerm && (
+            <div className="flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">
+              Search: "{searchTerm}"
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="ml-1 text-green-600 hover:text-green-800 dark:text-green-300 dark:hover:text-green-100"
+              >
+                <X size={12} />
+              </button>
+            </div>
+          )}
+          <button 
+            onClick={clearAllFilters}
+            className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 underline"
+          >
+            Clear all filters
+          </button>
+        </div>
+      )}
       
       {/* Table controls */}
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 mt-4 overflow-x-auto relative">
@@ -357,6 +547,9 @@ export default function CustomerManagement() {
                     Active <ArrowUpDown size={12} className="ml-1" />
                   </div>
                 </th>
+                <th className="p-1.5 text-xs font-medium text-gray-400 min-w-40">
+                  Attributes
+                </th>
                 <th className="p-1.5 text-xs font-medium text-gray-400 min-w-24 cursor-pointer" onClick={() => requestSort('groups')}>
                   <div className="flex items-center">
                     Groups <ArrowUpDown size={12} className="ml-1" />
@@ -425,6 +618,44 @@ export default function CustomerManagement() {
                       <div className={`w-4 h-4 rounded-full transition-transform  ${customer.active ? 'bg-white transform translate-x-6' : 'bg-white'}`}></div>
                     </div>
                   </td>
+                   <td className="px-3 py-2">
+                      <div className="flex flex-wrap gap-1 items-center">
+                        {customer.attributes.map(attribute => (
+                          <div 
+                            key={attribute.id}
+                            className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] text-white group relative cursor-pointer"
+                            style={{ backgroundColor: attribute.color.replace('bg-', '').replace('-500', '') === 'green' ? '#10b981' :
+                              attribute.color.replace('bg-', '').replace('-500', '') === 'purple' ? '#8b5cf6' :
+                              attribute.color.replace('bg-', '').replace('-500', '') === 'blue' ? '#3b82f6' :
+                              attribute.color.replace('bg-', '').replace('-500', '') === 'red' ? '#ef4444' :
+                              attribute.color.replace('bg-', '').replace('-500', '') === 'orange' ? '#f97316' :
+                              attribute.color.replace('bg-', '').replace('-500', '') === 'indigo' ? '#6366f1' :
+                              attribute.color.replace('bg-', '').replace('-500', '') === 'yellow' ? '#eab308' :
+                              attribute.color.replace('bg-', '').replace('-500', '') === 'pink' ? '#ec4899' : '#6b7280' }}
+                          >
+                            <span>{attribute.name}</span>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeAttributeFromCustomer(customer.id, attribute.id);
+                              }}
+                              className="opacity-0 group-hover:opacity-100 transition-opacity ml-1 hover:border-white hover:bg-opacity-20 rounded-full p-0.5"
+                            >
+                              <X size={10} />
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          onClick={() => {
+                            setEditingCustomerId(customer.id);
+                            setShowAttributeModal(true);
+                          }}
+                          className="flex items-center justify-center w-6 h-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-full text-gray-400 hover:border-blue-500 hover:text-blue-500 transition-colors"
+                        >
+                          <Plus size={12} />
+                        </button>
+                      </div>
+                    </td>
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">{customer.groups.join(', ')}</td>
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">{formatDate(customer.dateCreated)}</td>
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">{customer.CompanyCode}</td>
@@ -451,6 +682,68 @@ export default function CustomerManagement() {
             </tbody>
           </table>
         </div>
+        {showAttributeModal && editingCustomerId && (
+          <div className="fixed inset-0 bg-[#00000090] bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-96 max-h-96 overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold dark:text-white text-gray-800">
+                  Manage Attributes
+                </h3>
+                <button
+                  onClick={() => {
+                    setShowAttributeModal(false);
+                    setEditingCustomerId(null);
+                  }}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="space-y-2">
+                {availableAttributes.map(attribute => {
+                  const customer = customers.find(c => c.id === editingCustomerId);
+                  const hasAttribute = customer?.attributes.some(attr => attr.id === attribute.id);
+                  
+                  return (
+                    <div key={attribute.id} className="flex items-center justify-between p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${attribute.color}`}></div>
+                        <div>
+                          <div className="text-sm font-medium dark:text-white text-gray-800">
+                            {attribute.name}
+                          </div>
+                          {attribute.description && (
+                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                              {attribute.description}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          if (hasAttribute) {
+                            removeAttributeFromCustomer(editingCustomerId, attribute.id);
+                          } else {
+                            addAttributeToCustomer(editingCustomerId, attribute.id);
+                          }
+                        }}
+                        className={`px-3 py-1 rounded-md text-xs transition-colors ${
+                          hasAttribute
+                            ? 'bg-red-500 text-white hover:bg-red-600'
+                            : 'bg-blue-500 text-white hover:bg-blue-600'
+                        }`}
+                      >
+                        {hasAttribute ? 'Remove' : 'Add'}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
         
         {/* Pagination */}
         <div className="flex justify-between p-4">
