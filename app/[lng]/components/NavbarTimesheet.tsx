@@ -29,6 +29,8 @@ export default function NavbarTimesheet({ isAdmin = false }) {
   const dropdownRef = useRef<HTMLDivElement | null>(null)
 
   const { t } = useT('common');
+
+  console.log(currentTime)
   
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -110,8 +112,8 @@ export default function NavbarTimesheet({ isAdmin = false }) {
     setShowStopModal(true)
   }
 
-  const handleStopTimerConfirm = (data: any) => {
-    console.log('Timer stopped with data:', data)
+  const handleStopTimerConfirm = () => {
+    console.log('Timer stopped with data:')
     // Here you would handle saving the timesheet entry
     
     // Reset timer state

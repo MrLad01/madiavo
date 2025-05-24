@@ -2,16 +2,14 @@
 import { ArrowRight, ArrowUpDown, ChevronDown, Filter, Plus, RotateCw, Search, X,  Bold,
   Italic,
   List,
-  ListOrdered,
   AlignLeft,
   AlignCenter,
   AlignRight,
-  Image,
   MoreHorizontal,
   Link2,
+  ImageIcon,
    } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import _ from 'lodash'
 import Link from 'next/link';
 
 // Define TypeScript interfaces for our data
@@ -31,7 +29,7 @@ interface SortConfig {
 const dummyArticles: Article[] = [];
 
 export default function Knowledgebase() {
-  const [articles, setArticles] = useState<Article[]>(dummyArticles);
+  // const [articles, setArticles] = useState<Article[]>(dummyArticles);
   const [filteredArticles, setFilteredArticles] = useState<Article[]>(dummyArticles);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -354,7 +352,7 @@ export default function Knowledgebase() {
                   <div className="mx-1 text-gray-500">|</div>
                   
                   <button className="p-1 text-gray-400 hover:bg-gray-700 rounded">
-                    <Image size={16} />
+                    <ImageIcon size={16} />
                   </button>
                   
                   <button className="p-1 text-gray-400 hover:bg-gray-700 rounded">

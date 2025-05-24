@@ -1,21 +1,16 @@
 'use client';
 
 import {
-  ArrowRight,
   Filter,
   Search,
   RotateCw,
   ArrowUpDown,
-  LayoutGrid,
-  List,
-  User,
   Plus,
   Tag,
   X,
   HardDriveUpload,
   FileText,
 } from 'lucide-react';
-import Link from 'next/link';
 import React, { useState } from 'react';
 
 interface Expense {
@@ -93,13 +88,13 @@ const statusColors: Record<NonNullable<Expense['status']>, string> = {
   'Billed': 'border-green-500', 
 };
 
-const statusColorsi: Record<NonNullable<Expense['status']>, string> = {
-  'Total': 'bg-green-500', 
-  'Billable': 'bg-green-500', 
-  'Non Billable': 'bg-green-500', 
-  'Not Invoiced': 'bg-green-500', 
-  'Billed': 'bg-green-500', 
-};
+// const statusColorsi: Record<NonNullable<Expense['status']>, string> = {
+//   'Total': 'bg-green-500', 
+//   'Billable': 'bg-green-500', 
+//   'Non Billable': 'bg-green-500', 
+//   'Not Invoiced': 'bg-green-500', 
+//   'Billed': 'bg-green-500', 
+// };
 
 
 const statusTextColors: Record<NonNullable<Expense['status']>, string> = {
@@ -255,7 +250,7 @@ export default function ExpensesPage() {
 
       {/* Status Filter Cards */}
       <div className="flex space-x-4 mt-2">
-        {Object.entries(expensesCounts).map(([status, count]) => {
+        {Object.entries(expensesCounts).map(([status]) => {
           const statusKey = status as Expense['status'];
           const isActive = activeStatusFilter === statusKey;
           

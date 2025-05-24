@@ -13,13 +13,8 @@ import {
   Download,
   User,
   Tag,
-  Plus,
   X,
-  MoreHorizontal,
-  ArrowLeft,
-  ArrowRight,
   Clock,
-  Share
 } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 

@@ -1,5 +1,5 @@
 'use client'
-import { ArrowBigUp, ArrowUpDown, ChevronDown, Filter, Import, LayoutGrid, List, Menu, MoveDown, Plus, RefreshCw, RotateCw, Search, Tag, Upload, User, X } from 'lucide-react'
+import { ArrowBigUp, ArrowUpDown, ChevronDown, Filter,  LayoutGrid, List, Menu, Plus, RotateCw, Search, Tag, Upload, User, X } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import LeadModal from '../../components/LeadModal';
@@ -142,6 +142,9 @@ export default function Page(): React.ReactElement {
   const [activeStatusForColor, setActiveStatusForColor] = useState<Lead['status'] | null>(null);
   const [statusColors, setStatusColors] = useState<Record<Lead['status'], string>>(statusColorsi);
   const [ upsellPage, setUpsellPage ] = useState<boolean>(false);
+
+  console.log(setLeads);
+  
 
 
   // Calculate status counts
@@ -475,7 +478,7 @@ const getStatusColor2 = (status: string) => {
                   <th
                     key={key}
                     className="px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600"
-                    onClick={() => !noSort && requestSort(key as any)}
+                    onClick={() => !noSort && requestSort(key as keyof Lead)}
                   >
                     <div className="flex items-center justify-center gap-1">
                       <span>{label}</span>

@@ -1,6 +1,5 @@
 'use client'
 
-import { languages } from "@/app/i18n/settings";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { useState } from "react";

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Bell, Clock4, RotateCw, Trash2 } from 'lucide-react'
+import { Clock4,  Trash2 } from 'lucide-react'
 import { formatTime } from './utils'
 
 export default function TimesheetDropdown({ isAdmin = false }) {
@@ -11,7 +11,10 @@ export default function TimesheetDropdown({ isAdmin = false }) {
   const [seconds, setSeconds] = useState(0)
   const [timerStartTime, setTimerStartTime] = useState<Date | null>(null)
   const [currentTime, setCurrentTime] = useState(new Date())
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  console.log(currentTime);
+  
   
   // Close dropdown when clicking outside
   useEffect(() => {

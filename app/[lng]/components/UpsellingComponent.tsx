@@ -1,5 +1,5 @@
 'use client'
-import { ArrowUpDown, BarChart3, ChevronDown, Filter, List, Menu, Users, Eye, Edit, Trash2, Plus } from 'lucide-react'
+import {  BarChart3, Filter, List, Users, Eye, Edit, Trash2, Plus } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 
@@ -130,6 +130,9 @@ export default function UpsellDashboard(): React.ReactElement {
   const [clients, setClients] = useState<Client[]>(dummyClients);
   const [filteredClients, setFilteredClients] = useState<Client[]>([]);
   const [selectedStage, setSelectedStage] = useState<UpsellStage | 'All'>('All');
+
+  console.log(setClients);
+  
 
   // Filter clients based on active tab
   useEffect(() => {

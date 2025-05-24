@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { Search, Plus, BarChart3, Check, Clock, Ticket, Megaphone, FileBarChart2, GripVertical, TrendingUp, Expand, BadgeCheck, TriangleAlert, FileCheck, SlidersHorizontal, ChevronRight, MoreHorizontal, ArrowUpRight, X, Filter } from 'lucide-react'
+import React, { useState } from 'react'
+import { Search, Plus, BarChart3, Check, Clock, Ticket, FileBarChart2, GripVertical, BadgeCheck, TriangleAlert, ChevronRight, MoreHorizontal, ArrowUpRight,  Filter } from 'lucide-react'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -13,6 +13,16 @@ interface DraggableWidgetProps {
   id: string;
   title: string;
   children: React.ReactNode;
+}
+
+// Define types for the drag event
+interface DragItem {
+  id: string | number;
+}
+
+interface DragEvent {
+  active: DragItem;
+  over: DragItem | null;
 }
 
 // Widget component with drag functionality only at the handle
@@ -426,18 +436,18 @@ export default function DashboardPage() {
   ])
   const { t } = useT('common');
 
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event
-    
-    if (active.id !== over.id) {
-      setWidgets((items) => {
-        const oldIndex = items.findIndex(item => item.id === active.id)
-        const newIndex = items.findIndex(item => item.id === over.id)
-        
-        return arrayMove(items, oldIndex, newIndex)
-      })
-    }
+ const handleDragEnd = (event: DragEvent) => {
+  const { active, over } = event;
+  
+  if (over && active.id !== over.id) {
+    setWidgets((items) => {
+      const oldIndex = items.findIndex(item => item.id === active.id)
+      const newIndex = items.findIndex(item => item.id === over.id)
+      
+      return arrayMove(items, oldIndex, newIndex)
+    })
   }
+}
 
   return (
     <div className="flex-1 pr-6 py-8 dark:bg-gray-900">

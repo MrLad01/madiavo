@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 			);
 		}
 
-		const { token, user } = responseData.data;
+		const { token } = responseData.data;
 
 		const res = NextResponse.json(
 			{ data: responseData.data },
@@ -41,7 +41,8 @@ export async function POST(req: NextRequest) {
 		});
 
 		return res;
-	} catch (error) {
+	} catch (error:unknown) {
+		console.error("Login error:", error);
 		return NextResponse.json(
 			{ error: "Something went wrong" },
 			{ status: 500 }

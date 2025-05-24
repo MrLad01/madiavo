@@ -6,13 +6,8 @@ import {
   RotateCw,
   ArrowUpDown,
   Plus,
-  Tag,
   X,
-  HardDriveUpload,
-  FileText,
-  Calendar,
 } from 'lucide-react';
-import Link from 'next/link';
 import React, { useState } from 'react';
 // Import recharts components for the charts
 import {
@@ -24,7 +19,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 

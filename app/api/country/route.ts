@@ -29,7 +29,8 @@ export async function GET() {
             { data: responseData },
             { status: 200 }
         );
-    } catch (error) {
+    } catch (error:unknown) {
+        console.error("Error fetching countries:", error);
         return NextResponse.json(
             { error: "Something went wrong" },
             { status: 500 }

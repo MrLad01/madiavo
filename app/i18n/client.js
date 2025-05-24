@@ -9,19 +9,35 @@ const runsOnServerSide = typeof window === 'undefined'
 
 export function useT(ns, options) {
   const lng = useParams()?.lng
-  if (typeof lng !== 'string') throw new Error('useT is only available inside /app/[lng]')
-  if (runsOnServerSide && i18next.resolvedLanguage !== lng) {
-    i18next.changeLanguage(lng)
-  } else {
-    const [activeLng, setActiveLng] = useState(i18next.resolvedLanguage)
-    useEffect(() => {
-      if (activeLng === i18next.resolvedLanguage) return
-      setActiveLng(i18next.resolvedLanguage)
-    }, [activeLng, i18next.resolvedLanguage])
-    useEffect(() => {
-      if (!lng || i18next.resolvedLanguage === lng) return
-      i18next.changeLanguage(lng)
-    }, [lng, i18next])
+  
+  // Always call hooks at the top level
+  const [activeLng, setActiveLng] = useState(i18next.resolvedLanguage)
+  const translation = useTranslation(ns, options)
+  
+  if (typeof lng !== 'string') {
+    throw new Error('useT is only available inside /app/[lng]')
   }
-  return useTranslation(ns, options)
+
+  // Handle server-side language change
+  useEffect(() => {
+    if (runsOnServerSide && i18next.resolvedLanguage !== lng) {
+      i18next.changeLanguage(lng)
+    }
+  }, [lng])
+
+  // Handle client-side language state tracking
+  useEffect(() => {
+    if (!runsOnServerSide && activeLng !== i18next.resolvedLanguage) {
+      setActiveLng(i18next.resolvedLanguage)
+    }
+  }, [activeLng])
+
+  // Handle client-side language change
+  useEffect(() => {
+    if (!runsOnServerSide && lng && i18next.resolvedLanguage !== lng) {
+      i18next.changeLanguage(lng)
+    }
+  }, [lng])
+
+  return translation
 }

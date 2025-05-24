@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, User, FileText, CheckSquare, Paperclip, Bell, Activity, Printer, Edit, MoreVertical, Check, Trash2, ChevronDown, Tag, EyeOff, Eye } from 'lucide-react';
+import { X, User, FileText, CheckSquare, Paperclip, Bell, Activity, Printer, Edit, Check, Trash2, ChevronDown, Tag, EyeOff, Eye } from 'lucide-react';
 
 interface LeadModalProps {
   showLeadModal: boolean;
@@ -7,7 +7,7 @@ interface LeadModalProps {
   mode: 'view' | 'edit'
 }
 
-const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, mode }) => {
+const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal }) => {
 
     const countries = [
   "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
@@ -36,8 +36,19 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
   const [toCustomerModal, setToCustomerModal] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [showPassword, setShowPassword] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [modalMode, setModalMode] = useState<'view' | 'edit'>('view');
+
+  const handleFileUpload = (files: File[]) => {
+    setUploadedFiles(prev => [...prev, ...files]);
+  };
+
+  console.log(isDragOver);
+  
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
    const [formData, setFormData] = useState({
     firstName: 'Test',
     lastName: '',
@@ -56,16 +67,20 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
     doNotSendWelcomeEmail: true
   });
 
+  console.log(setUploadedFiles);
+  
+
   const handleAddNewLead = (e: React.FormEvent) => {
       e.preventDefault();
       // Implementation would go here
     };
 
-     const handleInputChange = (e: any) => {
-    const { name, value, type, checked } = e.target;
+     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const checked = (e.target as HTMLInputElement).type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: checked !== undefined ? checked : value
     }));
   };
 
@@ -83,24 +98,11 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
     window.print();
   };
 
-  const handleConvertToCustomer = () => {
-    // Add your conversion logic here
-    console.log('Converting to customer...');
-  };
+  
 
   if (!showLeadModal) return null;
 
-    function setIsDragOver(arg0: boolean) {
-        throw new Error('Function not implemented.');
-    }
-
-    function handleFileUpload(files: File[]) {
-        throw new Error('Function not implemented.');
-    }
-
-    function removeFil(index: any): void {
-        throw new Error('Function not implemented.');
-    }
+    
 
   return (
     <>
@@ -772,7 +774,7 @@ const LeadModal: React.FC<LeadModalProps> = ({ showLeadModal, setShowLeadModal, 
                         </div>
                     </div>
                     <button
-                        onClick={() => removeFil(index)}
+                        onClick={() => removeFile(index)}
                         className="text-red-400 hover:text-red-300 transition-colors"
                     >
                         ×

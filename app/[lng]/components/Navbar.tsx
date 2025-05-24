@@ -1,4 +1,4 @@
-import { Bell, Clock4, Menu, Plus, Search, Share2, SquareCheckBig, Users, FolderOpen, Link } from 'lucide-react'
+import { Bell, Clock4, Menu, Plus, Search, Share2, SquareCheckBig, Users, Link } from 'lucide-react'
 import React, { useState } from 'react'
 import NavbarLanguageSwitcher from './NavbarLanguageSwitcher';
 import NavbarThemeSwitcher from './NavbarThemeSwitcher';
@@ -8,7 +8,7 @@ interface NavbarTimesheetProps {
   isAdmin: boolean;
 }
 
-const NavbarTimesheet = ({ isAdmin }: NavbarTimesheetProps) => (
+const NavbarTimesheet = ({ }: NavbarTimesheetProps) => (
   <button className='cursor-pointer outline-none' title='My Timesheets'>
     <Clock4 size={18} className='text-indigo-600 dark:text-white' />
   </button>
@@ -104,6 +104,8 @@ interface NavbarProps {
 export default function Navbar({hideSidebar, setHideSidebar}: NavbarProps) {
   const [isAdmin, setIsAdmin] = useState(false)
   const [showEmployeeInfo, setShowEmployeeInfo] = useState(false)
+
+  console.log(setIsAdmin);
 
   // Mock translation function
   const translations = {

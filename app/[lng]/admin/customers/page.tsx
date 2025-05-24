@@ -1,7 +1,6 @@
 'use client'
 import { ArrowRight, ArrowUpDown, ChevronDown, Filter, Info, Plus, RotateCw, Search, Tag, Upload, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import _ from 'lodash'
 import Link from 'next/link';
 import { useT } from '@/app/i18n/client';
 
@@ -39,12 +38,7 @@ interface Country {
   shortName: string;
 }
 
-interface Currency {
-  id: number;
-  name: string;
-  code: string;
-  symbol: string;
-}
+
 
 const availableAttributes: CustomerAttribute[] = [
   { id: 1, name: 'High Value', color: 'bg-green-500', description: 'High-value customer' },
@@ -147,17 +141,17 @@ const dummyCustomers: Customer[] = [
 export default function CustomerManagement() {
   const [customers, setCustomers] = useState<Customer[]>(dummyCustomers);
   const [countries, setCountries] = useState<Country[]>([]);
-  const [currencies, setCurrencies] = useState<Currency[]>([]);
+  // const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>(dummyCustomers);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: null });
-  const [activeCustomers, setActiveCustomers] = useState<number>(7);
-  const [totalCustomers, setTotalCustomers] = useState<number>(7);
-  const [inactiveCustomers, setInactiveCustomers] = useState<number>(0);
-  const [activeContacts, setActiveContacts] = useState<number>(0);
-  const [inactiveContacts, setInactiveContacts] = useState<number>(0);
-  const [contactsLoggedIn, setContactsLoggedIn] = useState<number>(0);
+  // const [activeCustomers, setActiveCustomers] = useState<number>(7);
+  // const [totalCustomers, setTotalCustomers] = useState<number>(7);
+  // const [inactiveCustomers, setInactiveCustomers] = useState<number>(0);
+  // const [activeContacts, setActiveContacts] = useState<number>(0);
+  // const [inactiveContacts, setInactiveContacts] = useState<number>(0);
+  // const [contactsLoggedIn, setContactsLoggedIn] = useState<number>(0);
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [showNewCustomerModal, setShowNewCustomerModal] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState('details');
@@ -319,10 +313,10 @@ export default function CustomerManagement() {
 
         setCountries(
           Array.isArray(responseData.data)
-            ? responseData.data.map((country: any) => ({
+            ? responseData.data.map((country: Country) => ({
                 id: country.id,
                 iso2: country.iso2,
-                shortName: country.name,
+                shortName: country.shortName,
               }))
             : []
         );

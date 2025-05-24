@@ -8,12 +8,10 @@ import {
   Crosshair, 
   UserRound, 
   LogOut, 
-  Settings,
   FileText,
   Users,
   ShoppingCart,
   Repeat,
-  ClipboardList,
   Book,
   Wrench,
   PieChart,
@@ -191,11 +189,13 @@ export default function Sidebar({ isAdmin: admin }: SidebarProps) {
     }
   }
 
-  
-
   useEffect(() => {
-    isAdmin ? setActiveItem(handleAdminRoute2()) : setActiveItem(handleAdminRoute())
-  }, [])
+  if (isAdmin) {
+    setActiveItem(handleAdminRoute2());
+  } else {
+    setActiveItem(handleAdminRoute());
+  }
+}, [isAdmin, handleAdminRoute2, handleAdminRoute]);
    
 
   const userMenuItems: MenuItem[] = [

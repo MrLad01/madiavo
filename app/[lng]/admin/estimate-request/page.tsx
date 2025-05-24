@@ -1,8 +1,7 @@
 'use client'
-import { ArrowRight, ArrowUpDown, ChevronDown, FileQuestion, Filter, Info, Plus, RotateCw, Search, Tag, Upload, X } from 'lucide-react'
+import { ArrowUpDown, ChevronDown, Plus, RotateCw, Search, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import _ from 'lodash'
-import Link from 'next/link';
+
 
 // Define TypeScript interfaces for our data
 interface Estimate {
@@ -23,7 +22,7 @@ interface SortConfig {
 const dummyEstimates: Estimate[] = [];
 
 export default function EstimateRequest() {
-  const [estimates, setEstimates] = useState<Estimate[]>(dummyEstimates);
+  // const [estimates, setEstimates] = useState<Estimate[]>(dummyEstimates);
   const [filteredEstimates, setFilteredEstimates] = useState<Estimate[]>(dummyEstimates);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);

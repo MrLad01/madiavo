@@ -1,7 +1,6 @@
 'use client'
-import { ArrowRight, ArrowUpDown, ChevronDown, FileQuestion, Filter, Info, Plus, RotateCw, Search, Tag, Upload, X } from 'lucide-react'
+import { ArrowUpDown, ChevronDown, Filter,  Plus, RotateCw, Search, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import _ from 'lodash'
 import Link from 'next/link';
 
 // Define TypeScript interfaces for our data
@@ -25,7 +24,7 @@ interface SortConfig {
 const dummySubscriptions: Subscription[] = [];
 
 export default function Subscription() {
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>(dummySubscriptions);
+  // const [subscriptions, setSubscriptions] = useState<Subscription[]>(dummySubscriptions);
   const [filteredSubscriptions, setFilteredSubscriptions] = useState<Subscription[]>(dummySubscriptions);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -74,16 +73,16 @@ export default function Subscription() {
   };
 
   // Subscription status counts
-  const statusCounts = {
-    'Not Subscribed': 0,
-    'Active': 0,
-    'Future': 0,
-    'Past Due': 0,
-    'Unpaid': 0,
-    'Incomplete': 0,
-    'Canceled': 0,
-    'Incomplete Expired': 0
-  };
+  // const statusCounts = {
+  //   'Not Subscribed': 0,
+  //   'Active': 0,
+  //   'Future': 0,
+  //   'Past Due': 0,
+  //   'Unpaid': 0,
+  //   'Incomplete': 0,
+  //   'Canceled': 0,
+  //   'Incomplete Expired': 0
+  // };
 
   // Status color mapping
   const getStatusColor = (status: string) => {
