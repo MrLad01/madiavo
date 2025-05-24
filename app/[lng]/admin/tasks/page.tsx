@@ -136,6 +136,9 @@ export default function TaskPage() {
   const [activeStatusFilter, setActiveStatusFilter] = useState<Task['status'] | null>(null);
   const tasksPerPage = 6;
   const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
+  const [currentUser] = useState('Alex Johnson'); // This would come from authentication
+  const [showMyTasksOnly, setShowMyTasksOnly] = useState(false);
+  const [showArchive, setShowArchive] = useState(false);
 
   // Unique values for filter dropdowns
   const filterOptions = {
@@ -147,8 +150,21 @@ export default function TaskPage() {
 
   // Apply filters to tasks
   const filteredTasks = dummyTasks.filter(task => {
+
+    if (showArchive) {
+      return task.status === 'Complete' && (!showMyTasksOnly || task.assignedTo === currentUser);
+    }
+
+    if (task.status === 'Complete') {
+      return false;
+    }
+
     // Apply active status filter if set
     if (activeStatusFilter && task.status !== activeStatusFilter) {
+      return false;
+    }
+
+    if (showMyTasksOnly && task.assignedTo !== currentUser) {
       return false;
     }
     
@@ -168,13 +184,33 @@ export default function TaskPage() {
     });
   };
 
-  const taskCounts = {
-    'Not Started': dummyTasks.filter((t) => t.status === 'Not Started').length,
-    'In Progress': dummyTasks.filter((t) => t.status === 'In Progress').length,
-    'Testing': dummyTasks.filter((t) => t.status === 'Testing').length,
-    'Awaiting Feedback': dummyTasks.filter((t) => t.status === 'Awaiting Feedback').length,
-    'Complete': dummyTasks.filter((t) => t.status === 'Complete').length,
-  };
+  // const taskCounts = {
+  //   'Not Started': dummyTasks.filter((t) => t.status === 'Not Started').length,
+  //   'In Progress': dummyTasks.filter((t) => t.status === 'In Progress').length,
+  //   'Testing': dummyTasks.filter((t) => t.status === 'Testing').length,
+  //   'Awaiting Feedback': dummyTasks.filter((t) => t.status === 'Awaiting Feedback').length,
+  //   // 'Complete': dummyTasks.filter((t) => t.status === 'Complete').length,
+  // };
+  const taskCounts = showArchive 
+  ? {
+      'Complete': dummyTasks.filter((t) => 
+        t.status === 'Complete' && (!showMyTasksOnly || t.assignedTo === currentUser)
+      ).length,
+    }
+  : {
+      'Not Started': dummyTasks.filter((t) => 
+        t.status === 'Not Started' && (!showMyTasksOnly || t.assignedTo === currentUser)
+      ).length,
+      'In Progress': dummyTasks.filter((t) => 
+        t.status === 'In Progress' && (!showMyTasksOnly || t.assignedTo === currentUser)
+      ).length,
+      'Testing': dummyTasks.filter((t) => 
+        t.status === 'Testing' && (!showMyTasksOnly || t.assignedTo === currentUser)
+      ).length,
+      'Awaiting Feedback': dummyTasks.filter((t) => 
+        t.status === 'Awaiting Feedback' && (!showMyTasksOnly || t.assignedTo === currentUser)
+      ).length,
+    };
 
   const requestSort = (key: SortKey) => {
     let direction: 'ascending' | 'descending' = 'ascending';
@@ -196,7 +232,9 @@ export default function TaskPage() {
 
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  const currentTasks = sortedTasks.filter(task => task.status !== 'Complete').slice(indexOfFirstTask, indexOfLastTask);
+  const currentTasks = sortedTasks.slice(indexOfFirstTask, indexOfLastTask);
+  // const activeTasks = sortedTasks.filter(task => task.status !== 'Complete');
+  // const totalPages = Math.ceil(activeTasks.length / tasksPerPage);
   const totalPages = Math.ceil(sortedTasks.length / tasksPerPage);
 
   const handlePreviousPage = () => {
@@ -237,12 +275,12 @@ export default function TaskPage() {
 
   // Kanban Board View
   const KanbanView = () => {
-    const statusList: Task['status'][] = ['Not Started', 'In Progress', 'Testing', 'Awaiting Feedback', 'Complete'];
+    const statusList: Task['status'][] = ['Not Started', 'In Progress', 'Testing', 'Awaiting Feedback'];
     
     return (
       <div className="flex gap-2 pb-16 overflow-x-auto">
         {statusList.map(status => {
-          const statusTasks = dummyTasks.filter(task => task.status !== 'Complete' && task.status === status);
+          const statusTasks = filteredTasks.filter(task => task.status !== 'Complete' && task.status === status);
           
           return (
             <div key={status} className="flex flex-col h-full min-w-[20rem]">
@@ -384,7 +422,10 @@ export default function TaskPage() {
                    {status} 
                 </span>
                 </p>
-                <p className={`text-sm `}>My Tasks: {count} </p>
+                {/* <p className={`text-sm `}>My Tasks: {count} </p> */}
+                <p className={`text-sm `}>
+                  {showArchive ? 'Archived Tasks' : 'My Tasks'}: {count} 
+                </p>
               </div>
             </button>
           );
@@ -397,6 +438,34 @@ export default function TaskPage() {
         <div className='flex gap-2 items-center'>
           <button onClick={() => setShowNewTaskModal(true)} className='flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg bg-blue-500 text-white hover:bg-blue-600'>
             <Plus size={16} className="mr-1"/> <p>New Task</p>
+          </button>
+
+          <button 
+            onClick={() => setShowMyTasksOnly(!showMyTasksOnly)} 
+            className={`flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg ${
+              showMyTasksOnly 
+                ? 'bg-green-500 text-white hover:bg-green-600' 
+                : 'bg-gray-500 text-white hover:bg-gray-600'
+            }`}
+          >
+            <User size={16} className="mr-1"/> 
+            <p>{showMyTasksOnly ? 'All Tasks' : 'My Tasks'}</p>
+          </button>
+          
+          {/* Add Archive button */}
+          <button 
+            onClick={() => {
+              setShowArchive(!showArchive);
+              setActiveStatusFilter(null); // Clear status filter when switching views
+            }} 
+            className={`flex items-center justify-between text-xs px-3 py-2 cursor-pointer rounded-lg ${
+              showArchive 
+                ? 'bg-orange-500 text-white hover:bg-orange-600' 
+                : 'bg-gray-500 text-white hover:bg-gray-600'
+            }`}
+          >
+            <RotateCw size={16} className="mr-1"/> 
+            <p>{showArchive ? 'Active Tasks' : 'View Archive'}</p>
           </button>
         <button 
           onClick={() => setViewMode(viewMode === 'kanban' ? 'list' : 'kanban')} 
