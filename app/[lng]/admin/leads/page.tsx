@@ -133,7 +133,7 @@ export default function Page(): React.ReactElement {
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: null });
   const [showNewLeadModal, setShowNewLeadModal] = useState<boolean>(false);
-
+  const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [activeStatusForColor, setActiveStatusForColor] = useState<Lead['status'] | null>(null);
   const [statusColors, setStatusColors] = useState<Record<Lead['status'], string>>(statusColorsi);
@@ -484,6 +484,8 @@ const getStatusColor2 = (status: string) => {
                 <tr 
                   key={lead.id} 
                   className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                  onMouseEnter={() => setHoveredRow(lead.id)}
+                  onMouseLeave={() => setHoveredRow(null)}
                 >
                   <td className="px-3 py-2 whitespace-nowrap">
                     <input 
@@ -498,6 +500,13 @@ const getStatusColor2 = (status: string) => {
                   </td>
                   <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-blue-600 dark:text-blue-400 cursor-pointer hover:underline">
                     {lead.name}
+                    {hoveredRow === lead.id && (
+                      <div className="absolute bottom-1 -left-0.5 flex gap-1">
+                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">View |</button>
+                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Edit |</button>
+                        <button className=" text-gray-400 text-[10px] cursor-pointer rounded">Delete</button>
+                      </div>
+                    )}
                   </td>
                   <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500 dark:text-gray-300">
                     {lead.company}
