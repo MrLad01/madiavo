@@ -6,6 +6,8 @@ import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useT } from '@/app/i18n/client'
+import { useParams, useRouter } from 'next/navigation';
+
 
 interface DraggableWidgetProps {
   id: string;
@@ -99,16 +101,32 @@ const MetricCard: React.FC<MetricCardProps> = ({ icon, title, startValue, endVal
 }
 
 // Todo Item Component
-const TodoItem: React.FC<{ status: 'pending' | 'completed'; title: string; date: string }> = ({ status, title, date }) => {
+const TodoItem: React.FC<{ status: 'pending' | 'completed'; title: string; date: string; onComplete?: () => void; onUncomplete?: () => void  }> = ({ status, title, date, onComplete, onUncomplete }) => {
+
+  const handleToggleComplete = () => {
+    if (status === 'pending' && onComplete) {
+      onComplete();
+    }
+  };
+  const handleToggleUncomplete = () => {
+    if (status === 'completed' && onUncomplete) {
+      onUncomplete();
+    }
+  };
+
   return (
     <div className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
       <div className="flex items-center gap-3">
         {status === 'pending' ? (
-          <div className="w-5 h-5 rounded-full border-2 border-indigo-500 flex items-center justify-center" />
+          // <div className="w-5 h-5 rounded-full border-2 border-indigo-500 flex items-center justify-center" />
+          <button 
+            onClick={handleToggleComplete}
+            className="w-5 h-5 rounded-full border-2 border-indigo-500 flex items-center justify-center hover:bg-indigo-50 dark:hover:bg-gray-600 cursor-pointer transition-colors"
+          />
         ) : (
-          <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+          <button className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center cursor-pointer" onClick={handleToggleUncomplete}>
             <Check size={12} className="text-white" />
-          </div>
+          </button>
         )}
         <span className={`text-sm ${status === 'completed' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-700 dark:text-gray-300'}`}>
           {title}
@@ -123,6 +141,46 @@ const TodoItem: React.FC<{ status: 'pending' | 'completed'; title: string; date:
 const TodoSection: React.FC = () => {
   const [tab, setTab] = useState('pending');
   const { t } = useT('common');
+  const params = useParams();
+  const lng = params?.lng as string || 'lt';
+  const [pendingTasks, setPendingTasks] = useState([
+    { id: 1, title: 'Call with marketing team', date: 'Today', assignedTo: 'currentUser' },
+    { id: 2, title: 'Review project proposal', date: 'Tomorrow', assignedTo: 'currentUser' },
+    { id: 3, title: 'Prepare quarterly report', date: 'May 15', assignedTo: 'currentUser' }
+  ]);
+  const [completedTasks, setCompletedTasks] = useState([
+    { id: 4, title: 'Update client database', date: 'Yesterday', assignedTo: 'currentUser' },
+    { id: 5, title: 'Client meeting with ABC Corp', date: 'May 10', assignedTo: 'currentUser' }
+  ]);
+
+  const router = useRouter();
+  
+
+  const handleCompleteTask = (taskId: number) => {
+    const taskToComplete = pendingTasks.find(task => task.id === taskId);
+    if (taskToComplete) {
+      // Remove from pending
+      setPendingTasks(prev => prev.filter(task => task.id !== taskId));
+      // Add to completed with current timestamp
+      setCompletedTasks(prev => [...prev, { 
+        ...taskToComplete, 
+        date: new Date().toLocaleDateString() 
+      }]);
+    }
+  };
+
+  const handleUncompleteTask = (taskId: number) => {
+    const taskToRedo = completedTasks.find(task => task.id === taskId);
+    if (taskToRedo) {
+      // Remove from pending
+      setCompletedTasks(prev => prev.filter(task => task.id !== taskId));
+      // Add to completed with current timestamp
+      setPendingTasks(prev => [...prev, { 
+        ...taskToRedo
+      }]);
+    }
+  };
+
   
   return (
     <div className="p-6 flex flex-col w-full">
@@ -145,7 +203,9 @@ const TodoSection: React.FC = () => {
             {t('Completed')}
           </button>
         </div>
-        <button className="flex items-center gap-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900 dark:bg-opacity-30 py-1.5 px-3 rounded-full">
+        <button className="flex items-center gap-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 cursor-pointer dark:bg-indigo-900 dark:bg-opacity-30 py-1.5 px-3 rounded-full"
+         onClick={() => router.push(`/${lng}/admin/tasks`)}
+        >
           <Plus size={14} />
           <span>{t('New Task')}</span>
         </button>
@@ -153,18 +213,31 @@ const TodoSection: React.FC = () => {
       
       {tab === 'pending' ? (
         <div className="space-y-1">
-          <TodoItem status="pending" title={t('Call with marketing team')} date={t('Today')} />
-          <TodoItem status="pending" title={t('Review project proposal')} date={t('Tomorrow')} />
-          <TodoItem status="pending" title={t('Prepare quarterly report')} date="May 15" />
+          {pendingTasks.map(task => (
+            <TodoItem 
+              key={task.id}
+              status="pending" 
+              title={t(task.title)} 
+              date={t(task.date)}
+              onComplete={() => handleCompleteTask(task.id)}
+            />
+          ))}
         </div>
       ) : (
         <div className="space-y-1">
-          <TodoItem status="completed" title={t('Update client database')} date={t('Yesterday')} />
-          <TodoItem status="completed" title={t('Client meeting with ABC Corp')} date="May 10" />
+          {completedTasks.map(task => (
+            <TodoItem 
+              key={task.id}
+              status="completed" 
+              title={t(task.title)} 
+              date={t(task.date)}
+              onUncomplete={() => handleUncompleteTask(task.id)}
+            />
+          ))}
         </div>
       )}
       
-      <button className="flex items-center justify-center gap-2 text-xs font-medium text-indigo-600 dark:text-indigo-400 py-3 mt-4 hover:bg-indigo-50 dark:hover:bg-indigo-900 dark:hover:bg-opacity-20 rounded-lg transition-colors">
+      <button className="flex items-center justify-center gap-2 text-xs font-medium text-indigo-600 dark:text-indigo-400 py-3 mt-4 cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900 dark:hover:bg-opacity-20 rounded-lg transition-colors" onClick={() => router.push(`/${lng}/admin/tasks`)} >
         <span>{t('View All Tasks')}</span>
         <ChevronRight size={14} />
       </button>
