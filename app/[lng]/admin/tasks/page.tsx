@@ -196,7 +196,7 @@ export default function TaskPage() {
 
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  const currentTasks = sortedTasks.slice(indexOfFirstTask, indexOfLastTask);
+  const currentTasks = sortedTasks.filter(task => task.status !== 'Complete').slice(indexOfFirstTask, indexOfLastTask);
   const totalPages = Math.ceil(sortedTasks.length / tasksPerPage);
 
   const handlePreviousPage = () => {
@@ -242,7 +242,7 @@ export default function TaskPage() {
     return (
       <div className="flex gap-2 pb-16 overflow-x-auto">
         {statusList.map(status => {
-          const statusTasks = dummyTasks.filter(task => task.status === status);
+          const statusTasks = dummyTasks.filter(task => task.status !== 'Complete' && task.status === status);
           
           return (
             <div key={status} className="flex flex-col h-full min-w-[20rem]">
